@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const authSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
     },
@@ -18,13 +18,22 @@ const authSchema = new mongoose.Schema({
         type: String
     },
 
+    googleId: {
+        type: String
+    },
+
     tokens: [{
         token: {
             type: String,
             required: true
         },
-        browser:{
-            type: String
+        machine:{
+            type: String,
+            trim: true
+        },
+        os:{
+            type: String,
+            trim: true
         }
     }]
 },{
@@ -32,6 +41,6 @@ const authSchema = new mongoose.Schema({
 })
 
 
-const Auth = mongoose.model('Auth', authSchema)
+const User = mongoose.model('User', userSchema)
 
-module.exports = Auth
+module.exports = User

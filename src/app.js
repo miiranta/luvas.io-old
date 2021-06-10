@@ -1,11 +1,12 @@
 //Requires
-const express    = require("express");
-const chalk      = require("chalk")
-const hbs        = require('hbs')
-const path       = require("path")
-const authRouter = require("./routers/authRouter")
+const express         = require("express");
+const chalk           = require("chalk")
+const hbs             = require('hbs')
+const path            = require("path")
+const passport        = require('passport')
+const cookieSession   = require("cookie-session")
+const authRouter      = require("./routers/authRouter")
 require('./db/mongoose.js')
-const Auth = require('./db/models/auth')
 
 //Express Settings
 const app = express();
@@ -23,6 +24,19 @@ hbs.registerPartials(partialsDirectory)
 
 //Setup standard directory
 app.use(express.static(publicDirectory))
+
+//Parse json
+app.use(express.json())
+
+//Define Cookie session
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
+
+//Passport setup
+app.use(passport.initialize());
+app.use(passport.session());
 
 //Routers
 app.use(authRouter)
