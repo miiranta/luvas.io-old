@@ -1,12 +1,22 @@
-const logged = (req, res, next) => {
+const jwt   = require("jsonwebtoken")
+const chalk = require("chalk")
 
-    //Verify if user is logged
-    if(req.user){
-        next()
-    } else {
-        res.redirect("/login")
-    }
+const logged = async (req, res, next) => {
+ 
+    try{   
+        //Valid Token?
+        const token = req.user.token
+        
+        //JWT valid?
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
+    }catch(e){ 
+        console.log(chalk.red("Could not verify login for token!"))
+        return res.redirect("/login")}
+
+    next()
+
+    
 }
 
 module.exports = logged

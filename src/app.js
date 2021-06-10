@@ -6,6 +6,8 @@ const path            = require("path")
 const passport        = require('passport')
 const cookieSession   = require("cookie-session")
 const authRouter      = require("./routers/authRouter")
+const contentRouter      = require("./routers/contentRouter")
+const configRouter      = require("./routers/configRouter")
 require('./db/mongoose.js')
 
 //Express Settings
@@ -40,6 +42,8 @@ app.use(passport.session());
 
 //Routers
 app.use(authRouter)
+app.use(configRouter)
+app.use(contentRouter)
 
 //Server listener
 app.listen(port, () => {

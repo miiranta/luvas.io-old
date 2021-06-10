@@ -4,10 +4,7 @@ var GoogleStrategy  = require('passport-google-oauth20').Strategy;
 const User          = require("./db/models/users")
 const chalk         = require("chalk")
 const jwt           = require("jsonwebtoken")
-const mongoose      = require('mongoose')
 const os            = require("os")
-const cookieSession = require("cookie-session")
-
 
 //Get "user" Passed from strategy CREATE COOKIE
 passport.serializeUser( async function(user, done) {
@@ -43,7 +40,7 @@ passport.deserializeUser( async function(token, done) {
         //Not found
         if(!user){throw new Error()}
 
-        done(null, user)
+        done(null, {data: user, token})
 
     }catch{done(null, false, { message: 'Bad Session' })}
 
