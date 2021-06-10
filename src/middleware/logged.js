@@ -1,6 +1,8 @@
+//Requires
 const jwt   = require("jsonwebtoken")
 const chalk = require("chalk")
 
+//logged?
 const logged = async (req, res, next) => {
  
     try{   
@@ -16,7 +18,6 @@ const logged = async (req, res, next) => {
 
     next()
 
-    
 }
 
 module.exports = logged

@@ -11,9 +11,17 @@ const app = new express.Router()
 app.get("/account", logged, (req, res) => {
 
     //Load view MAIN
-    res.render("account",{ })
+    res.render("account",{ 
+
+        name: req.user.name,
+        email: req.user.email,
+        nick: req.user.nick,
+        profilePic: req.user.profilePic
+
+    })
   
 });
+
 
 
 

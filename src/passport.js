@@ -1,10 +1,13 @@
 //Requires
 var passport        = require('passport')
 var GoogleStrategy  = require('passport-google-oauth20').Strategy;
+var url             = require('url');
+var request         = require('axios')
 const User          = require("./db/models/users")
 const chalk         = require("chalk")
 const jwt           = require("jsonwebtoken")
 const os            = require("os")
+
 
 //Get "user" Passed from strategy CREATE COOKIE
 passport.serializeUser( async function(user, done) {
@@ -40,7 +43,7 @@ passport.deserializeUser( async function(token, done) {
         //Not found
         if(!user){throw new Error()}
 
-        done(null, {data: user, token})
+        done(null, {...user.toObject(), token})
 
     }catch{done(null, false, { message: 'Bad Session' })}
 
@@ -52,32 +55,45 @@ passport.deserializeUser( async function(token, done) {
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/redirect"
+    callbackURL: process.env.URL+"/auth/google/redirect"
   },
   async (accessToken, refreshToken, profile, cb) => {
 
     //Successfull login: Register GoogleId in DB
     const googleId = profile.id
     const email    = profile.emails[0].value
-    const name     = profile.name.givenName +" "+ profile.name.familyName
+    const name     = profile.displayName
 
     try{
     
     //User exists?
     const userDb = await User.findOne({googleId})
 
+    //Get Profile Picture
+    if(profile.photos[0].value){
+    const image = await request.get(profile.photos[0].value, {responseType: 'arraybuffer'});
+    var dataPic = "data:image/png;base64, " + Buffer.from(image.data).toString('base64');
+    }else{
+    dataPic = "/img/profile.png"
+    }
+    
+    
         //No > Create
         if(!userDb){
-            const user = await User.create({googleId, email, name})
-            console.log(chalk.yellow("Created and logged new user (google): ") + chalk.blue(user.name))
-            return cb(null, user)
-        }
+          const user = await User.create({googleId, email, name, profilePic: dataPic, nick: name})
 
-        //Yes > Continue
+          console.log(chalk.yellow("Created and logged new user (google): ") + chalk.blue(user.name))
+          return cb(null, user)
+        }
+    
+        //Yes > Update and Continue
+        await User.updateOne({googleId},{googleId, email, name, profilePic: dataPic})
         console.log(chalk.yellow("Logged user (google): ") + chalk.blue(userDb.name))
         return cb(null, userDb)
 
-    }catch{done(null, false, { message: 'Bad Session' })}
+
+    }catch(e){console.log(e)
+      cb(null, false, { message: 'Bad Session' })}
 
 
   }

@@ -3,6 +3,7 @@ const express   = require("express")
 const passport  = require('passport')
 const logged    = require("../middleware/logged")
 const chalk     = require("chalk")
+const User      = require("../db/models/users")
 require("../passport")
 
 //Creates router
@@ -25,14 +26,15 @@ app.get("/logout", logged, async (req, res) => {
   
     //Destroy token in db
     try{
-      req.user.data.tokens = req.user.data.tokens.filter((tokenFound)=>{
+      req.user.tokens = req.user.tokens.filter((tokenFound)=>{
           return token !== tokenFound.token
       })
-      await req.user.data.save()
-    }catch(e){res.redirect('/login')}
+      //Update db
+      await User.updateOne(req.user)
+    }catch(e){return res.redirect('/login')}
 
     //Destroy session
-    console.log(chalk.yellow("Unlogged user: ") + chalk.red(req.user.data.name))
+    console.log(chalk.yellow("Unlogged user: ") + chalk.red(req.user.name))
     req.session = null
     req.logout()
 

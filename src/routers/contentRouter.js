@@ -15,8 +15,6 @@ app.get("/", (req, res) => {
   
 });
 
-
-
 //Main Page (Logged only)
 app.get("/home", logged, (req, res) => {
 
