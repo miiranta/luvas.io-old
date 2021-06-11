@@ -41,7 +41,42 @@ app.get("/logout", logged, async (req, res) => {
     //Redirect
     res.redirect('/login')
   
-});
+})
+
+
+//Remove One Session----------------------------
+app.delete("/session", logged, async (req, res) => {
+
+  const token = req.body.sessionToDelete
+
+  //Destroy token in db
+  try{
+    req.user.tokens = req.user.tokens.filter((tokenFound)=>{
+        return token !== tokenFound.token
+    })
+    //Update db
+    await User.updateOne(req.user)
+  }catch(e){return res.status(400).send()}
+
+  //Respond
+  console.log(chalk.yellow("Unlogged user (session): ") + chalk.red(req.user.name))
+  res.status(200).send()
+
+})
+
+
+//Remove All Sessions----------------------------
+app.delete("/session/all", logged, async (req, res) => {
+
+  //Destroy tokens in db
+  req.user.tokens = [];
+  await User.updateOne(req.user)
+
+  //Respond
+  console.log(chalk.yellow("Unlogged user (all sessions): ") + chalk.red(req.user.name))
+  res.status(200).send()
+
+})
 
   
 //----------------Google-----------------------

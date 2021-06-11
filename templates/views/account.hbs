@@ -8,19 +8,65 @@
 
     <body>
 
+        <!--Navigation-->
         <div>
         <a href="/logout">Logout</a>
         <a href="/home">Home</a>
         </div>
 
+        <!--Info-->
         <div>
             <p>Name: {{name}} </p>
             <p>Nick: {{nick}}</p>
             <p>Email: {{email}}</p>
             <img src="{{profilePic}}" />
         </div>
+        
+        <!--Your Session-->
+        <div>
+            <p>{{yourSession.machine}}</p>
+            <p>{{yourSession.os}}</p>
+        </div>
+
+        <!--Other Sessions-->
+        <div>
+            <ul>
+                {{#each openSessions}}
+                <li class="session" id="{{this._id}}">
+                    <div>{{this.machine}}</div>
+                    <div>{{this.os}}</div>
+                    <button onclick="deleteSession('{{this.token}}','{{this._id}}')">Remove</button>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+        <div><a href="" onclick="deleteAllSessions()">Logout from all sessions</a></div>
 
 
+    {{>scripts}}
+    <script>
+
+    //Delete all Sessions  
+    function deleteAllSessions(sessionToDelete){  
+    $(".session").remove();  
+    $.ajax({
+    contentType: 'application/json',
+    method: 'DELETE',
+    url: '/session/all'
+    }
+    )}
+
+    //Delete one Session by jwt
+    function deleteSession(sessionToDelete, itemId){  
+    $("#"+itemId).remove();  
+    $.ajax({
+    contentType: 'application/json',
+    data: JSON.stringify({ sessionToDelete }),
+    method: 'DELETE',
+    url: '/session'
+    })}
+   
+</script>
     </body>
 
 </html>
