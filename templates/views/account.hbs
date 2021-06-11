@@ -4,9 +4,19 @@
 
     <head>
     <title>Account</title>
+    {{>head}}
     </head>
 
     <body>
+
+        <!--Image Upload-->
+        <div>
+            <input id="uploadProfilePicture" type='file' accept="image/*"/>
+            <img id="profilePicture">
+            
+            </script>
+        </div>
+
 
         <!--Navigation-->
         <div>
@@ -43,30 +53,13 @@
         <div><a href="" onclick="deleteAllSessions()">Logout from all sessions</a></div>
 
 
-    {{>scripts}}
-    <script>
+    <!--Delete Sessions scripts-->
+    {{>deleteSessions}}
 
-    //Delete all Sessions  
-    function deleteAllSessions(sessionToDelete){  
-    $(".session").remove();  
-    $.ajax({
-    contentType: 'application/json',
-    method: 'DELETE',
-    url: '/session/all'
-    }
-    )}
+    <!--General scripts-->
+    {{>bodyscripts}}
 
-    //Delete one Session by jwt
-    function deleteSession(sessionToDelete, itemId){  
-    $("#"+itemId).remove();  
-    $.ajax({
-    contentType: 'application/json',
-    data: JSON.stringify({ sessionToDelete }),
-    method: 'DELETE',
-    url: '/session'
-    })}
-   
-</script>
+
     </body>
 
 </html>

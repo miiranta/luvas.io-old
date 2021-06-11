@@ -24,7 +24,10 @@ passport.serializeUser( async function(user, done) {
         //Pass token to cookie
         done(null, token)
 
-    }catch{done(null, false, { message: 'Bad Session' })}
+    }catch{
+      console.log(chalk.red("Could not create cookie!"))
+    done(null, false, { message: 'Bad Session' })
+    }
     
 
   });
@@ -43,9 +46,15 @@ passport.deserializeUser( async function(token, done) {
         //Not found
         if(!user){throw new Error()}
 
+        //Generate req.user
         done(null, {...user.toObject(), token})
 
-    }catch{done(null, false, { message: 'Bad Session' })}
+    }catch{
+      console.log(chalk.red("Could not verify login for token!"))
+
+      //req.user = false (undefined)
+      done(null, false, { message: 'Bad Session' })
+    }
 
 
 });
@@ -92,8 +101,7 @@ passport.use(new GoogleStrategy({
         return cb(null, userDb)
 
 
-    }catch(e){console.log(e)
-      cb(null, false, { message: 'Bad Session' })}
+    }catch(e){cb(null, false, { message: 'Bad Session' })}
 
 
   }

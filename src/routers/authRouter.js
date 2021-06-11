@@ -2,6 +2,7 @@
 const express   = require("express")
 const passport  = require('passport')
 const logged    = require("../middleware/logged")
+const notLogged = require("../middleware/notLogged")
 const chalk     = require("chalk")
 const User      = require("../db/models/users")
 require("../passport")
@@ -11,7 +12,7 @@ const app = new express.Router()
 
 
 //Login Page--------------------------
-app.get("/login", (req, res) => {
+app.get("/login" ,notLogged, (req, res) => {
 
   //Load view LOGIN
   res.render("login",{ })

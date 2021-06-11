@@ -1,20 +1,15 @@
 //Requires
-const jwt   = require("jsonwebtoken")
 const chalk = require("chalk")
 
 //logged?
 const logged = async (req, res, next) => {
  
-    try{   
-        //Valid Token?
-        const token = req.user.token
-        
-        //JWT valid?
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
-
-    }catch(e){ 
-        console.log(chalk.red("Could not verify login for token!"))
-        return res.redirect("/login")}
+    //If req.user does not exist > redirect to login
+    if(!req.user){
+        console.log(chalk.red("Redirecting non-auth user!"))
+        req.user = {}
+        return res.redirect("/login")
+    }
 
     next()
 

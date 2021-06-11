@@ -1,17 +1,29 @@
 //Requires
-const express         = require("express");
+const http            = require("http")
+const express         = require('express')
+const socketio        = require("socket.io")
 const chalk           = require("chalk")
 const hbs             = require('hbs')
 const path            = require("path")
 const passport        = require('passport')
 const cookieSession   = require("cookie-session")
 const authRouter      = require("./routers/authRouter")
-const contentRouter      = require("./routers/contentRouter")
-const configRouter      = require("./routers/configRouter")
+const contentRouter   = require("./routers/contentRouter")
+const configRouter    = require("./routers/configRouter")
+const socketLoad      = require("./sockets/sockets")
 require('./db/mongoose.js')
 
-//Express Settings
+
+//(Express + Websocket) Settings
 const app = express();
+const server = http.createServer(app)
+const io = socketio(server);
+app.set('io', io);
+
+//Load websockets
+socketLoad(io)
+
+//Port
 const port = process.env.PORT || 3000;
 
 //Directories
@@ -46,6 +58,9 @@ app.use(configRouter)
 app.use(contentRouter)
 
 //Server listener
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(chalk.blue("Server is up! On port: " + chalk.green.bold(port)))
 });
+
+//Export IO
+module.exports = io

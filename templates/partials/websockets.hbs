@@ -1,0 +1,29 @@
+<script>
+
+//vars
+const jwt = "{{yourSession.token}}"
+
+//Start
+const socket = io()
+
+//Send jwt
+socket.emit("jwt", jwt)
+
+//Websockets GET------------------------
+socket.on("error",(data)=>{
+    console.log(data)
+})
+
+socket.on("message",(data)=>{
+    console.log(data)
+})
+//--------------------------------------
+
+//Websockets SEND------------------------
+
+
+//--------------------------------------
+
+
+
+</script>

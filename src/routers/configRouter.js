@@ -2,12 +2,37 @@
 const logged    = require("../middleware/logged")
 const chalk     = require("chalk")
 const express   = require("express")
+const upload    = require("../middleware/imageUpload")
+const sharp     = require("sharp")
 
 //Creates router
 const app = new express.Router()
 
 
-//Home Page (Logged only)
+
+//Image upload
+app.post("/account/picture", logged, upload.single("avatar"), async (req,res)=>{
+
+    //Process image > PNG 96x96
+    const buffer = await sharp(req.file.buffer).resize({width: 96, height: 96}).png().toBuffer()
+    req.user.profilePic = "data:image/png;base64," + buffer
+
+    //Save on DB
+    await req.user.save()
+
+    //Res
+    res.send()
+
+}, (error, req, res, next) =>{
+
+    //If error happens
+    res.status(400).send()
+
+})
+
+
+
+//Account page (Logged only)
 app.get("/account", logged, (req, res) => {
 
         var token = req.user.token
@@ -29,6 +54,7 @@ app.get("/account", logged, (req, res) => {
         yourSession: yourSession[0]
 
     })
+
 
   
 
