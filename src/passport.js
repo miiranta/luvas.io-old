@@ -1,12 +1,13 @@
 //Requires
 var passport        = require('passport')
 var GoogleStrategy  = require('passport-google-oauth20').Strategy;
+FacebookStrategy    = require('passport-facebook').Strategy;
 var url             = require('url');
-var request         = require('axios')
 const User          = require("./db/models/users")
 const chalk         = require("chalk")
 const jwt           = require("jsonwebtoken")
 const os            = require("os")
+const getProfilePic = require("./utils/getProfilePicture")
 
 
 //Get "user" Passed from strategy CREATE COOKIE
@@ -25,7 +26,7 @@ passport.serializeUser( async function(user, done) {
         done(null, token)
 
     }catch{
-      console.log(chalk.red("Could not create cookie!"))
+    console.log(chalk.red("Could not create cookie!"))
     done(null, false, { message: 'Bad Session' })
     }
     
@@ -76,34 +77,73 @@ passport.use(new GoogleStrategy({
     try{
     
     //User exists?
-    const userDb = await User.findOne({googleId})
+    const userDb = await User.findOne({email})
 
     //Get Profile Picture
-    if(profile.photos[0].value){
-    const image = await request.get(profile.photos[0].value, {responseType: 'arraybuffer'});
-    var dataPic = "data:image/png;base64, " + Buffer.from(image.data).toString('base64');
-    }else{
-    dataPic = "/img/profile.png"
-    }
+    const dataPic = await getProfilePic(profile.photos[0].value)
     
     
         //No > Create
         if(!userDb){
           const user = await User.create({googleId, email, name, profilePic: dataPic, nick: Date.now().toString(16)})
-
-          console.log(chalk.yellow("Created and logged new user (google): ") + chalk.blue(user.name))
+          console.log(chalk.yellow("Created and logged new user (google): ") + chalk.blue(user.email))
           return cb(null, user)
         }
-    
+        
         //Yes > Update and Continue
-        await User.updateOne({googleId},{googleId, email, name})
-        console.log(chalk.yellow("Logged user (google): ") + chalk.blue(userDb.name))
+        await User.updateOne({email},{googleId, email, name})
+        console.log(chalk.yellow("Logged user (google): ") + chalk.blue(userDb.email))
         return cb(null, userDb)
 
-
+    //Error   
     }catch(e){cb(null, false, { message: 'Bad Session' })}
 
 
   }
+));
+//----------------------------------------------------
+
+//---------------Start Facebook strategy--------------
+passport.use(new FacebookStrategy({
+  clientID: process.env.FACEBOOK_APP_ID,
+  clientSecret: process.env.FACEBOOK_APP_SECRET,
+  callbackURL: process.env.URL+"/auth/facebook/redirect",
+  profileFields: ['id', 'email', 'name', 'displayName','picture.type(large)']
+},
+async (accessToken, refreshToken, profile, cb) => {
+  
+//Success > Get info from profile
+const picLink = profile.photos[0].value
+const email = profile.emails[0].value
+const name = profile.displayName
+const facebookId = profile.id
+
+try{
+
+//User in DB?
+const userDb = await User.findOne({email})
+
+//Get profile pic
+const dataPic = await getProfilePic(picLink)
+
+        //No > Create
+        if(!userDb){
+          const user = await User.create({facebookId, email, name, profilePic: dataPic, nick: Date.now().toString(16)})
+          console.log(chalk.yellow("Created and logged new user (facebook): ") + chalk.blue(user.email))
+          return cb(null, user)
+        }
+
+        //Yes > Update and Continue
+        await User.updateOne({email},{facebookId, email, name})
+        console.log(chalk.yellow("Logged user (facebook): ") + chalk.blue(userDb.email))
+        return cb(null, userDb)
+
+
+//Error
+}catch(e){
+  console.log(e)
+  cb(null, false, { message: 'Bad Session' })}
+
+}
 ));
 //----------------------------------------------------

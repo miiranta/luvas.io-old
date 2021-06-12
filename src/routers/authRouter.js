@@ -94,10 +94,21 @@ app.get('/auth/google/redirect',
     res.redirect('/home');
 });
 
-//---------------------------------------------
 
+//-----------------Facebook-------------------
 
+//Redirect to facebooks page
+app.get('/auth/facebook', passport.authenticate('facebook',{scope: ["public_profile", "email"]}));
 
+//Return with access token
+app.get('/auth/facebook/redirect',
+passport.authenticate('facebook', { failureRedirect: '/logout' }),
+function(req, res) {
+  // Successful authentication, redirect home.
+  res.redirect('/home');
+});
+
+//--------------------------------------------
 
 //Export router
 module.exports = app
