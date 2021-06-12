@@ -2,13 +2,16 @@ const multer = require("multer")
 
 //Image Upload MIddleware ----------------------------
 const upload = multer({
+
     limits: {
-        fileSize: 1000000
+        fileSize: 5 * 1024 * 1024 //5MB
     },
+    
     fileFilter(req, file, cb){
 
         if(!file.originalname.match(/\.(jpg|jpeg|png)$/)){
-            return cb(new Error("File must be image"))
+            req.fileError = {"message":"File must be image"}
+            return cb()
         }
 
         cb(undefined, true)

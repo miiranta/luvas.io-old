@@ -10,28 +10,6 @@ const User      = require("../db/models/users")
 const app = new express.Router()
 
 
-//Image upload
-app.post("/account/picture", logged, upload.single("avatar"), async (req,res)=>{
-
-    //Process image > PNG 96x96
-    const buffer = await sharp(req.file.buffer).resize({width: 96, height: 96}).png().toBuffer()
-    req.user.profilePic = "data:image/png;base64," + buffer
-
-    //Save on DB
-    await req.user.save()
-
-    //Res
-    res.send()
-
-}, (error, req, res, next) =>{
-
-    //If error happens
-    res.status(400).send()
-
-})
-
-
-
 //Account page (Logged only)
 app.get("/account", logged, (req, res) => {
 
@@ -60,7 +38,7 @@ app.get("/account", logged, (req, res) => {
 
 
 //Nick Update
-app.patch("/nick", logged, async (req, res) => {
+app.patch("/account/nick", logged, async (req, res) => {
 
     const nick = req.body.nick
 
@@ -86,7 +64,31 @@ app.patch("/nick", logged, async (req, res) => {
 })
 
 
+//Image upload
+app.patch("/account/picture", logged, upload.single("file"), async (req,res)=>{
 
+    //Test for Error
+    if(req.fileError){return res.status(400).send(req.fileError)}
+
+    //Process image > PNG 96x96
+    try{
+        const buffer = await sharp(req.file.buffer).resize({width: 96, height: 96}).png().toBuffer()
+        req.user.profilePic = "data:image/png;base64," + buffer.toString('base64')
+    }catch(error){
+        return res.status(400).send({"message":"Unable to process file"})
+    }
+    
+    //Save on DB
+    await User.updateOne({_id: req.user._id},{profilePic: req.user.profilePic})
+
+    res.send()
+
+}, (error, req, res, next) =>{
+
+    //If error happens
+    res.status(400).send(error)
+   
+})
 
 
 

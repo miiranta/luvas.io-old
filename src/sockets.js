@@ -1,7 +1,7 @@
 //Requires
 const chalk       = require("chalk")
 const jwt         = require("jsonwebtoken")
-const User        = require("../db/models/users")
+const User        = require("./db/models/users")
 
 //IO - all users
 //Socket - specific user

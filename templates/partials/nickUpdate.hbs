@@ -1,3 +1,13 @@
+<!--Nick Update-->
+<div>
+    <form id="nickchangeform">
+    <input id="nick" type="text" value="{{nick}}">
+    <button id="nickbutton" type="button">Update</button>
+    <label id="nickstatus"></label>
+    </form>
+</div>
+
+
 <script>
 
 //Start state    
@@ -39,13 +49,16 @@ $("#nickchangeform").on("change keyup paste", function(){
 //Change nick
 function changeNick(nick){ 
 $("#nickbutton").prop("disabled",true);
-$('#nick').val(nick); 
+$('#nick').val(nick);
 $.ajax({
 contentType: 'application/json',
 data: JSON.stringify({nick}),
 contentType: 'application/json',
 method: 'PATCH',
-url: '/nick'
+url: '/account/nick',
+success: function () {
+    $("#nickstatus").text("Success!");
+}
 }
 )}
 

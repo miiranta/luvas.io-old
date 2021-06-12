@@ -10,7 +10,7 @@ const cookieSession   = require("cookie-session")
 const authRouter      = require("./routers/authRouter")
 const contentRouter   = require("./routers/contentRouter")
 const configRouter    = require("./routers/configRouter")
-const socketLoad      = require("./sockets/sockets")
+const socketLoad      = require("./sockets")
 require('./db/mongoose.js')
 
 

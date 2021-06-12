@@ -89,14 +89,14 @@ passport.use(new GoogleStrategy({
     
         //No > Create
         if(!userDb){
-          const user = await User.create({googleId, email, name, profilePic: dataPic, nick: name})
+          const user = await User.create({googleId, email, name, profilePic: dataPic, nick: Date.now().toString(16)})
 
           console.log(chalk.yellow("Created and logged new user (google): ") + chalk.blue(user.name))
           return cb(null, user)
         }
     
         //Yes > Update and Continue
-        await User.updateOne({googleId},{googleId, email, name, profilePic: dataPic})
+        await User.updateOne({googleId},{googleId, email, name})
         console.log(chalk.yellow("Logged user (google): ") + chalk.blue(userDb.name))
         return cb(null, userDb)
 

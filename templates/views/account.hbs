@@ -3,27 +3,11 @@
 <html>
 
     <head>
-    <title>Account</title>
-    {{>head}}
+        <title>Account</title>
+        {{>head}}
     </head>
 
     <body>
-
-        <!--Image Upload-->
-
-        <div>
-
-            <input id="picbutton" type='file' accept="image/*"/>
-
-            <div styles="display:none" id="picwindow">
-            
-                
-
-            <img styles="width:250px" id="profilePicture">
-            </div>
-
-        </div>
-
 
         <!--Navigation-->
         <div>
@@ -34,16 +18,11 @@
         <!--Info-->
         <div>
             <p>Name: {{name}} </p>
-
-            <form id="nickchangeform">
             <p>Nick: </p>
-            <input id="nick" type="text" value="{{nick}}">
-            <button id="nickbutton" type="button">Update</button>
-            <label id="nickstatus"></label>
-            </form>
-
+            {{>nickUpdate}}
             <p>Email: {{email}}</p>
             <img src="{{profilePic}}" />
+            {{>profilePicUpload}}
         </div>
         
         <!--Your Session-->
@@ -70,12 +49,10 @@
 
 
  <!--scripts-->
-    <!--Delete Sessions-->
-    {{>deleteSessions}}
 
-    <!--Check and change nick-->
-    {{>webSockets}}
-    {{>nickCheck}}
+<!--Delete Sessions-->
+{{>deleteSessions}}
+
     </body>
 
 </html>
