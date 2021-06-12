@@ -38,6 +38,9 @@ const userSchema = new mongoose.Schema({
         os:{
             type: String,
             trim: true
+        },
+        ip:{
+            type: String,
         }
     }]
 },{

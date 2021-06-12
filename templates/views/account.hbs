@@ -10,11 +10,18 @@
     <body>
 
         <!--Image Upload-->
+
         <div>
-            <input id="uploadProfilePicture" type='file' accept="image/*"/>
-            <img id="profilePicture">
+
+            <input id="picbutton" type='file' accept="image/*"/>
+
+            <div styles="display:none" id="picwindow">
             
-            </script>
+                
+
+            <img styles="width:250px" id="profilePicture">
+            </div>
+
         </div>
 
 
@@ -27,7 +34,14 @@
         <!--Info-->
         <div>
             <p>Name: {{name}} </p>
-            <p>Nick: {{nick}}</p>
+
+            <form id="nickchangeform">
+            <p>Nick: </p>
+            <input id="nick" type="text" value="{{nick}}">
+            <button id="nickbutton" type="button">Update</button>
+            <label id="nickstatus"></label>
+            </form>
+
             <p>Email: {{email}}</p>
             <img src="{{profilePic}}" />
         </div>
@@ -36,6 +50,7 @@
         <div>
             <p>{{yourSession.machine}}</p>
             <p>{{yourSession.os}}</p>
+            <p>{{yourSession.ip}}</p>
         </div>
 
         <!--Other Sessions-->
@@ -45,6 +60,7 @@
                 <li class="session" id="{{this._id}}">
                     <div>{{this.machine}}</div>
                     <div>{{this.os}}</div>
+                    <div>{{this.ip}}</div>
                     <button onclick="deleteSession('{{this.token}}','{{this._id}}')">Remove</button>
                 </li>
                 {{/each}}
@@ -53,13 +69,13 @@
         <div><a href="" onclick="deleteAllSessions()">Logout from all sessions</a></div>
 
 
-    <!--Delete Sessions scripts-->
+ <!--scripts-->
+    <!--Delete Sessions-->
     {{>deleteSessions}}
 
-    <!--General scripts-->
-    {{>bodyscripts}}
-
-
+    <!--Check and change nick-->
+    {{>webSockets}}
+    {{>nickCheck}}
     </body>
 
 </html>

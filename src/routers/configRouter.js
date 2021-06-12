@@ -4,10 +4,10 @@ const chalk     = require("chalk")
 const express   = require("express")
 const upload    = require("../middleware/imageUpload")
 const sharp     = require("sharp")
+const User      = require("../db/models/users")
 
 //Creates router
 const app = new express.Router()
-
 
 
 //Image upload
@@ -56,11 +56,34 @@ app.get("/account", logged, (req, res) => {
     })
 
 
-  
-
 });
 
 
+//Nick Update
+app.patch("/nick", logged, async (req, res) => {
+
+    const nick = req.body.nick
+
+    //Contain special character?
+    var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+    if(format.test(nick)){return res.status(400).send()}
+
+    //Contain spaces?
+    if(/\s/g.test(nick)){return res.status(400).send()}
+
+    //Too big / too small
+    if(nick.length>15||nick.length<5){return res.status(400).send()}
+
+    //Search Db for nick taken
+    const user = await User.findOne({nick})
+    if(user){return res.status(400).send()}
+
+    //Everything is fine
+    await User.updateOne({_id: req.user._id},{nick})
+
+    res.send()
+
+})
 
 
 

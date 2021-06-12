@@ -18,7 +18,7 @@ passport.serializeUser( async function(user, done) {
         const token = jwt.sign({_id: user._id.toString()},process.env.JWT_SECRET, {expiresIn:'10 days'})
 
         //Concat JWT in database
-        user.tokens = user.tokens.concat({token, machine: os.hostname(), os: os.type() + " " + os.release()})
+        user.tokens = user.tokens.concat({token, machine: os.hostname(), os: os.type() + os.release()})
         await user.save()
 
         //Pass token to cookie

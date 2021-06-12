@@ -7,11 +7,11 @@ const jwt = "{{yourSession.token}}"
 const socket = io()
 
 //Send jwt
-socket.emit("jwt", jwt)
+socket.emit("auth", jwt)
 
 //Websockets GET------------------------
 socket.on("error",(data)=>{
-    console.log(data)
+    console.log("Error: " + data)
 })
 
 socket.on("message",(data)=>{
@@ -20,6 +20,7 @@ socket.on("message",(data)=>{
 //--------------------------------------
 
 //Websockets SEND------------------------
+
 
 
 //--------------------------------------
