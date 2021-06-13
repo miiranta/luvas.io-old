@@ -21,18 +21,18 @@ app.get("/account", logged, (req, res) => {
         //The session you are using
         const yourSession = req.user.tokens.filter((tokenFound)=> {return token == tokenFound.token})
 
-    //Load view MAIN
+    //Load view ACCOUNT
     res.render("account",{ 
 
         name: req.user.name,
         email: req.user.email,
         nick: req.user.nick,
+        admin: req.user.admin,
         profilePic: req.user.profilePic,
         openSessions,
         yourSession: yourSession[0]
 
     })
-
 
 });
 

@@ -31,17 +31,16 @@ app.get("/logout", logged, async (req, res) => {
           return token !== tokenFound.token
       })
       //Update db
-      await User.updateOne(req.user)
+      await User.updateOne({_id: req.user._id},req.user)
     }catch(e){return res.redirect('/login')}
 
     //Destroy session
-    console.log(chalk.yellow("Unlogged user: ") + chalk.red(req.user.name))
+    console.log(chalk.yellow("Unlogged user: ") + chalk.red(req.user.email))
     req.session = null
     req.logout()
 
     //Redirect
     res.redirect('/login')
-  
 })
 
 

@@ -85,7 +85,7 @@ passport.use(new GoogleStrategy({
     
         //No > Create
         if(!userDb){
-          const user = await User.create({googleId, email, name, profilePic: dataPic, nick: Date.now().toString(16)})
+          const user = await User.create({googleId, email, name, admin: 0, profilePic: dataPic, nick: Date.now().toString(16)})
           console.log(chalk.yellow("Created and logged new user (google): ") + chalk.blue(user.email))
           return cb(null, user)
         }
@@ -128,7 +128,7 @@ const dataPic = await getProfilePic(picLink)
 
         //No > Create
         if(!userDb){
-          const user = await User.create({facebookId, email, name, profilePic: dataPic, nick: Date.now().toString(16)})
+          const user = await User.create({facebookId, email, name, admin: 0, profilePic: dataPic, nick: Date.now().toString(16)})
           console.log(chalk.yellow("Created and logged new user (facebook): ") + chalk.blue(user.email))
           return cb(null, user)
         }

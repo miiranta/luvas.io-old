@@ -4,31 +4,28 @@ const userSchema = new mongoose.Schema({
     name: {
         type: String,
     },
-
     nick: {
         type: String,
     },
-
     email: {
         type: String,
         required: true
     },
-
     password: {
         type: String
     },
-
     profilePic: {
         type: String
     },
-
+    admin: {
+        type: Number
+    },
     googleId: {
         type: String
     },
     facebookId: {
         type: String
     },
-
     tokens: [{
         token: {
             type: String,
