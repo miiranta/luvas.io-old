@@ -21,7 +21,7 @@ app.get("/login" ,notLogged, (req, res) => {
 
 
 //Logout Page (Logged only)-------------
-app.get("/logout", logged, async (req, res) => {
+app.get("/logout", logged(0), async (req, res) => {
 
     var token = req.user.token
   
@@ -45,17 +45,19 @@ app.get("/logout", logged, async (req, res) => {
 
 
 //Remove One Session----------------------------
-app.delete("/session", logged, async (req, res) => {
+app.delete("/session", logged(0), async (req, res) => {
 
   const token = req.body.sessionToDelete
 
   //Destroy token in db
   try{
+    
     req.user.tokens = req.user.tokens.filter((tokenFound)=>{
         return token !== tokenFound.token
     })
     //Update db
-    await User.updateOne(req.user)
+    await User.updateOne({_id: req.user._id},req.user)
+
   }catch(e){return res.status(400).send()}
 
   //Respond
@@ -66,11 +68,16 @@ app.delete("/session", logged, async (req, res) => {
 
 
 //Remove All Sessions----------------------------
-app.delete("/session/all", logged, async (req, res) => {
+app.delete("/session/all", logged(0), async (req, res) => {
 
   //Destroy tokens in db
-  req.user.tokens = [];
-  await User.updateOne(req.user)
+  try{
+
+    req.user.tokens = [];
+    await User.updateOne({_id: req.user._id},req.user)
+
+  }catch(e){return res.status(400).send()}
+ 
 
   //Respond
   console.log(chalk.yellow("Unlogged user (all sessions): ") + chalk.red(req.user.name))

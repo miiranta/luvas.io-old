@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
 });
 
 //Main Page (Logged only)
-app.get("/home", logged, (req, res) => {
+app.get("/home", logged(0), (req, res) => {
 
     //Load view MAIN
     res.render("home",{ })

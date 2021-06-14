@@ -1,13 +1,12 @@
 const chalk     = require("chalk")
 const express   = require("express")
-const adminOnly = require("../middleware/adminOnly")
+const logged = require("../middleware/logged")
 
 //Creates router
 const app = new express.Router()
 
 //App creation Page (Admin only)
-console.log("a")
-app.get("/app", adminOnly, (req, res) => {
+app.get("/app", logged(1), (req, res) => {
 
     //Load view APP
     res.render("app",{ })

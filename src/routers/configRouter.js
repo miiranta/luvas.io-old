@@ -11,7 +11,7 @@ const app = new express.Router()
 
 
 //Account page (Logged only)
-app.get("/account", logged, (req, res) => {
+app.get("/account", logged(0), (req, res) => {
 
         var token = req.user.token
      
@@ -38,7 +38,7 @@ app.get("/account", logged, (req, res) => {
 
 
 //Nick Update
-app.patch("/account/nick", logged, async (req, res) => {
+app.patch("/account/nick", logged(0), async (req, res) => {
 
     const nick = req.body.nick
 
@@ -65,7 +65,7 @@ app.patch("/account/nick", logged, async (req, res) => {
 
 
 //Image upload
-app.patch("/account/picture", logged, upload.single("file"), async (req,res)=>{
+app.patch("/account/picture", logged(0), upload.single("file"), async (req,res)=>{
 
     //Test for Error
     if(req.fileError){return res.status(400).send(req.fileError)}
