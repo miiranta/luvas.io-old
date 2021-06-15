@@ -89,29 +89,30 @@ app.delete("/session/all", logged(0), async (req, res) => {
 //----------------Google-----------------------
 
 //Redirect to googles page
-app.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile','email'] }));
+app.get('/auth/google',passport.authenticate('google', { scope: ['profile','email']}))
 
 //Return with access token 
 app.get('/auth/google/redirect', 
-  passport.authenticate('google', { failureRedirect: '/logout' }),
+  passport.authenticate('google', { failureRedirect: '/logout' }),logged(),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect('/home');
+    res.redirect(req.session.redirect);
+    req.session.redirect = "/home"
 });
 
 
 //-----------------Facebook-------------------
 
 //Redirect to facebooks page
-app.get('/auth/facebook', passport.authenticate('facebook',{scope: ["public_profile", "email"]}));
+app.get('/auth/facebook',passport.authenticate('facebook',{scope: ["public_profile", "email"]}))
 
 //Return with access token
 app.get('/auth/facebook/redirect',
-passport.authenticate('facebook', { failureRedirect: '/logout' }),
+passport.authenticate('facebook', { failureRedirect: '/logout' }),logged(),
 function(req, res) {
   // Successful authentication, redirect home.
-  res.redirect('/home');
+  res.redirect(req.session.redirect);
+  req.session.redirect = "/home"
 });
 
 //--------------------------------------------
