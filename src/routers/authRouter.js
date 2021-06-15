@@ -15,7 +15,7 @@ const app = new express.Router()
 app.get("/login" ,notLogged, (req, res) => {
 
   //Load view LOGIN
-  res.render("login",{ })
+  res.render("login",{req})
   
 });
 
@@ -40,7 +40,7 @@ app.get("/logout", logged(0), async (req, res) => {
     req.logout()
 
     //Redirect
-    res.redirect('/login')
+    res.redirect('/')
 })
 
 

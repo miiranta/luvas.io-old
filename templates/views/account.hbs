@@ -13,18 +13,18 @@
         <div>
         <a href="/logout">Logout</a>
         <a href="/home">Home</a>
-        {{#ifEquals admin 1}} 
+        {{#ifEquals req.user.admin 1}} 
         <a href="/app">Create App</a>
         {{/ifEquals}}
         </div>
 
         <!--Info-->
         <div>
-            <p>Name: {{name}} </p>
+            <p>Name: {{req.user.name}} </p>
             <p>Nick: </p>
             {{>nickUpdate}}
-            <p>Email: {{email}}</p>
-            <img src="{{profilePic}}" />
+            <p>Email: {{req.user.email}}</p>
+            <img src="{{req.user.profilePic}}" />
             {{>profilePicUpload}}
         </div>
         

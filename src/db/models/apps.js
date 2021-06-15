@@ -6,7 +6,8 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     description: {
-        type: String
+        type: String,
+        trim: true
     },
     name: {
         type: String,
@@ -23,12 +24,13 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         required: true
     },
-    authRequired: {
+    auth: {
         type: Boolean,
         required: true
     },
     picture: {
-        type: String
+        type: String,
+        required: true
     },
     owner: {
         type: String,

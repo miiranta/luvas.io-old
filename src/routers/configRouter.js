@@ -1,10 +1,11 @@
 //Requires
-const logged    = require("../middleware/logged")
-const chalk     = require("chalk")
-const express   = require("express")
-const upload    = require("../middleware/imageUpload")
-const sharp     = require("sharp")
-const User      = require("../db/models/users")
+const logged        = require("../middleware/logged")
+const chalk         = require("chalk")
+const express       = require("express")
+const upload        = require("../middleware/imageUpload")
+const sharp         = require("sharp")
+const User          = require("../db/models/users")
+const verifyNick    = require("../utils/verifyNick")
 
 //Creates router
 const app = new express.Router()
@@ -23,15 +24,9 @@ app.get("/account", logged(0), (req, res) => {
 
     //Load view ACCOUNT
     res.render("account",{ 
-
-        name: req.user.name,
-        email: req.user.email,
-        nick: req.user.nick,
-        admin: req.user.admin,
-        profilePic: req.user.profilePic,
+        req,
         openSessions,
         yourSession: yourSession[0]
-
     })
 
 });
@@ -41,21 +36,16 @@ app.get("/account", logged(0), (req, res) => {
 app.patch("/account/nick", logged(0), async (req, res) => {
 
     const nick = req.body.nick
+    var verify
 
-    //Contain special character?
-    var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
-    if(format.test(nick)){return res.status(400).send()}
-
-    //Contain spaces?
-    if(/\s/g.test(nick)){return res.status(400).send()}
-
-    //Too big / too small
-    if(nick.length>15||nick.length<5){return res.status(400).send()}
-
-    //Search Db for nick taken
-    const user = await User.findOne({nick})
-    if(user){return res.status(400).send()}
-
+    //Verify nick
+    await verifyNick(nick).then((data)=>{verify = data})
+        
+    //If true > Error
+    if(verify){
+        return res.status(400).send()
+    }
+    
     //Everything is fine
     await User.updateOne({_id: req.user._id},{nick})
 
@@ -72,7 +62,7 @@ app.patch("/account/picture", logged(0), upload.single("file"), async (req,res)=
 
     //Process image > PNG 96x96
     try{
-        const buffer = await sharp(req.file.buffer).resize({width: 96, height: 96}).png().toBuffer()
+        const buffer = await sharp(req.file.buffer).resize({width: 150, height: 150}).png().toBuffer()
         req.user.profilePic = "data:image/png;base64," + buffer.toString('base64')
     }catch(error){
         return res.status(400).send({"message":"Unable to process file"})

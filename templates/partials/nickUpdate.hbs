@@ -1,9 +1,9 @@
 <!--Nick Update-->
 <div>
     <form id="nickchangeform">
-    <input id="nick" type="text" value="{{nick}}">
-    <button id="nickbutton" type="button">Update</button>
-    <label id="nickstatus"></label>
+        <input id="nick" type="text" value="{{req.user.nick}}">
+        <button id="nickbutton" type="button">Update</button>
+        <label id="nickstatus"></label>
     </form>
 </div>
 
@@ -48,10 +48,11 @@ $("#nickchangeform").on("change keyup paste", function(){
 //AJAX
 //Change nick
 function changeNick(nick){ 
+
 $("#nickbutton").prop("disabled",true);
 $('#nick').val(nick);
+
 $.ajax({
-contentType: 'application/json',
 data: JSON.stringify({nick}),
 contentType: 'application/json',
 method: 'PATCH',

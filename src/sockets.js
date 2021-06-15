@@ -1,7 +1,8 @@
 //Requires
-const chalk       = require("chalk")
-const jwt         = require("jsonwebtoken")
-const User        = require("./db/models/users")
+const chalk              = require("chalk")
+const jwt                = require("jsonwebtoken")
+const verifyAppCreate    = require("./utils/verifyAppCreate")
+const verifyNick         = require("./utils/verifyNick")
 
 //IO - all users
 //Socket - specific user
@@ -58,22 +59,14 @@ io.on("connection", (socket)=>{
     //GET nickCheck
     socket.on("nick", async (nick, callback)=>{
 
-        //Contain special character?
-        var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
-        if(format.test(nick)){return callback("Nicks can't contain special characters!")}
+        verifyNick(nick).then((data)=>{callback(data)})
 
-        //Contain spaces?
-        if(/\s/g.test(nick)){return callback("Nicks can't have spaces!")}
+    })
 
-        //Too big / too small
-        if(nick.length>15||nick.length<5){return callback("Nicks need to have between 5 to 15 characters!")}
+    //GET createAppCheck
+    socket.on("app", (data, callback)=>{
 
-        //Search Db for nick taken
-        const user = await User.findOne({nick})
-        if(user){return callback("Nick already taken!")}
-
-        //Everything is fine
-        callback(false);
+        verifyAppCreate(data).then((dataReturn)=>{callback(dataReturn)})
 
     })
 
@@ -87,8 +80,6 @@ io.on("connection", (socket)=>{
 socket.on("disconnect", () =>{
         
   
-
-
 
         
 })

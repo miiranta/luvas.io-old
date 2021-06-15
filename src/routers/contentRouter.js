@@ -11,7 +11,7 @@ const app = new express.Router()
 app.get("/", (req, res) => {
 
     //Load view MAIN
-    res.render("main",{ })
+    res.render("main",{req})
   
 });
 
@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 app.get("/home", logged(0), (req, res) => {
 
     //Load view MAIN
-    res.render("home",{ })
+    res.render("home",{req})
   
 });
 
