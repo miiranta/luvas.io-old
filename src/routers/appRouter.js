@@ -51,7 +51,7 @@ app.post("/app", logged(1), async (req, res) => {
     //Create app in db
     try{
     const app = await App.create({...appData, owner: req.user._id, picture: favicon})
-    console.log(chalk.magenta("Created new app: ") + chalk.blue(appData.name))
+    console.log(chalk.magenta.bold("[App] ")+chalk.green("Created: ")+chalk.blue(appData.name)) 
     }catch(e){return res.status(400).send()}
 
     //Send

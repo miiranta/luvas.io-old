@@ -35,7 +35,7 @@ app.get("/logout", logged(0), async (req, res) => {
     }catch(e){return res.redirect('/login')}
 
     //Destroy session
-    console.log(chalk.yellow("Unlogged user: ") + chalk.red(req.user.email))
+    console.log(chalk.magenta.bold("[Session] ") + chalk.yellow("Logged out user: ") + chalk.blue(req.user.email)) 
     req.session = null
     req.logout()
 
@@ -61,7 +61,7 @@ app.delete("/session", logged(0), async (req, res) => {
   }catch(e){return res.status(400).send()}
 
   //Respond
-  console.log(chalk.yellow("Unlogged user (session): ") + chalk.red(req.user.name))
+  console.log(chalk.magenta.bold("[Session] ") + chalk.yellow("Destroyed session for: ") + chalk.blue(req.user.email)) 
   res.status(200).send()
 
 })
@@ -80,7 +80,7 @@ app.delete("/session/all", logged(0), async (req, res) => {
  
 
   //Respond
-  console.log(chalk.yellow("Unlogged user (all sessions): ") + chalk.red(req.user.name))
+  console.log(chalk.magenta.bold("[Session] ") + chalk.yellow("Destroyed all sessions for: ") + chalk.blue(req.user.email)) 
   res.status(200).send()
 
 })

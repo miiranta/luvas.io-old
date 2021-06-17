@@ -3,6 +3,7 @@ const chalk              = require("chalk")
 const jwt                = require("jsonwebtoken")
 const verifyAppCreate    = require("./utils/verifyAppCreate")
 const verifyNick         = require("./utils/verifyNick")
+const getApps            = require("./utils/getApps")
 
 //IO - all users
 //Socket - specific user
@@ -23,7 +24,6 @@ io.on("connection", (socket)=>{
     //Welcome message
     sendMessage("Websocket connected!")
 
-
 //SEND--------------------------------   
 
     //SEND error
@@ -40,22 +40,6 @@ io.on("connection", (socket)=>{
 
 //GET---------------------------------  
 
-    //GET Auth
-    socket.on("auth", (token)=>{
-
-        //get token
-        var userId = verifyToken(token)
-
-        //if valid
-        if(userId){
-            return sendMessage("Authenticated.")
-        }
-
-        //if not valid
-        sendError("No authentication found.")
-
-    })
-
     //GET nickCheck
     socket.on("nick", async (nick, callback)=>{
 
@@ -70,11 +54,9 @@ io.on("connection", (socket)=>{
 
     })
 
-
 //------------------------------------   
 
 
-    
 
 //When connection ends
 socket.on("disconnect", () =>{

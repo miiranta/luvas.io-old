@@ -49,6 +49,7 @@ app.patch("/account/nick", logged(0), async (req, res) => {
     //Everything is fine
     await User.updateOne({_id: req.user._id},{nick})
 
+    console.log(chalk.magenta.bold("[Config] ") + chalk.green("Nick change: ") + chalk.blue(req.user.email) + chalk.green(" to ") + chalk.blue(nick)) 
     res.send()
 
 })
@@ -71,11 +72,13 @@ app.patch("/account/picture", logged(0), upload.single("file"), async (req,res)=
     //Save on DB
     await User.updateOne({_id: req.user._id},{profilePic: req.user.profilePic})
 
+    console.log(chalk.magenta.bold("[Config] ") + chalk.green("Profile picture change: ") + chalk.blue(req.user.email)) 
     res.send()
 
 }, (error, req, res, next) =>{
 
     //If error happens
+    console.log(chalk.magenta.bold("[Config] ") + chalk.red("Could not update profile picture! ")) 
     res.status(400).send(error)
    
 })

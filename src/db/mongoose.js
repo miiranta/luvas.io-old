@@ -7,6 +7,6 @@ mongoose.connect(process.env.MONGODB_URL, {useNewUrlParser: true, useUnifiedTopo
 const db = mongoose.connection;
 
 //Errors?
-db.on('error', console.error.bind(console, chalk.red('Connection Error:')))
-db.once('open', function() { console.log(chalk.blue("Database is up!")) })
+db.on('error', function() { console.log(chalk.magenta.bold("[Database] ")+chalk.red("Error!")) })
+db.once('open', function() { console.log(chalk.magenta.bold("[Database] ")+chalk.green("Connected!")) })
 

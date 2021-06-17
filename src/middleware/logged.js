@@ -21,16 +21,18 @@ const logged = function(x){
                 //redirect system
                 var redirect
                 if(req.route.path){redirect = req.route.path}else{redirect = "/home"}
+                if(redirect == "/login"){redirect = "/home"}
+                if(redirect == "/logout"){redirect = "/home"}
                 req.session.redirect = redirect
 
                 //Go to /login with redirect property
-                console.log(chalk.red("Redirecting non-auth user!"))
+                console.log(chalk.magenta.bold("[Session] ")+chalk.yellow("Redirecting non-auth user")) 
                 req.user = {}
                 return res.redirect("/login")
             }
             //Admin level is enough?
             if(req.user.admin < x){
-                console.log(chalk.red("Redirecting non-admin user!"))
+                console.log(chalk.magenta.bold("[Session] ")+chalk.yellow("Redirecting non-admin user")) 
                 req.user = {}
                 return res.redirect("/home")
             }

@@ -1,5 +1,5 @@
-<script>
-
+//FETCH SESSIONS / SESSION 
+  
     //Delete all Sessions  
     function deleteAllSessions(sessionToDelete){  
     $(".session").remove();  
@@ -9,7 +9,7 @@
     url: '/session/all'
     }
     )}
-
+    
     //Delete one Session by jwt
     function deleteSession(sessionToDelete, itemId){  
     $("#"+itemId).remove();  
@@ -19,5 +19,3 @@
     method: 'DELETE',
     url: '/session'
     })}
-   
-</script>

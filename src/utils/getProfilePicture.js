@@ -10,7 +10,7 @@ const getProfilePic = async (link) => {
         return dataPic
     }else{
         //NO > Default
-        dataPic = "/img/profile.png"
+        dataPic = "/img/default-profile-picture.png"
     }
 
 }

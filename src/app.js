@@ -64,7 +64,7 @@ app.use(appRouter)
 
 //Server listener
 server.listen(port, () => {
-  console.log(chalk.blue("Server is up! On port: " + chalk.green.bold(port)))
+  console.log(chalk.magenta.bold("[Server] ") + chalk.green("Server is up! Using port: ") + chalk.blue(port)) 
 });
 
 //Export IO

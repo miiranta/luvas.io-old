@@ -22,39 +22,17 @@
         <div>
             <p>Name: {{req.user.name}} </p>
             <p>Nick: </p>
-            {{>nickUpdate}}
+            {{>updateNick}}
             <p>Email: {{req.user.email}}</p>
             <img src="{{req.user.profilePic}}" />
-            {{>profilePicUpload}}
+            {{>updateProfilePic}}
         </div>
         
-        <!--Your Session-->
         <div>
-            <p>{{yourSession.machine}}</p>
-            <p>{{yourSession.os}}</p>
-            <p>{{yourSession.ip}}</p>
+        {{>fetchSessions}}
         </div>
+        
 
-        <!--Other Sessions-->
-        <div>
-            <ul>
-                {{#each openSessions}}
-                <li class="session" id="{{this._id}}">
-                    <div>{{this.machine}}</div>
-                    <div>{{this.os}}</div>
-                    <div>{{this.ip}}</div>
-                    <button onclick="deleteSession('{{this.token}}','{{this._id}}')">Remove</button>
-                </li>
-                {{/each}}
-            </ul>
-        </div>
-        <div><a href="" onclick="deleteAllSessions()">Logout from all sessions</a></div>
-
-
- <!--scripts-->
-
-<!--Delete Sessions-->
-{{>deleteSessions}}
 
     </body>
 

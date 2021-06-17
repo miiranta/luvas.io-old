@@ -26,7 +26,7 @@ passport.serializeUser( async function(user, done) {
         done(null, token)
 
     }catch{
-    console.log(chalk.red("Could not create cookie!"))
+      console.log(chalk.magenta.bold("[Session] ") + chalk.red("Could not create cookie!")) 
     done(null, false, { message: 'Bad Session' })
     }
     
@@ -51,7 +51,7 @@ passport.deserializeUser( async function(token, done) {
         done(null, {...user.toObject(), token})
 
     }catch{
-      console.log(chalk.red("Could not verify login for token!"))
+      console.log(chalk.magenta.bold("[Session] ") + chalk.red("Could not verify token!")) 
 
       //req.user = false (undefined)
       done(null, false, { message: 'Bad Session' })
@@ -86,13 +86,13 @@ passport.use(new GoogleStrategy({
         //No > Create
         if(!userDb){
           const user = await User.create({googleId, email, name, admin: 0, profilePic: dataPic, nick: Date.now().toString(16)})
-          console.log(chalk.yellow("Created and logged new user (google): ") + chalk.blue(user.email))
+          console.log(chalk.magenta.bold("[Session] ") + chalk.green("Created new user: ") + chalk.blue(email + " (Google)")) 
           return cb(null, user)
         }
         
         //Yes > Update and Continue
         await User.updateOne({email},{googleId, email, name})
-        console.log(chalk.yellow("Logged user (google): ") + chalk.blue(userDb.email))
+        console.log(chalk.magenta.bold("[Session] ") + chalk.green("Login: ") + chalk.blue(email + " (Google)")) 
         return cb(null, userDb)
 
     //Error   
@@ -129,19 +129,18 @@ const dataPic = await getProfilePic(picLink)
         //No > Create
         if(!userDb){
           const user = await User.create({facebookId, email, name, admin: 0, profilePic: dataPic, nick: Date.now().toString(16)})
-          console.log(chalk.yellow("Created and logged new user (facebook): ") + chalk.blue(user.email))
+          console.log(chalk.magenta.bold("[Session] ") + chalk.green("Created new user: ") + chalk.blue(email + " (Facebook)")) 
           return cb(null, user)
         }
 
         //Yes > Update and Continue
         await User.updateOne({email},{facebookId, email, name})
-        console.log(chalk.yellow("Logged user (facebook): ") + chalk.blue(userDb.email))
+        console.log(chalk.magenta.bold("[Session] ") + chalk.green("Login: ") + chalk.blue(email + " (Facebook)")) 
         return cb(null, userDb)
 
 
 //Error
 }catch(e){
-  console.log(e)
   cb(null, false, { message: 'Bad Session' })}
 
 }
