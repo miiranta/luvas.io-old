@@ -1,16 +1,13 @@
-//Requires
 const logged    = require("../middleware/logged")
 const chalk     = require("chalk")
 const express   = require("express")
 
-//Creates router
 const app = new express.Router()
 
 
 //Introduction Page
 app.get("/", (req, res) => {
 
-    //Load view MAIN
     res.render("main",{req})
   
 });
@@ -18,11 +15,9 @@ app.get("/", (req, res) => {
 //Main Page (Logged only)
 app.get("/home", logged(0), (req, res) => {
 
-    //Load view MAIN
     res.render("home",{req})
   
 });
 
 
-//Export router
 module.exports = app

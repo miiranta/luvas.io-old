@@ -1,4 +1,3 @@
-//Requires
 const validator = require("validator")
 const App       = require("../db/models/apps")
 
@@ -32,7 +31,6 @@ if(data.local == false){
 const app = await App.findOne({name: data.name})
 if(app){return "App name already taken!"}
 
-//Everything is right
 return false
 
 

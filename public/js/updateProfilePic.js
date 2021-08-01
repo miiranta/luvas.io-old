@@ -1,20 +1,13 @@
-//UPDATE PROFILE PICTURE   
-
-    //Vars and Functions -------------------------
-
-        //Vars
         var $uploadCrop;
         $("#picpreview").hide();
         var data = new FormData();
         var file;
 
-        //Get expension
         function getExtension(filename) {
         var parts = filename.split('.');
         return parts[parts.length - 1];
         }
 
-        //Get if file is image
         function isImage(filename) {
         var ext = getExtension(filename);
             switch (ext.toLowerCase()) {
@@ -27,11 +20,8 @@
             return false;
         }
 
-    //-----------------------------------------------
-
     //Croppie and Read Data -------------------------
 
-        //Set croppie properties
             $uploadCrop = $('#picshow').croppie({
             viewport: {
                 width: 250,
@@ -42,7 +32,6 @@
                 width: 300,
                 height: 300
             },
-            //Update image blob
             update: function(res){
                 $uploadCrop.croppie('result', {
                     type: 'blob',
@@ -55,11 +44,9 @@
             enableOrientation: true
             });
 
-        //Read whats being uploaded
         function readFile(input) {
             if (input.files && input.files[0]) {
 
-                //Is image?
                 console.log(input.files[0])
                 if(!isImage(input.files[0].name)){
                     $("#picerror").text("File must be an image");
@@ -68,48 +55,37 @@
                     return
                 }
             
-                //Bind croppie
                 var reader = new FileReader();
                 reader.onload = function (e) { $uploadCrop.croppie('bind', {url: e.target.result});}
                 reader.readAsDataURL(input.files[0]);
 
-                //Show div if upload is ok
                 $("#picpreview").show();
                 $("#Submit").prop("disabled",false);
                 $("#picerror").text("")
             }
         }
 
-        //Read if input changes
         $('#picselect').on('change', function () {
         readFile(this);
         });
 
-    //------------------------------------------------
-
     //Buttons ----------------------------------------
 
-        //Rotate-Left
         $('#Rotate-Left').on('click', function() {
             $uploadCrop.croppie('rotate', 90);
         });
 
-        //Rotate Right
         $('#Rotate-Right').on('click', function() {
             $uploadCrop.croppie('rotate', -90);
         });
 
-        //Hide on cancel
         $("#Cancel").click(function () {
             $("#picpreview").hide();
             $("#picselect").val(null);
         })
-
-    //-------------------------------------------------
         
     //Send Data ---------------------------------------
 
-        //AJAX
         $('#picupload').submit(function (event) {
 
         event.preventDefault();

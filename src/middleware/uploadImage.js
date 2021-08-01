@@ -1,6 +1,5 @@
 const multer = require("multer")
 
-//Image Upload MIddleware ----------------------------
 const upload = multer({
 
     limits: {
@@ -19,6 +18,5 @@ const upload = multer({
     }
 
 })
-//---------------------------------------------------
 
 module.exports = upload

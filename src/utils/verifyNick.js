@@ -1,4 +1,3 @@
-//requires
 const User = require("../db/models/users")
 
 
