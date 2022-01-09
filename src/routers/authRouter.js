@@ -9,7 +9,7 @@ require("../passport")
 const app = new express.Router()
 
 //Login Page--------------------------
-app.get("/login" ,notLogged, (req, res) => {
+app.get("/login", notLogged, (req, res) => {
 
   res.render("login",{req})
   

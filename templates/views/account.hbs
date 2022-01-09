@@ -13,9 +13,9 @@
         <div>
         <a href="/logout">Logout</a>
         <a href="/home">Home</a>
-        {{#ifEquals req.user.admin 1}} 
+        {{#ifCond req.user.admin ">=" 2}} 
         <a href="/app">Create App</a>
-        {{/ifEquals}}
+        {{/ifCond}}
         </div>
 
         <!--Info-->

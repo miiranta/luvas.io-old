@@ -2,7 +2,6 @@ const chalk              = require("chalk")
 const jwt                = require("jsonwebtoken")
 const verifyAppCreate    = require("./utils/verifyAppCreate")
 const verifyNick         = require("./utils/verifyNick")
-const getApps            = require("./utils/getApps")
 
 function verifyToken(token){
     try{return jwt.verify(token, process.env.JWT_SECRET)}

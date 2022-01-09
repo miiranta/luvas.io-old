@@ -30,8 +30,31 @@ const partialsDirectory = path.join(__dirname, "../templates/partials") //HBS pa
 app.set("view engine","hbs")
 app.set("views", viewsDirectory)
 hbs.registerPartials(partialsDirectory)
-hbs.registerHelper('ifEquals', function(arg1, arg2, options) {
-  return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+hbs.registerHelper('ifCond', function (v1, operator, v2, options) {
+  switch (operator) {
+      case '==':
+          return (v1 == v2) ? options.fn(this) : options.inverse(this);
+      case '===':
+          return (v1 === v2) ? options.fn(this) : options.inverse(this);
+      case '!=':
+          return (v1 != v2) ? options.fn(this) : options.inverse(this);
+      case '!==':
+          return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+      case '<':
+          return (v1 < v2) ? options.fn(this) : options.inverse(this);
+      case '<=':
+          return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+      case '>':
+          return (v1 > v2) ? options.fn(this) : options.inverse(this);
+      case '>=':
+          return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+      case '&&':
+          return (v1 && v2) ? options.fn(this) : options.inverse(this);
+      case '||':
+          return (v1 || v2) ? options.fn(this) : options.inverse(this);
+      default:
+          return options.inverse(this);
+  }
 });
 
 app.use(express.static(publicDirectory))

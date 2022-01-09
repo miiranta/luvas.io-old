@@ -40,7 +40,7 @@ app.patch("/account/nick", logged(0), async (req, res) => {
     
     await User.updateOne({_id: req.user._id},{nick})
 
-    console.log(chalk.magenta.bold("[Config] ") + chalk.green("Nick change: ") + chalk.blue(req.user.email) + chalk.green(" to ") + chalk.blue(nick)) 
+    console.log(chalk.magenta.bold("[Config] ") + chalk.green("Nick change: ") + chalk.blue(req.user.email) + chalk.green(" account is now ") + chalk.blue(nick)) 
     res.send()
 
 })

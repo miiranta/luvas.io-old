@@ -1,4 +1,26 @@
     var block = 0
+    
+    //Some tweaks
+    $("#local").on("change", function(){
+        if(document.getElementById("local").checked){
+            $("#url").hide();
+        }else{
+            $("#url").show();
+        }
+    })
+
+    $("#auth").prop("disabled",true);
+    $("#auth").prop("checked",true);
+    $("#public").on("change", function(){
+        if(document.getElementById("public").checked){
+            $("#auth").prop("disabled",false);
+        }else{
+            
+            $("#auth").prop("disabled",true);
+            $("#auth").prop("checked",true);
+        }
+    })
+    
 
     //SOCKET
     $("#appcreateform").on("change keyup paste", function(){
