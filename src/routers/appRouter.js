@@ -19,9 +19,8 @@ app.get("/app", logged(2), (req, res) => {
 //App redirect 
 app.get("/app/:id", redirect, async (req, res) => {
 
-    renderApp(await App.findOne({name: req.params.id}));
-    
-    function renderApp(appData){
+    await App.findOne({name: req.params.id}).then(
+        (appData) => {
 
         //App registered?
         if(appData){
@@ -51,19 +50,29 @@ app.get("/app/:id", redirect, async (req, res) => {
                 if (fs.existsSync(pathExists)){
                     return res.render("apps/" + req.params.id ,{req})
                 }else{
+                    
                     return res.redirect("/home");
                 }
 
             }
 
             //External app?
-            return res.redirect(appData.url);
+            if (appData.url.indexOf("http://") == 0 || appData.url.indexOf("https://") == 0) {
+                res.redirect(appData.url);
+            }
+            else{
+                res.redirect("https://" + appData.url);
+            }
+
 
         }else{
-            return res.redirect("/home");
+            res.redirect("/home");
         }
 
-    }
+
+        }
+    )
+
 
 });
 

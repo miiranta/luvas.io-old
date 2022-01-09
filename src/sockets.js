@@ -2,6 +2,7 @@ const chalk              = require("chalk")
 const jwt                = require("jsonwebtoken")
 const verifyAppCreate    = require("./utils/verifyAppCreate")
 const verifyNick         = require("./utils/verifyNick")
+const fetchApps          = require("./utils/getApps.js")
 
 function verifyToken(token){
     try{return jwt.verify(token, process.env.JWT_SECRET)}
@@ -30,13 +31,19 @@ io.on("connection", (socket)=>{
 
     socket.on("nick", async (nick, callback)=>{
 
-        verifyNick(nick).then((data)=>{callback(data)})
+        verifyNick(nick).then((dataReturn)=>{callback(dataReturn)})
 
     })
 
     socket.on("app", (data, callback)=>{
 
         verifyAppCreate(data).then((dataReturn)=>{callback(dataReturn)})
+
+    })
+
+    socket.on("search", (data, callback)=>{
+    
+        fetchApps(data, socket).then((dataReturn)=>{callback(dataReturn)})
 
     })
 

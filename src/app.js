@@ -10,15 +10,20 @@ const authRouter      = require("./routers/authRouter")
 const contentRouter   = require("./routers/contentRouter")
 const configRouter    = require("./routers/configRouter")
 const appRouter       = require("./routers/appRouter")
+const ios             = require('socket.io-express-session');
 const socketLoad      = require("./sockets")
 require('./db/mongoose.js')
 
+const session = cookieSession({
+    name: 'session',
+    keys: [process.env.SESSION_KEY_1, process.env.SESSION_KEY_1]
+})
 
 const app = express();
 const server = http.createServer(app)
 const io = socketio(server);
+io.use(ios(session));
 app.set('io', io);
-
 socketLoad(io)
 
 const port = process.env.PORT || 3000;
@@ -61,10 +66,7 @@ app.use(express.static(publicDirectory))
 
 app.use(express.json())
 
-app.use(cookieSession({
-  name: 'session',
-  keys: ['key1', 'key2']
-}))
+app.use(session)
 
 app.use(passport.initialize());
 app.use(passport.session());
