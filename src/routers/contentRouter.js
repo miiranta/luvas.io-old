@@ -1,6 +1,7 @@
 const logged    = require("../middleware/logged")
 const chalk     = require("chalk")
 const express   = require("express")
+const User      = require("../db/models/users")
 
 const app = new express.Router()
 
@@ -17,6 +18,21 @@ app.get("/home", logged(0), (req, res) => {
 
     res.render("home",{req})
   
+});
+
+//Profile
+app.get("/user/:id", logged(0), async (req, res) => {
+
+    const user = await User.findOne({"nick": req.params.id})
+    if(user){
+        req.profile = user;
+       res.render("user",{req})
+    }else{
+        res.redirect("/home")
+    }
+
+    
+    
 });
 
 

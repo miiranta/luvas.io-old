@@ -41,6 +41,7 @@
     url: '/account/nick',
     success: function () {
         $("#nickstatus").text("Success!");
+        $("#updateredirect").attr("href", "/user/" + nick);
     }
     }
     )}

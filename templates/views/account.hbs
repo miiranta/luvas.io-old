@@ -26,8 +26,10 @@
             <p>Email: {{req.user.email}}</p>
             <img src="{{req.user.profilePic}}" />
             {{>updateProfilePic}}
+            <a id="updateredirect" href="/user/{{req.user.nick}}">See public profile</a>
         </div>
         
+        <!--Sessions-->
         <div>
         {{>fetchSessions}}
         </div>
