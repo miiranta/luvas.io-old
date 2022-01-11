@@ -10,7 +10,7 @@ const fs                = require('fs')
 const app = new express.Router()
 
 //App creation Page (Admin only for now)
-app.get("/app", logged(2), (req, res) => {
+app.get("/app", logged(1), (req, res) => {
 
     res.render("app",{req})
   
@@ -30,6 +30,12 @@ app.get("/app/:id", redirect, async (req, res) => {
                 if(!req.user){
                     return res.redirect("/login");
                 }
+
+                //Admin Level Required?
+                if(req.user.admin < appData.adminlevel){
+                    return res.redirect("/home");
+                }
+
             }
 
             //Is Public?
@@ -78,7 +84,7 @@ app.get("/app/:id", redirect, async (req, res) => {
 
 
 //App create
-app.post("/app", logged(2), async (req, res) => {
+app.post("/app", logged(1), async (req, res) => {
 
     const appData = req.body.appData
     
@@ -89,9 +95,10 @@ app.post("/app", logged(2), async (req, res) => {
     if(appData.auth){appData.auth = true}else{appData.auth = false}
     if(appData.local){appData.local = true}else{appData.local = false}
     if(appData.public){appData.public = true}else{appData.public = false}
+    appData.adminlevel = (typeof appData.adminlevel === 'undefined') ? 0 : appData.adminlevel;
 
     if(req.user.admin < 2){
-        if(appData.local||appData.auth){return res.status(401).send()}
+        if(appData.local||appData.auth||appData.adminlevel != 0){return res.status(401).send()}
     }
 
     if(appData.local == false){

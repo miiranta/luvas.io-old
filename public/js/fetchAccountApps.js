@@ -6,7 +6,7 @@ function loadPage(){
     var search = document.getElementById("search").value
     var sort = document.getElementById("sort").value
     var local = document.getElementById("local").checked
-    var createdbyme = false;
+    var createdbyme = true;
 
     var searchData = {search, local, createdbyme, sort, page}
 

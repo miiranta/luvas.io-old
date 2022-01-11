@@ -32,10 +32,16 @@
         var name = document.getElementById("name").value
         var url = document.getElementById("url").value
         var public = document.getElementById("public").checked
-        var local = document.getElementById("local").checked
-        var auth = document.getElementById("auth").checked
+        
+        var local = document.getElementById("local")
+        var auth = document.getElementById("auth")
+        var adminlevel = document.getElementById("adminlevel")
 
-        var appData = {title, description, name, url, public, local, auth}
+        var local = (local == null) ? false : local.checked;
+        var auth = (auth == null) ? false : auth.checked;
+        var adminlevel = (adminlevel == null) ? 0 : adminlevel.value;
+
+        var appData = {title, description, name, url, public, local, auth, adminlevel}
 
         if(block==0){
             block = 1

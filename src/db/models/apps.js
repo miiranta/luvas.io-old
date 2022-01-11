@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         required: true
     },
+    adminlevel: {
+        type: Number,
+        required: true
+    },
     picture: {
         type: String,
         required: true
@@ -35,7 +39,8 @@ const userSchema = new mongoose.Schema({
     owner: {
         type: String,
         required: true
-    }
+    },
+   
 },{
     timestamps: true
 })

@@ -13,7 +13,7 @@
         <div>
         <a href="/logout">Logout</a>
         <a href="/home">Home</a>
-        {{#ifCond req.user.admin ">=" 2}} 
+        {{#ifCond req.user.admin ">=" 1}} 
         <a href="/app">Create App</a>
         {{/ifCond}}
         </div>
@@ -30,6 +30,11 @@
         
         <div>
         {{>fetchSessions}}
+        </div>
+        
+        <!--Your Apps-->
+        <div>
+        {{>fetchAccountApps}}   
         </div>
         
 

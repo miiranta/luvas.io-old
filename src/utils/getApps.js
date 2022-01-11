@@ -37,29 +37,39 @@ const fetchAppsByTerm = async (title, page, sort, options)=>{
 
 const fetchAppsByData = async (data, socket) => {
 
-    var options = [];
+        var data
+
+        var options = [];
+        var user = null;
+        
+        try{
+            var userJWT = socket.handshake.session.passport.user
+            var user = jwt.verify(userJWT, process.env.JWT_SECRET)
+            if(!user){throw new Error()}
+        }catch(e){
+            user = null;
+        }
 
         //Created By Me
-        var user = null;
-        if(data.createdbyme){
-            try{
-                var userJWT = socket.handshake.session.passport.user
-                var user = jwt.verify(userJWT, process.env.JWT_SECRET)
-                if(!user){throw new Error()}
-            }catch(e){
-                user = null;
-            }
+        if(data.createdbyme){   
 
             if(user){
                 options.push({'owner':user._id})
+            }else{
+
+                //Public
+                options.push({'public':true})
             }
+
+        }else{
+
+            //Public
+            options.push({'public':true})
         }
+
         
         //Search
         var title = data.search
-
-        //Public
-        options.push({'public':true})
 
         //local
         if(data.local == true){
