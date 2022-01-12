@@ -10,6 +10,7 @@ const authRouter      = require("./routers/authRouter")
 const contentRouter   = require("./routers/contentRouter")
 const configRouter    = require("./routers/configRouter")
 const appRouter       = require("./routers/appRouter")
+const externalRouter  = require("./../apps/router")
 const ios             = require('socket.io-express-session');
 const socketLoad      = require("./sockets")
 require('./db/mongoose.js')
@@ -34,7 +35,9 @@ const partialsDirectory = path.join(__dirname, "../templates/partials") //HBS pa
 
 app.set("view engine","hbs")
 app.set("views", viewsDirectory)
+
 hbs.registerPartials(partialsDirectory)
+
 hbs.registerHelper('ifCond', function (v1, operator, v2, options) {
   switch (operator) {
       case '==':
@@ -75,6 +78,7 @@ app.use(authRouter)
 app.use(configRouter)
 app.use(contentRouter)
 app.use(appRouter)
+app.use(externalRouter)
 
 server.listen(port, () => {
   console.log(chalk.magenta.bold("[Server] ") + chalk.green("Server is up! Using port: ") + chalk.blue(port)) 

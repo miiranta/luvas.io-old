@@ -5,7 +5,6 @@ const redirect          = require("../middleware/redirect")
 const App               = require("../db/models/apps")
 const verifyAppCreate   = require("../utils/verifyAppCreate")
 const getFavicon        = require("../utils/getFavicon")
-const fs                = require('fs')
 
 const app = new express.Router()
 
@@ -50,16 +49,7 @@ app.get("/app/:id", redirect, async (req, res) => {
 
             //Local app?
             if(appData.local){
-
-                var pathExists = __dirname + "/../../templates/views/apps/" + req.params.id + ".hbs"; 
-
-                if (fs.existsSync(pathExists)){
-                    return res.render("apps/" + req.params.id ,{req})
-                }else{
-                    
-                    return res.redirect("/home");
-                }
-
+                return res.redirect(appData.url);
             }
 
             //External app?

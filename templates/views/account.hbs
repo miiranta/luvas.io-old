@@ -24,6 +24,8 @@
             <p>Nick: </p>
             {{>updateNick}}
             <p>Email: {{req.user.email}}</p>
+            <p>Biography:</p>
+            {{>updateBio}}
             <img src="{{req.user.profilePic}}" />
             {{>updateProfilePic}}
             <a id="updateredirect" href="/user/{{req.user.nick}}">See public profile</a>

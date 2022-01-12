@@ -5,6 +5,7 @@ const upload        = require("../middleware/uploadImage")
 const sharp         = require("sharp")
 const User          = require("../db/models/users")
 const verifyNick    = require("../utils/verifyNick")
+const verifyBio     = require("../utils/verifyBio")
 
 const app = new express.Router()
 
@@ -68,6 +69,24 @@ app.patch("/account/picture", logged(0), upload.single("file"), async (req,res)=
     console.log(chalk.magenta.bold("[Config] ") + chalk.red("Could not update profile picture! ")) 
     res.status(400).send(error)
    
+})
+
+
+//Bio update
+app.patch("/account/bio", logged(0), async (req, res) => {
+    
+    var bio = req.body.bio
+    var verify
+
+    await verifyBio(bio).then((data)=>{verify = data})
+        
+    if(verify){
+        return res.status(400).send()
+    }
+
+    await User.updateOne({_id: req.user._id},{bio})
+
+    res.send()
 })
 
 

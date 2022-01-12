@@ -22,7 +22,7 @@
 
                 {{#ifCond req.user.admin ">=" 2}}
                 <div>
-                <p>Local? (Admin Only - Verify if there's a file to read at views/apps/)</p>
+                <p>Local? (Admin Only)</p>
                 <input id="local" type="checkbox" placeholder="Public?">
                 </div>
                 {{/ifCond}}
@@ -38,7 +38,7 @@
 
                 {{#ifCond req.user.admin ">=" 2}}
                 <div>
-                <p>Auth required? (Admin Only - Verify if there's a file to read at views/apps/)</p>
+                <p>Auth required? (Admin Only)</p>
                 <input id="auth" type="checkbox" placeholder="Public?">
                 </div>
                 {{/ifCond}}
