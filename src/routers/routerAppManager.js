@@ -1,25 +1,28 @@
-const chalk             = require("chalk")
-const express           = require("express")
-const logged            = require("../middleware/logged")
-const redirect          = require("../middleware/redirect")
-const App               = require("../db/models/apps")
-const User              = require("../db/models/users")
-const verifyAppCreate   = require("../utils/verifyAppCreate")
-const getFavicon        = require("../utils/getFavicon")
+const chalk                                 = require("chalk")
+const express                               = require("express")
+const logged                                = require("../middleware/logged")
+const redirect                              = require("../middleware/redirect")
+const App                                   = require("../db/models/apps")
+const User                                  = require("../db/models/users")
+const verifyAppCreate                       = require("../utils/verifyAppCreate")
+const getFavicon                            = require("../utils/getFavicon")
+const {sanitizeInput, sanitizeObject}       = require("../utils/sanitizeInput.js")
 
 const router = new express.Router()
 
 //App creation Page (Admin only for now)
 router.get("/app", logged(1), (req, res) => {
 
-    res.render("app",{req})
+    try{console.log()}catch(e){console.log(e)}
+
+    res.render("app", {user: sanitizeObject(req.user)})
   
 });
 
 //App redirect 
 router.get("/app/:id", redirect, async (req, res) => {
 
-    await App.findOne({name: req.params.id}).then(
+    await App.findOne({name: sanitizeInput(req.params.id)}).then(
         (appData) => {
 
         //App registered?
@@ -61,23 +64,19 @@ router.get("/app/:id", redirect, async (req, res) => {
                 res.redirect("https://" + appData.url);
             }
 
-
         }else{
             res.redirect("/home");
         }
 
-
         }
     )
-
-
 });
 
 
 //App create
 router.post("/app", logged(1), async (req, res) => {
 
-    const appData = req.body
+    const appData = sanitizeObject(req.body)
     
     await verifyAppCreate(appData).then((dataReturn)=>{
         if(dataReturn){return res.status(400).send()}
@@ -99,18 +98,19 @@ router.post("/app", logged(1), async (req, res) => {
     }
     
     try{
-    const app = await App.create({...appData, owner: req.user._id, picture: favicon})
-    console.log(chalk.magenta.bold("[App] ")+chalk.green("Created: ")+chalk.blue(appData.name)) 
-    }catch(e){return res.status(400).send()}
+        const app = await App.create({...appData, owner:  req.user._id, picture: favicon})
+        console.log(chalk.magenta.bold("[App] ")+chalk.green("Created: ")+chalk.blue(appData.name)) 
+    }catch(e){
+        return res.status(400).send()
+    }
 
     res.send()
-
 });
 
 //App edit
 router.get("/edit/:id", logged(0), async (req, res) => {
     
-    const appData = await App.findOne({"name": req.params.id})
+    const appData = await App.findOne({"name": sanitizeInput(req.params.id)})
     
     //App registered?
     if(appData){
@@ -119,8 +119,7 @@ router.get("/edit/:id", logged(0), async (req, res) => {
 
         //App owner trying to edit?
         if(appData.owner == req.user._id){
-            console.log(req.post)
-            return res.render("edit", {req})
+            return res.render("edit", {})
         }
         return res.redirect("/home")
     }  

@@ -1,8 +1,9 @@
 //Local apps Express router
-
 const chalk             = require("chalk")
 const express           = require("express")
 const logged            = require("../src/middleware/logged")
+const sanitizeInput     = require("../src/utils/sanitizeInput.js")
+
 
 const router = new express.Router()
 

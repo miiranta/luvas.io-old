@@ -45,7 +45,7 @@ function setVarsByLocation(){
 //SOCKET
 function loadPage(){
     setVarsByLocation();
-    var searchData = {search, local, createdbyme, sort, page, profile}
+    var searchData = {search, local, createdbyme, sort, page}
 
     if(block==0){
         block = 1

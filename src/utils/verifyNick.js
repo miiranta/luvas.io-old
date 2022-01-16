@@ -1,6 +1,5 @@
 const User = require("../db/models/users")
 
-
 const verifyNick = async (nick)=>{
 
     //Contain special character?

@@ -1,4 +1,4 @@
-var Favicon = require('node-get-favicon')
+const Favicon           = require('node-get-favicon')
 
 var imgData
 var favicon = new Favicon({

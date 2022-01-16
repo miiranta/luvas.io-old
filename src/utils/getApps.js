@@ -1,5 +1,6 @@
-const App       = require("../db/models/apps")
-const jwt       = require("jsonwebtoken")
+const App               = require("../db/models/apps")
+const jwt               = require("jsonwebtoken")
+const {sanitizeInput}   = require("./sanitizeInput.js")
 
 var page = 0;
 var pagesize = 10
@@ -42,7 +43,7 @@ const fetchAppsByData = async (data, socket) => {
         var user = null;
         
         try{
-            var userJWT = socket.handshake.session.passport.user
+            var userJWT = sanitizeInput(socket.handshake.session.passport.user)
             var user = jwt.verify(userJWT, process.env.JWT_SECRET)
             if(!user){throw new Error()}
         }catch(e){
@@ -73,6 +74,9 @@ const fetchAppsByData = async (data, socket) => {
 
         //Search
         var title = data.search
+        if(title.length > 50){
+            title = "";
+        }
 
         //local
         if(data.local == true){

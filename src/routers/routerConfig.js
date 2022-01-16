@@ -1,11 +1,12 @@
-const logged        = require("../middleware/logged")
-const chalk         = require("chalk")
-const express       = require("express")
-const upload        = require("../middleware/uploadImage")
-const sharp         = require("sharp")
-const User          = require("../db/models/users")
-const verifyNick    = require("../utils/verifyNick")
-const verifyBio     = require("../utils/verifyBio")
+const logged                                = require("../middleware/logged")
+const chalk                                 = require("chalk")
+const express                               = require("express")
+const upload                                = require("../middleware/uploadImage")
+const sharp                                 = require("sharp")
+const User                                  = require("../db/models/users")
+const verifyNick                            = require("../utils/verifyNick")
+const verifyBio                             = require("../utils/verifyBio")
+const {sanitizeInput, sanitizeObject}       = require("../utils/sanitizeInput.js")
 
 const router = new express.Router()
 
@@ -18,8 +19,8 @@ router.get("/account", logged(0), (req, res) => {
 
         const yourSession = req.user.tokens.filter((tokenFound)=> {return token == tokenFound.token})
 
-    res.render("account",{ 
-        req,
+    res.render("account", { 
+        user: req.user,
         openSessions,
         yourSession: yourSession[0]
     })
@@ -30,7 +31,7 @@ router.get("/account", logged(0), (req, res) => {
 //Nick Update
 router.patch("/account/nick", logged(0), async (req, res) => {
 
-    const nick = req.body.nick
+    const nick = sanitizeInput(req.body.nick)
     var verify
 
     await verifyNick(nick).then((data)=>{verify = data})
@@ -39,7 +40,7 @@ router.patch("/account/nick", logged(0), async (req, res) => {
         return res.status(400).send()
     }
     
-    await User.updateOne({_id: req.user._id},{nick})
+    await User.updateOne({_id: req.user._id}, {nick})
 
     console.log(chalk.magenta.bold("[Config] ") + chalk.green("Nick change: ") + chalk.blue(req.user.email) + chalk.green(" account is now ") + chalk.blue(nick)) 
     res.send()
@@ -75,7 +76,7 @@ router.patch("/account/picture", logged(0), upload.single("file"), async (req,re
 //Bio update
 router.patch("/account/bio", logged(0), async (req, res) => {
     
-    var bio = req.body.bio
+    var bio = sanitizeInput(req.body.bio)
     var verify
 
     await verifyBio(bio).then((data)=>{verify = data})

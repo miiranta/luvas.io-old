@@ -1,6 +1,6 @@
-var request = require('axios')
+var request             = require('axios')
 
-const getProfilePic = async (link) => {
+const getProfilePic = async(link) => {
 
     if(link){
         const image = await request.get(link, {responseType: 'arraybuffer'});

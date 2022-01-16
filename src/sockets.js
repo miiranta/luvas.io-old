@@ -1,7 +1,8 @@
-const verifyAppCreate    = require("./utils/verifyAppCreate")
-const verifyNick         = require("./utils/verifyNick")
-const verifyBio          = require("./utils/verifyBio")
-const fetchApps          = require("./utils/getApps.js")
+const verifyAppCreate                       = require("./utils/verifyAppCreate")
+const verifyNick                            = require("./utils/verifyNick")
+const verifyBio                             = require("./utils/verifyBio")
+const fetchApps                             = require("./utils/getApps.js")
+const {sanitizeInput, sanitizeObject}       = require("./utils/sanitizeInput.js")
 
 const loadSockets = function(io){
 
@@ -25,25 +26,25 @@ io.on("connection", (socket)=>{
 
     socket.on("nick", async (nick, callback)=>{
 
-        verifyNick(nick).then((dataReturn)=>{callback(dataReturn)})
+        verifyNick(sanitizeInput(nick)).then((dataReturn)=>{callback(dataReturn)})
 
     })
 
-    socket.on("bio", (data, callback)=>{
+    socket.on("bio", async (data, callback)=>{
+
+        verifyBio(sanitizeInput(data), socket).then((dataReturn)=>{callback(dataReturn)})
+
+    })
+
+    socket.on("app", async (data, callback)=>{
+
+        verifyAppCreate(sanitizeObject(data)).then((dataReturn)=>{callback(dataReturn)})
+
+    })
+
+    socket.on("search", async (data, callback)=>{
     
-        verifyBio(data, socket).then((dataReturn)=>{callback(dataReturn)})
-
-    })
-
-    socket.on("app", (data, callback)=>{
-
-        verifyAppCreate(data).then((dataReturn)=>{callback(dataReturn)})
-
-    })
-
-    socket.on("search", (data, callback)=>{
-    
-        fetchApps(data, socket).then((dataReturn)=>{callback(dataReturn)})
+        fetchApps(sanitizeObject(data), socket).then((dataReturn)=>{callback(dataReturn)})
 
     })
 

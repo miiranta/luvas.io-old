@@ -4,48 +4,48 @@
     <div id="searchzone">
 
         <div>
-            <p>{{req.post.name}}</p>
+            <p>{{post.name}}</p>
         </div>
 
         <div>
-            <p>{{req.post.title}}</p>
+            <p>{{post.title}}</p>
         </div>
 
         <div>
-            <img src="{{req.post.picture}}"/>
+            <img src="{{post.picture}}"/>
         </div>
 
         <div>
             <p>Description</p>
-            <pre>{{req.post.description}}</pre>
+            <pre>{{post.description}}</pre>
         </div>
         
         <div>
             <p>Created by</p>
-            <p>{{req.profile.nick}}</p>
+            <p>{{profile.nick}}</p>
         </div>
 
         <div>
             <p>Authentication required?</p>
-            <p>{{req.post.auth}}</p>
+            <p>{{post.auth}}</p>
         </div>
 
         <div>
             <p>Public?</p>
-            <p>{{req.post.public}}</p>
+            <p>{{post.public}}</p>
         </div>
 
         <div>
             <p>Local?</p>
-            <p>{{req.post.local}}</p>
+            <p>{{post.local}}</p>
         </div>
 
     </div>
 
-    {{#ifCond req.user._id "==" req.post.owner}} 
+    {{#ifCond user._id "==" post.owner}} 
     <!--Edit Link-->
     <div>
-        <a href="/edit/{{req.post.name}}">Edit your app</a>
+        <a href="/edit/{{post.name}}">Edit your app</a>
     </div>
     {{/ifCond}}
     

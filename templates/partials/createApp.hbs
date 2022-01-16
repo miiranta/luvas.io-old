@@ -20,7 +20,7 @@
                 <input id="name" type="text" placeholder="App name">
                 </div>
 
-                {{#ifCond req.user.admin ">=" 2}}
+                {{#ifCond user.admin ">=" 2}}
                 <div>
                 <p>Local? (Admin Only)</p>
                 <input id="local" type="checkbox" placeholder="Public?">
@@ -36,14 +36,14 @@
                 <input id="public" type="checkbox" placeholder="Public?">
                 </div>
 
-                {{#ifCond req.user.admin ">=" 2}}
+                {{#ifCond user.admin ">=" 2}}
                 <div>
                 <p>Auth required? (Admin Only)</p>
                 <input id="auth" type="checkbox" placeholder="Public?">
                 </div>
                 {{/ifCond}}
 
-                {{#ifCond req.user.admin ">=" 2}}
+                {{#ifCond user.admin ">=" 2}}
                 <div>
                 <p>Admin Level required? (Admin Only)</p>
                 <input id="adminlevel" type="number" min="0" max="2" value="0">
