@@ -1,10 +1,9 @@
 const validator = require("validator")
 const App       = require("../db/models/apps")
 
-
 const verifyAppCreate = async (data)=>{
 
-///Contain special character?
+//Contain special character?
 var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
 if(format.test(data.title)){return "Don't use special characters in the title!"} 
 if(format.test(data.name)){return "Don't use special characters in the app name!"} 

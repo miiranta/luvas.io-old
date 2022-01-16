@@ -1,26 +1,18 @@
-//Requires
 const App       = require("../db/models/apps")
 const jwt       = require("jsonwebtoken")
 
-//Vars
 var page = 0;
 var pagesize = 10
 var words
 
-
-//Fetch apps (Main)
-const fetchApps = async (condition, page, sort)=> {
-
+const searchAppsOnDb = async (condition, page, sort)=> {
     return await App.find(condition)
-        .limit(pagesize)
-        .skip(page*pagesize)
-        .sort(sort)
-
+    .limit(pagesize)
+    .skip(page*pagesize)
+    .sort(sort)
 }
 
-
-//Fetch apps by term
-const fetchAppsByTerm = async (title, page, sort, options)=>{
+const prepareSearch = async (title, page, sort, options)=>{
 
     //Remove special characters
     var titleTrim = title.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
@@ -31,14 +23,21 @@ const fetchAppsByTerm = async (title, page, sort, options)=>{
 
     //Make request
         //Search without owner
-        return await fetchApps({ $and: [ { $or: [{title: regex },{description: regex}] }, ...options] } , page, sort)
+        return await searchAppsOnDb({ $and: [ { $or: [{title: regex },{description: regex}] }, ...options] } , page, sort)
 
 }
 
 const fetchAppsByData = async (data, socket) => {
-
-        var data
-
+        /*
+        PARAMS by client
+        -search (term)
+        -sort   (1, 2, 3...)
+        -local  (is local app?)
+        -createdByMe    (my apps?)
+        -profile        (some profile apps?)
+        -page
+        */
+    
         var options = [];
         var user = null;
         
@@ -59,6 +58,11 @@ const fetchAppsByData = async (data, socket) => {
 
                 //Public
                 options.push({'public':true})
+
+                //Profile
+                if(data.profile){
+                    options.push({'nick':data.profile})
+                }
             }
 
         }else{
@@ -67,7 +71,6 @@ const fetchAppsByData = async (data, socket) => {
             options.push({'public':true})
         }
 
-        
         //Search
         var title = data.search
 
@@ -83,7 +86,7 @@ const fetchAppsByData = async (data, socket) => {
         //Page
         var page = Math.abs(data.page);
 
-        return fetchAppsByTerm(title, page, sort, options)
+        return prepareSearch(title, page, sort, options)
 }
 
 

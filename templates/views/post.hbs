@@ -3,20 +3,19 @@
 <html>
 
     <head>
-    <title>Welcome</title>
+    <title>{{req.params.id}}</title>
     {{>head}}
     </head>
 
     <body>
 
-    <a href="/login">Login</a>
+    <a href="/home">Home</a>
 
     <!--Show Some Apps-->
     <div>
-    {{>fetchAppsMain}}   
+    {{>fetchAppInfo}}   
     </div>
 
     </body>
 
 </html>
-

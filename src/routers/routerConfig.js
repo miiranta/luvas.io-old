@@ -7,10 +7,10 @@ const User          = require("../db/models/users")
 const verifyNick    = require("../utils/verifyNick")
 const verifyBio     = require("../utils/verifyBio")
 
-const app = new express.Router()
+const router = new express.Router()
 
 //Account page (Logged only)
-app.get("/account", logged(0), (req, res) => {
+router.get("/account", logged(0), (req, res) => {
 
         var token = req.user.token
      
@@ -28,7 +28,7 @@ app.get("/account", logged(0), (req, res) => {
 
 
 //Nick Update
-app.patch("/account/nick", logged(0), async (req, res) => {
+router.patch("/account/nick", logged(0), async (req, res) => {
 
     const nick = req.body.nick
     var verify
@@ -48,7 +48,7 @@ app.patch("/account/nick", logged(0), async (req, res) => {
 
 
 //Image upload
-app.patch("/account/picture", logged(0), upload.single("file"), async (req,res)=>{
+router.patch("/account/picture", logged(0), upload.single("file"), async (req,res)=>{
 
     if(req.fileError){return res.status(400).send(req.fileError)}
 
@@ -73,7 +73,7 @@ app.patch("/account/picture", logged(0), upload.single("file"), async (req,res)=
 
 
 //Bio update
-app.patch("/account/bio", logged(0), async (req, res) => {
+router.patch("/account/bio", logged(0), async (req, res) => {
     
     var bio = req.body.bio
     var verify
@@ -91,4 +91,4 @@ app.patch("/account/bio", logged(0), async (req, res) => {
 
 
 
-module.exports = app
+module.exports = router

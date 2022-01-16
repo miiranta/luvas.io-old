@@ -1,0 +1,61 @@
+<!--EDIT APP-->
+
+    <!--App data-->
+    <div>
+        <form id="appcreateform">
+
+                <div>
+                    <label id="status"></label>
+                </div>
+
+                <div>
+                <input id="title" type="text" placeholder="{{req.post.title}}">
+                </div>
+
+                <div>
+                ​<textarea id="description" placeholder="{{req.post.description}}" rows="10" cols="70"></textarea>
+                </div>
+
+                <div>
+                <input id="name" type="text" placeholder="{{req.post.name}}">
+                </div>
+
+                {{#ifCond req.user.admin ">=" 2}}
+                <div>
+                <p>Local? (Admin Only)</p>
+                <input id="local" type="checkbox" value="{{req.post.local}}">
+                </div>
+                {{/ifCond}}
+
+                <div>
+                <input id="url" type="text" placeholder="App URL" value="{{req.post.url}}">
+                </div>
+
+                <div>
+                <p>Public?</p>
+                <input id="public" type="checkbox" value="{{req.post.public}}">
+                </div>
+
+                {{#ifCond req.user.admin ">=" 2}}
+                <div>
+                <p>Auth required? (Admin Only)</p>
+                <input id="auth" type="checkbox" value="{{req.post.auth}}">
+                </div>
+                {{/ifCond}}
+
+                {{#ifCond req.user.admin ">=" 2}}
+                <div>
+                <p>Admin Level required? (Admin Only)</p>
+                <input id="adminlevel" type="number" min="0" max="2" value="{{req.post.adminlevel}}">
+                </div>
+                {{/ifCond}}
+
+                <div>
+                <button id="submit" type="button">Create</button>
+                </div>
+                
+        </form>
+    </div>
+
+    <!--Script-->
+    <script src="js/editApp.js"></script>

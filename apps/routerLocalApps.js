@@ -1,14 +1,17 @@
+//Local apps Express router
+
 const chalk             = require("chalk")
 const express           = require("express")
 const logged            = require("../src/middleware/logged")
 
-const app = new express.Router()
+const router = new express.Router()
 
-//App creation Page (Admin only for now)
-app.get("/test", logged(1), (req, res) => {
+
+
+router.get("/test", logged(1), (req, res) => {
 
     res.send("app.html")
   
 });
 
-module.exports = app
+module.exports = router

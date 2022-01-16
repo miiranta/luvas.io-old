@@ -1,10 +1,9 @@
-const chalk              = require("chalk")
 const verifyAppCreate    = require("./utils/verifyAppCreate")
 const verifyNick         = require("./utils/verifyNick")
-const verifyBio         = require("./utils/verifyBio")
+const verifyBio          = require("./utils/verifyBio")
 const fetchApps          = require("./utils/getApps.js")
 
-const socketLoad = function(io){
+const loadSockets = function(io){
 
 io.on("connection", (socket)=>{
 
@@ -49,13 +48,13 @@ io.on("connection", (socket)=>{
     })
 
     
+    socket.on("disconnect", () =>{
+            
+            
+    })
 
-socket.on("disconnect", () =>{
-        
-        
-})
 })
 
 }
 
-module.exports = socketLoad
+module.exports = loadSockets

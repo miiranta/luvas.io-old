@@ -1,13 +1,12 @@
-var passport        = require('passport')
-var GoogleStrategy  = require('passport-google-oauth20').Strategy;
-FacebookStrategy    = require('passport-facebook').Strategy;
-var url             = require('url');
-const User          = require("./db/models/users")
-const chalk         = require("chalk")
-const jwt           = require("jsonwebtoken")
-const os            = require("os")
-const getProfilePic = require("./utils/getProfilePicture")
-
+const url               = require('url');
+const chalk             = require("chalk")
+const jwt               = require("jsonwebtoken")
+const os                = require("os")
+const passport          = require('passport')
+const GoogleStrategy    = require('passport-google-oauth20').Strategy;
+const FacebookStrategy  = require('passport-facebook').Strategy;
+const User              = require("./db/models/users")
+const getProfilePic     = require("./utils/getProfilePicture")
 
 passport.serializeUser( async function(user, done) {
 
@@ -22,7 +21,7 @@ passport.serializeUser( async function(user, done) {
 
     }catch{
       console.log(chalk.magenta.bold("[Session] ") + chalk.red("Could not create cookie!")) 
-    done(null, false, { message: 'Bad Session' })
+      done(null, false, { message: 'Bad Session' })
     }
     
 

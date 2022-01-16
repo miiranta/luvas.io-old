@@ -3,20 +3,21 @@ const express           = require("express")
 const logged            = require("../middleware/logged")
 const redirect          = require("../middleware/redirect")
 const App               = require("../db/models/apps")
+const User              = require("../db/models/users")
 const verifyAppCreate   = require("../utils/verifyAppCreate")
 const getFavicon        = require("../utils/getFavicon")
 
-const app = new express.Router()
+const router = new express.Router()
 
 //App creation Page (Admin only for now)
-app.get("/app", logged(1), (req, res) => {
+router.get("/app", logged(1), (req, res) => {
 
     res.render("app",{req})
   
 });
 
 //App redirect 
-app.get("/app/:id", redirect, async (req, res) => {
+router.get("/app/:id", redirect, async (req, res) => {
 
     await App.findOne({name: req.params.id}).then(
         (appData) => {
@@ -74,9 +75,9 @@ app.get("/app/:id", redirect, async (req, res) => {
 
 
 //App create
-app.post("/app", logged(1), async (req, res) => {
+router.post("/app", logged(1), async (req, res) => {
 
-    const appData = req.body.appData
+    const appData = req.body
     
     await verifyAppCreate(appData).then((dataReturn)=>{
         if(dataReturn){return res.status(400).send()}
@@ -106,5 +107,28 @@ app.post("/app", logged(1), async (req, res) => {
 
 });
 
+//App edit
+router.get("/edit/:id", logged(0), async (req, res) => {
+    
+    const appData = await App.findOne({"name": req.params.id})
+    
+    //App registered?
+    if(appData){
 
-module.exports = app
+        req.post = appData;
+
+        //App owner trying to edit?
+        if(appData.owner == req.user._id){
+            console.log(req.post)
+            return res.render("edit", {req})
+        }
+        return res.redirect("/home")
+    }  
+    return res.redirect("/home")
+    
+})
+
+
+
+
+module.exports = router

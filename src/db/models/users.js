@@ -14,19 +14,28 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String
     },
-    profilePic: {
-        type: String
-    },
     bio: {
         type: String
     },
     admin: {
-        type: Number
+        type: Number,
+        default: 0
     },
     googleId: {
         type: String
     },
     facebookId: {
+        type: String
+    },
+    likeCount:  {
+        type: Number,
+        default: 0
+    },
+    viewCount:  {
+        type: Number,
+        default: 0
+    },
+    profilePic: {
         type: String
     },
     tokens: [{

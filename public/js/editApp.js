@@ -1,5 +1,4 @@
-    var block = 0
-    var appData = {}
+var block = 0
     
     //Some tweaks
     $("#auth").prop("disabled",true);
@@ -34,7 +33,7 @@
         var auth = (auth == null) ? false : auth.checked;
         var adminlevel = (adminlevel == null) ? 0 : adminlevel.value;
 
-        appData = {title, description, name, url, public, local, auth, adminlevel}
+        var appData = {title, description, name, url, public, local, auth, adminlevel}
 
         if(block==0){
             block = 1
@@ -42,14 +41,15 @@
             socket.emit("app", appData, (data)=>{
 
                 if(data){
+
                     $("#submit").prop("disabled",true);
                     block = 0
                     return $("#status").text(data);
                 }
 
                 $("#status").text("Ready to create");
-                $("#submit").prop("disabled", false);
-                $("#submit").attr("onclick","createApp()");
+                $("#submit").prop("disabled",false);
+                $("#submit").attr("onclick","createApp('"+JSON.stringify({appData})+"')");
                 block = 0
 
             })   
@@ -58,22 +58,17 @@
     })
 
     //AJAX
-    function createApp(){ 
-        $("#submit").prop("disabled",true);
+    function createApp(appData){ 
 
-        $.ajax({
-        url: '/app',
-        type: 'POST',
-        data: JSON.stringify(appData),
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        async: false,
-        success: function () {
-            $("#status").text("Success!");
-        }
-    });
+    $("#submit").prop("disabled",true);
 
+    $.ajax({
+    data: appData,
+    contentType: 'application/json',
+    method: 'POST',
+    url: '/app',
+    success: function () {
+        $("#status").text("Success!");
     }
-
-
-
+    }
+    )}

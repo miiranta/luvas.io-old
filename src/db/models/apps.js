@@ -28,15 +28,27 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         required: true
     },
+    edited: {
+        type: Boolean,
+        default: false
+    },
     adminlevel: {
         type: Number,
         required: true
     },
-    picture: {
+    owner: {
         type: String,
         required: true
     },
-    owner: {
+    likeCount:  {
+        type: Number,
+        default: 0
+    },
+    viewCount:  {
+        type: Number,
+        default: 0
+    }, 
+    picture: {
         type: String,
         required: true
     },

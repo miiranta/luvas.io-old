@@ -1,0 +1,51 @@
+<!--FETCH APP INFO-->
+
+    <!--App info-->
+    <div id="searchzone">
+
+        <div>
+            <p>{{req.post.name}}</p>
+        </div>
+
+        <div>
+            <p>{{req.post.title}}</p>
+        </div>
+
+        <div>
+            <img src="{{req.post.picture}}"/>
+        </div>
+
+        <div>
+            <p>Description</p>
+            <pre>{{req.post.description}}</pre>
+        </div>
+        
+        <div>
+            <p>Created by</p>
+            <p>{{req.profile.nick}}</p>
+        </div>
+
+        <div>
+            <p>Authentication required?</p>
+            <p>{{req.post.auth}}</p>
+        </div>
+
+        <div>
+            <p>Public?</p>
+            <p>{{req.post.public}}</p>
+        </div>
+
+        <div>
+            <p>Local?</p>
+            <p>{{req.post.local}}</p>
+        </div>
+
+    </div>
+
+    {{#ifCond req.user._id "==" req.post.owner}} 
+    <!--Edit Link-->
+    <div>
+        <a href="/edit/{{req.post.name}}">Edit your app</a>
+    </div>
+    {{/ifCond}}
+    

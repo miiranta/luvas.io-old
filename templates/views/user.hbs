@@ -3,8 +3,8 @@
 <html>
 
     <head>
-        <title>User {{req.params.id}}</title>
         {{>head}}
+        <title>{{req.params.id}}</title>
     </head>
 
     <body>
@@ -16,6 +16,11 @@
     <!--Show profile info-->
     <div>
     {{>showProfile}}
+    </div>
+
+    <!--Show your public apps-->
+    <div>
+    {{>fetchApps}}
     </div>
 
 

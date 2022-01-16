@@ -6,10 +6,10 @@ const chalk     = require("chalk")
 const User      = require("../db/models/users")
 require("../passport")
 
-const app = new express.Router()
+const router = new express.Router()
 
 //Login Page--------------------------
-app.get("/login", notLogged, (req, res) => {
+router.get("/login", notLogged, (req, res) => {
 
   res.render("login",{req})
   
@@ -17,7 +17,7 @@ app.get("/login", notLogged, (req, res) => {
 
 
 //Logout Page (Logged only)-------------
-app.get("/logout", logged(0), async (req, res) => {
+router.get("/logout", logged(0), async (req, res) => {
 
     var token = req.user.token
   
@@ -37,7 +37,7 @@ app.get("/logout", logged(0), async (req, res) => {
 
 
 //Remove One Session----------------------------
-app.delete("/session", logged(0), async (req, res) => {
+router.delete("/session", logged(0), async (req, res) => {
 
   const token = req.body.sessionToDelete
 
@@ -57,7 +57,7 @@ app.delete("/session", logged(0), async (req, res) => {
 
 
 //Remove All Sessions----------------------------
-app.delete("/session/all", logged(0), async (req, res) => {
+router.delete("/session/all", logged(0), async (req, res) => {
 
   try{
 
@@ -74,9 +74,9 @@ app.delete("/session/all", logged(0), async (req, res) => {
   
 //----------------Google-----------------------
 
-app.get('/auth/google',passport.authenticate('google', { scope: ['profile','email']}))
+router.get('/auth/google',passport.authenticate('google', { scope: ['profile','email']}))
 
-app.get('/auth/google/redirect', 
+router.get('/auth/google/redirect', 
   passport.authenticate('google', { failureRedirect: '/logout' }),logged(),
   function(req, res) {
 
@@ -87,9 +87,9 @@ app.get('/auth/google/redirect',
 
 //-----------------Facebook-------------------
 
-app.get('/auth/facebook',passport.authenticate('facebook',{scope: ["public_profile", "email"]}))
+router.get('/auth/facebook',passport.authenticate('facebook',{scope: ["public_profile", "email"]}))
 
-app.get('/auth/facebook/redirect',
+router.get('/auth/facebook/redirect',
 passport.authenticate('facebook', { failureRedirect: '/logout' }),logged(),
 function(req, res) {
 
@@ -99,4 +99,4 @@ function(req, res) {
 
 //--------------------------------------------
 
-module.exports = app
+module.exports = router

@@ -20,7 +20,6 @@ const verifyNick = async (nick)=>{
     //Everything is fine
     return false;
 
-
 }
 
 module.exports = verifyNick
