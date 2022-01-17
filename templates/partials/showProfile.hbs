@@ -4,6 +4,14 @@
 
         <img src="{{profile.profilePic}}" />
 
-        <p><pre>{{profile.bio}}</pre></p>
+        <div style="margin-bottom: 5px;">
+            <div id="bio"></div>
+            <div id="bioRaw" style="display:none">
+                {{profile.bio}}
+            </div>
+        </div> 
 
     </div>
+
+    <!--Script-->
+    <script src="\js/showProfile.js"></script> 

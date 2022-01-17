@@ -11,10 +11,10 @@ const routerAuth        = require("./routers/routerAuth")
 const routerContent     = require("./routers/routerContent")
 const routerConfig      = require("./routers/routerConfig")
 const routerAppManager  = require("./routers/routerAppManager")
+const loadSockets       = require("./routers/sockets")
 const routerLocalApps   = require("../apps/routerLocalApps")
 const runLocalapps      = require("../apps/runLocalapps")
 const loadHbsHelpers    = require("./utils/loadHbsHelpers")
-const loadSockets       = require("./sockets")
 require('./db/mongoose.js')
 
 const exp = express();
@@ -42,7 +42,7 @@ loadHbsHelpers();
 
 exp.use(express.static(publicDirectory))
 
-exp.use(express.json())
+exp.use(express.json({limit: '20mb'}))
 
 exp.use(session)
 

@@ -1,8 +1,9 @@
-const verifyAppCreate                       = require("./utils/verifyAppCreate")
-const verifyNick                            = require("./utils/verifyNick")
-const verifyBio                             = require("./utils/verifyBio")
-const fetchApps                             = require("./utils/getApps.js")
-const {sanitizeInput, sanitizeObject}       = require("./utils/sanitizeInput.js")
+const verifyAppCreate                       = require("../utils/verifyAppCreate")
+const verifyAppUpdate                       = require("../utils/verifyAppUpdate")
+const verifyNick                            = require("../utils/verifyNick")
+const {verifyBioSocket}                     = require("../utils/verifyBio")
+const fetchApps                             = require("../utils/getApps.js")
+const {sanitizeInput, sanitizeObject}       = require("../utils/sanitizeInput.js")
 
 const loadSockets = function(io){
 
@@ -32,13 +33,19 @@ io.on("connection", (socket)=>{
 
     socket.on("bio", async (data, callback)=>{
 
-        verifyBio(sanitizeInput(data), socket).then((dataReturn)=>{callback(dataReturn)})
+        verifyBioSocket(sanitizeInput(data), socket).then((dataReturn)=>{callback(dataReturn)})
 
     })
 
-    socket.on("app", async (data, callback)=>{
+    socket.on("appCr", async (data, callback)=>{
 
         verifyAppCreate(sanitizeObject(data)).then((dataReturn)=>{callback(dataReturn)})
+
+    })
+
+    socket.on("appUp", async (data, callback)=>{
+
+        verifyAppUpdate(sanitizeObject(data)).then((dataReturn)=>{callback(dataReturn)})
 
     })
 

@@ -1,11 +1,19 @@
     <!--Bio Update-->
     <div>
         <form id="biochangeform">
-            <textarea id="bio" placeholder="Hi. My name is..." rows="10" cols="60">{{user.bio}}</textarea>
+            <div style="height: 500px; margin-bottom: 100px;">
+                <div id="bio"></div>
+                <div id="bioRaw" style="display:none">
+                    {{user.bio}}
+                </div>
+            </div> 
             <button id="biobutton" type="button">Update</button>
             <label id="biostatus"></label>
         </form>
     </div>
+
+   
+    
 
     <!--Script-->
     <script src="js/updateBio.js"></script> 

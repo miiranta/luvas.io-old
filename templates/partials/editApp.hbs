@@ -9,53 +9,54 @@
                 </div>
 
                 <div>
-                <input id="title" type="text" placeholder="{{req.post.title}}">
+                <input id="title" type="text" value="{{post.title}}">
                 </div>
 
                 <div>
-                ​<textarea id="description" placeholder="{{req.post.description}}" rows="10" cols="70"></textarea>
+                ​<textarea id="description" rows="10" cols="70">{{post.description}}</textarea>
                 </div>
 
                 <div>
-                <input id="name" type="text" placeholder="{{req.post.name}}">
+                <p>Name</p>
+                <p>{{post.name}}</p>
                 </div>
 
-                {{#ifCond req.user.admin ">=" 2}}
+                {{#ifCond user.admin ">=" 2}}
                 <div>
                 <p>Local? (Admin Only)</p>
-                <input id="local" type="checkbox" value="{{req.post.local}}">
+                <input id="local" type="checkbox" {{#ifCond post.local "==" true}}checked{{/ifCond}}>
                 </div>
                 {{/ifCond}}
 
                 <div>
-                <input id="url" type="text" placeholder="App URL" value="{{req.post.url}}">
+                <input id="url" type="text" placeholder="App URL"  value="{{post.url}}">
                 </div>
 
                 <div>
                 <p>Public?</p>
-                <input id="public" type="checkbox" value="{{req.post.public}}">
+                <input id="public" type="checkbox" {{#ifCond post.public "==" true}}checked{{/ifCond}}>
                 </div>
 
-                {{#ifCond req.user.admin ">=" 2}}
+                {{#ifCond user.admin ">=" 2}}
                 <div>
                 <p>Auth required? (Admin Only)</p>
-                <input id="auth" type="checkbox" value="{{req.post.auth}}">
+                <input id="auth" type="checkbox" {{#ifCond post.auth "==" true}}checked{{/ifCond}}>
                 </div>
                 {{/ifCond}}
 
-                {{#ifCond req.user.admin ">=" 2}}
+                {{#ifCond user.admin ">=" 2}}
                 <div>
                 <p>Admin Level required? (Admin Only)</p>
-                <input id="adminlevel" type="number" min="0" max="2" value="{{req.post.adminlevel}}">
+                <input id="adminlevel" type="number" min="0" max="2" value="{{post.adminlevel}}">
                 </div>
                 {{/ifCond}}
 
                 <div>
-                <button id="submit" type="button">Create</button>
+                <button id="submit" type="button">Edit</button>
                 </div>
                 
         </form>
     </div>
 
     <!--Script-->
-    <script src="js/editApp.js"></script>
+    <script src="\js/editApp.js"></script>

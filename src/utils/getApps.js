@@ -1,4 +1,5 @@
 const App               = require("../db/models/apps")
+const User              = require("../db/models/users")
 const jwt               = require("jsonwebtoken")
 const {sanitizeInput}   = require("./sanitizeInput.js")
 
@@ -24,7 +25,7 @@ const prepareSearch = async (title, page, sort, options)=>{
 
     //Make request
         //Search without owner
-        return await searchAppsOnDb({ $and: [ { $or: [{title: regex },{description: regex}] }, ...options] } , page, sort)
+        return await searchAppsOnDb({ $and: [ { $or: [{title: regex },{name: regex}] }, ...options] } , page, sort)
 
 }
 
@@ -50,48 +51,90 @@ const fetchAppsByData = async (data, socket) => {
             user = null;
         }
 
-        //Created By Me
+        //Created By Me var
         if(data.createdbyme){   
 
             if(user){
                 options.push({'owner':user._id})
             }else{
 
-                //Public
+                //Public var 
                 options.push({'public':true})
-
-                //Profile
-                if(data.profile){
-                    options.push({'nick':data.profile})
-                }
             }
 
         }else{
 
-            //Public
+            //Profile var
+            if(data.profile){
+                options.push({'nick': data.profile})
+            }
+
+            //Public var
             options.push({'public':true})
         }
 
-        //Search
+        //Search var
         var title = data.search
         if(title.length > 50){
             title = "";
         }
 
-        //local
+        //local var
         if(data.local == true){
             options.push({'local':true})
         }
 
-        //Sort
+        //Sort var
         const sortOptions = [{"createdAt": -1}, {"createdAt": 1}]
         var sort = sortOptions[data.sort]
         
-        //Page
+        //Page var
         var page = Math.abs(data.page);
 
-        return prepareSearch(title, page, sort, options)
+        //Building response
+        var searchResult = prepareSearch(title, page, sort, options)
+
+        try{
+            var res = await searchResult.then((primaryRes) => {
+                var secondaryRes = primaryRes.map(changeAppsForm)
+                var thirdRes = secondaryRes.map(addNick)
+                var res = Promise.all(thirdRes).then((res) => {
+                    return res;
+                })
+                return res
+            })
+            return res;
+        }catch(e){
+            console.log(e)
+            return []
+        }
 }
 
+const changeAppsForm = (primaryRes) =>{
+    primaryRes = {
+        edited: primaryRes.edited,
+        likeCount: primaryRes.likeCount,
+        viewCount: primaryRes.viewCount,
+        title: primaryRes.title,
+        description: primaryRes.description,
+        name: primaryRes.name,
+        nick: primaryRes.owner, //Later changed to nick!
+        url: primaryRes.url,
+        public: primaryRes.public,
+        local: primaryRes.local,
+        auth: primaryRes.auth,
+        picture: primaryRes.picture,
+        createdAt: primaryRes.createdAt
+    }
+    return primaryRes;
+}
+
+const addNick = async (secondaryRes) => {
+    var profile = await User.findOne({_id: secondaryRes.nick})
+    if(profile){    
+        secondaryRes['nick'] = profile.nick
+    }
+    return secondaryRes;
+}
 
 module.exports = fetchAppsByData

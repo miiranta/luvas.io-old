@@ -5,6 +5,7 @@ const redirect                              = require("../middleware/redirect")
 const App                                   = require("../db/models/apps")
 const User                                  = require("../db/models/users")
 const verifyAppCreate                       = require("../utils/verifyAppCreate")
+const verifyAppUpdate                       = require("../utils/verifyAppUpdate")
 const getFavicon                            = require("../utils/getFavicon")
 const {sanitizeInput, sanitizeObject}       = require("../utils/sanitizeInput.js")
 
@@ -107,24 +108,83 @@ router.post("/app", logged(1), async (req, res) => {
     res.send()
 });
 
-//App edit
+
+//App edit page
 router.get("/edit/:id", logged(0), async (req, res) => {
     
     const appData = await App.findOne({"name": sanitizeInput(req.params.id)})
     
     //App registered?
     if(appData){
-
         req.post = appData;
 
         //App owner trying to edit?
         if(appData.owner == req.user._id){
-            return res.render("edit", {})
+            return res.render("edit", {post: appData, user: req.user})
         }
         return res.redirect("/home")
     }  
     return res.redirect("/home")
     
+})
+
+//App edit
+router.post("/edit/:id", logged(0), async (req, res) => {
+    const appData = sanitizeObject(req.body)
+    const appName = sanitizeObject(req.params.id)
+    
+    await verifyAppUpdate(appData).then((dataReturn)=>{
+        if(dataReturn){return res.status(400).send()}
+    })
+
+    if(appData.auth){appData.auth = true}else{appData.auth = false}
+    if(appData.local){appData.local = true}else{appData.local = false}
+    if(appData.public){appData.public = true}else{appData.public = false}
+    appData.adminlevel = (typeof appData.adminlevel === 'undefined') ? 0 : appData.adminlevel;
+
+    if(req.user.admin < 2){
+        if(appData.local||appData.auth||appData.adminlevel != 0){return res.status(401).send()}
+    }
+
+    //Is the owner correct?
+    try{
+        const appDb = await App.findOne({name: appName})
+        if(appDb){
+            if(appDb.owner != req.user._id){return res.status(401).send()}
+        }else{return res.status(400).send()}
+    }catch(e){return res.status(400).send()}
+
+    //Set the same name
+    if(appData.name){
+        appData.name = appName
+    }
+
+    //Update
+    try{
+        await App.updateOne({name: appName}, {...appData})
+    }catch(e){
+        return res.status(400).send()
+    }
+
+    res.send()
+});
+
+//App delete
+router.get("/delete/:id", logged(0), async (req, res) => {
+    const appName = sanitizeObject(req.params.id)
+
+    //Is the owner correct?
+    try{
+        const appDb = await App.findOne({name: appName})
+        if(appDb){
+            if(appDb.owner != req.user._id){return res.status(401).send()}
+        }else{return res.status(400).send()}
+    }catch(e){return res.status(400).send()}
+
+    //Delete
+    await App.deleteOne({name: appName})
+    res.redirect('/home')
+
 })
 
 

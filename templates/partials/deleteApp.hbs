@@ -1,0 +1,6 @@
+{{#ifCond user._id "==" post.owner}} 
+    <!--Delete App-->
+    <div>
+        <a href="/delete/{{post.name}}">Delete this app</a>
+    </div>
+{{/ifCond}}

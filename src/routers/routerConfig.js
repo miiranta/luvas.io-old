@@ -5,8 +5,9 @@ const upload                                = require("../middleware/uploadImage
 const sharp                                 = require("sharp")
 const User                                  = require("../db/models/users")
 const verifyNick                            = require("../utils/verifyNick")
-const verifyBio                             = require("../utils/verifyBio")
+const {verifyBio}                           = require("../utils/verifyBio")
 const {sanitizeInput, sanitizeObject}       = require("../utils/sanitizeInput.js")
+//const QuillDeltaToHtmlConverter           = require('quill-delta-to-html').QuillDeltaToHtmlConverter;
 
 const router = new express.Router()
 
@@ -18,6 +19,11 @@ router.get("/account", logged(0), (req, res) => {
         const openSessions = req.user.tokens.filter((tokenFound)=> {return token !== tokenFound.token})
 
         const yourSession = req.user.tokens.filter((tokenFound)=> {return token == tokenFound.token})
+
+        //Server-side JSON to HTML (Quill)
+        //var bioParsed = JSON.parse(req.user.bio);
+        //var converter = new QuillDeltaToHtmlConverter(bioParsed.ops, {});
+        //req.user.bio = sanitizeObject(converter.convert()); 
 
     res.render("account", { 
         user: req.user,
@@ -76,7 +82,7 @@ router.patch("/account/picture", logged(0), upload.single("file"), async (req,re
 //Bio update
 router.patch("/account/bio", logged(0), async (req, res) => {
     
-    var bio = sanitizeInput(req.body.bio)
+    var bio = sanitizeObject(JSON.stringify(req.body))
     var verify
 
     await verifyBio(bio).then((data)=>{verify = data})
@@ -85,10 +91,13 @@ router.patch("/account/bio", logged(0), async (req, res) => {
         return res.status(400).send()
     }
 
-    await User.updateOne({_id: req.user._id},{bio})
+    await User.updateOne({_id: req.user._id}, {bio})
 
     res.send()
 })
+
+
+
 
 
 

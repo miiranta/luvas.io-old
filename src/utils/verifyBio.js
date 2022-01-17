@@ -1,11 +1,26 @@
+const maxLength = 10000000;
+
+//Thats for serverside verification, it uses the entire object
 const verifyBio = async (bio)=>{
 
     //Too big / too small
-    if(bio.length>5000){return "Biographies have to have less than 5000 characters!"}
+    if(bio.length>maxLength){return "Biography is taking too much space!"}
 
     //Everything is fine
     return false;
 
 }
 
-module.exports = verifyBio
+//Thats for socket verification, it uses some parameters
+const verifyBioSocket = async (bio)=>{
+    bio = JSON.parse(bio)
+
+    //Too big / too small
+    if(bio.size>maxLength){return "Biography is taking too much space!"}
+
+    //Everything is fine
+    return false;
+
+}
+
+module.exports = {verifyBio, verifyBioSocket}

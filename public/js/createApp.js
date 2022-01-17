@@ -2,13 +2,12 @@
     var appData = {}
     
     //Some tweaks
-    $("#auth").prop("disabled",true);
-    $("#auth").prop("checked",true);
+    $("#auth").prop("disabled", true);
+    $("#auth").prop("checked", true);
     $("#public").on("change", function(){
         if(document.getElementById("public").checked){
             $("#auth").prop("disabled",false);
         }else{
-            
             $("#auth").prop("disabled",true);
             $("#auth").prop("checked",true);
         }
@@ -18,7 +17,7 @@
     //SOCKET
     $("#appcreateform").on("change keyup paste", function(){
 
-        $("#submit").prop("disabled",true);
+        $("#submit").prop("disabled", true);
 
         var title = document.getElementById("title").value
         var description = document.getElementById("description").value
@@ -39,7 +38,7 @@
         if(block==0){
             block = 1
 
-            socket.emit("app", appData, (data)=>{
+            socket.emit("appCr", appData, (data)=>{
 
                 if(data){
                     $("#submit").prop("disabled",true);

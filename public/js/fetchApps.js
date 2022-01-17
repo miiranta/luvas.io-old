@@ -45,7 +45,7 @@ function setVarsByLocation(){
 //SOCKET
 function loadPage(){
     setVarsByLocation();
-    var searchData = {search, local, createdbyme, sort, page}
+    var searchData = {search, local, createdbyme, sort, page, profile}
 
     if(block==0){
         block = 1
@@ -136,7 +136,7 @@ function appendApps(searchResults){
                                     </div>
 
                                     <div>
-                                    <p>${result.owner}</p>
+                                    <p>${result.nick}</p>
                                     </div>
 
                                 </div>`;
