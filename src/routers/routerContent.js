@@ -4,10 +4,13 @@ const chalk                                 = require("chalk")
 const express                               = require("express")
 const User                                  = require("../db/models/users")
 const App                                   = require("../db/models/apps")
+const Comment                               = require("../db/models/comments")
 const {sanitizeInput, sanitizeObject}       = require("../utils/sanitizeInput.js")
+const {verifyComment}                       = require("../utils/verifyComment")
+const fetchComments                         = require("../utils/getComments")
+
 
 const router = new express.Router()
-
 
 //Introduction Page
 router.get("/", (req, res) => {
@@ -66,6 +69,36 @@ router.get("/post/:id", redirect, async (req, res) => {
 
 router.get("/post", logged(0), async (req, res) => {
     res.redirect("/home")
+});
+
+//Create Comment
+router.post("/post/comment/:id", logged(0), async (req, res) => {
+
+    //Post exists?
+    const post = await App.findOne({"name": sanitizeInput(req.params.id)})
+    if(!post){
+        return res.status(400).send()
+    }
+
+    //Comment is okay?
+    const comment = sanitizeObject(JSON.stringify(req.body))
+    var verify
+    await verifyComment(comment).then((data)=>{verify = data})
+    if(verify){
+        return res.status(400).send()
+    }
+
+    //Alright
+    await Comment.create({owner: req.user._id, post: post._id, content: comment})
+    
+    //Socket update
+    var io = req.app.get('io');
+
+    var commentData = JSON.stringify({page: 0, post: post.name})
+    var lastComments = await fetchComments(commentData)
+    io.emit("comment_" + post.name, lastComments[0])
+
+    res.send()
 });
 
 

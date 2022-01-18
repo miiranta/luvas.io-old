@@ -1,0 +1,37 @@
+{{#if user._id}} 
+
+<div id="postComments" style="width: 700px;">
+    <p>Post comment:</p>
+    <div id="editor" style="height: 500px;"></div>
+</div>
+
+<div>
+    <p id="statusComment"></p>
+    <button id="postComment">Post</button>
+</div>
+
+<!--Script-->
+<script src="\js/postComment.js"></script> 
+
+{{else}}
+
+<div id="showComments">
+    <p>Login to post comments</p>
+</div>
+
+{{/if}}
+
+
+<div id="showComments">
+</div>
+
+<!--Page selector-->
+    <div>
+        <button type="button" class="navig" id="previous"><-</button>
+        <p>Current page is </p> <p id="page">1</p>
+        <button type="button" class="navig" id="next">-></button>
+
+    </div>
+
+<!--Script-->
+<script src="\js/fetchComments.js"></script> 

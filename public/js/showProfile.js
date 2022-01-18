@@ -12,4 +12,4 @@ var quill = new Quill('#bio', {
 
 
 quill.setContents(JSON.parse($('#bioRaw').html()));
-//$('#bioRaw').empty();
+$('#bioRaw').empty();
