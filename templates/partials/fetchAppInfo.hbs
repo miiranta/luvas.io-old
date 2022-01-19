@@ -17,7 +17,8 @@
 
         <div>
             <p>Description</p>
-            <pre>{{post.description}}</pre>
+            <div id="desc"></div>
+            <div id="descRaw" style='display:none'>{{post.description}}</div>
         </div>
         
         <div>
@@ -48,4 +49,6 @@
         <a href="/edit/{{post.name}}">Edit your app</a>
     </div>
     {{/ifCond}}
-    
+
+    <!--Edit Link-->
+    <script src="\js/fetchAppInfo.js"></script>

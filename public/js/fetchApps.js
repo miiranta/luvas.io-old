@@ -128,10 +128,6 @@ function appendApps(searchResults){
                                     </div>
 
                                     <div>
-                                    <p>${result.description}</p>
-                                    </div>
-
-                                    <div>
                                     <p>${result.createdAt}</p>
                                     </div>
 

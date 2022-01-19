@@ -14,8 +14,6 @@ const router = new express.Router()
 //App creation Page (Admin only for now)
 router.get("/app", logged(1), (req, res) => {
 
-    try{console.log()}catch(e){console.log(e)}
-
     res.render("app", {user: sanitizeObject(req.user)})
   
 });
@@ -97,11 +95,13 @@ router.post("/app", logged(1), async (req, res) => {
     }else{
         var favicon = "/img/default-app-icon.png"
     }
-    
+
     try{
-        const app = await App.create({...appData, owner:  req.user._id, picture: favicon})
+        appData.description = appData.description.content
+        await App.create({...appData, owner:  req.user._id, picture: favicon})
         console.log(chalk.magenta.bold("[App] ")+chalk.green("Created: ")+chalk.blue(appData.name)) 
     }catch(e){
+        console.log(e)
         return res.status(400).send()
     }
 

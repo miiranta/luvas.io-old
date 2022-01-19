@@ -2,6 +2,7 @@ const validator         = require("validator")
 const App               = require("../db/models/apps")
 
 const verifyAppCreate = async (data)=>{
+data.description = JSON.parse(data.description)
 
 //Contain special character?
 var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
@@ -14,9 +15,13 @@ if(/\s/g.test(data.name)){return "App names can't have spaces!"}
 //Too big / too small
 if(data.title.length>20||data.title.length<5){return "Titles need to have between 5 and 30 characters!"}
 if(data.title.length>20||data.name.length<5){return "App names need to have between 5 and 20 characters!"}
-if(data.description.length>500){return "Descriptions can't exceed 500 characters!"}
 if(data.url.length>500){return "URLs can't exceed 500 characters!"}
 if(data.name.length>20){return "App names can't exceed 20 characters!"}
+if(data.description.size){
+    if(data.description.size>20000){return "Descriptions can't exceed 20000 characters!"}
+}else if(data.description.length){
+    if(data.description.content.length>20000){return "Descriptions can't exceed 20000 characters!"}
+}
 
 //Link ok? (Validator)
 if(data.local == false){
@@ -28,7 +33,6 @@ const app = await App.findOne({name: data.name})
 if(app){return "App name already taken!"}
 
 return false
-
 
 }
 
