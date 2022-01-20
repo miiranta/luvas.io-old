@@ -14,7 +14,7 @@ const routerAppManager  = require("./routers/routerAppManager")
 const {loadSockets}     = require("./routers/sockets")
 const routerLocalApps   = require("../apps/routerLocalApps")
 const runLocalapps      = require("../apps/runLocalapps")
-const loadHbsHelpers    = require("./utils/loadHbsHelpers")
+const loadHbsHelpers    = require("./utils/other/loadHbsHelpers")
 require('./db/mongoose.js')
 
 const exp = express();
@@ -38,6 +38,9 @@ const partialsDirectory = path.join(__dirname, "../templates/partials") //HBS pa
 exp.set("view engine","hbs")
 exp.set("views", viewsDirectory)
 hbs.registerPartials(partialsDirectory)
+hbs.registerPartials(partialsDirectory + "/app")
+hbs.registerPartials(partialsDirectory + "/comment")
+hbs.registerPartials(partialsDirectory + "/profile")
 loadHbsHelpers();
 
 exp.use(express.static(publicDirectory))

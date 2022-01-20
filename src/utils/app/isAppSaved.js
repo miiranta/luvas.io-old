@@ -1,7 +1,7 @@
-const { sanitizeInput }     = require("./sanitizeInput");
+const { sanitizeInput }     = require("../other/sanitizeInput");
 const jwt                   = require("jsonwebtoken");
-const Like                  = require("../db/models/likes");
-const App                   = require("../db/models/apps");
+const Like                  = require("../../db/models/likes");
+const App                   = require("../../db/models/apps");
 
 async function isAppSaved(appName, socket){
     var user = null;

@@ -4,7 +4,7 @@ const logged                                = require("../middleware/logged")
 const notLogged                             = require("../middleware/notLogged")
 const chalk                                 = require("chalk")
 const User                                  = require("../db/models/users")
-const {sanitizeInput, sanitizeObject}       = require("../utils/sanitizeInput.js")
+const {sanitizeInput, sanitizeObject}       = require("../utils/other/sanitizeInput.js")
 require("../passport")
 
 const router = new express.Router()

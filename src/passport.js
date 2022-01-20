@@ -6,7 +6,7 @@ const passport          = require('passport')
 const GoogleStrategy    = require('passport-google-oauth20').Strategy;
 const FacebookStrategy  = require('passport-facebook').Strategy;
 const User              = require("./db/models/users")
-const getProfilePic     = require("./utils/getProfilePicture")
+const getProfilePic     = require("./utils/profile/getProfilePicture")
 
 passport.serializeUser( async function(user, done) {
 

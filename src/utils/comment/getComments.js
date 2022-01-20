@@ -1,6 +1,6 @@
-const App       = require("../db/models/apps");
-const Comment   = require("../db/models/comments");
-const User      = require("../db/models/users");
+const App       = require("../../db/models/apps");
+const Comment   = require("../../db/models/comments");
+const User      = require("../../db/models/users");
 
 var page = 0;
 var pagesize = 10

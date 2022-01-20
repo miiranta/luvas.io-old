@@ -1,12 +1,12 @@
-const verifyAppCreate                       = require("../utils/verifyAppCreate")
-const verifyAppUpdate                       = require("../utils/verifyAppUpdate")
-const verifyNick                            = require("../utils/verifyNick")
-const {verifyBioSocket}                     = require("../utils/verifyBio")
-const {verifyCommentSocket}                 = require("../utils/verifyComment")
-const fetchApps                             = require("../utils/getApps.js")
-const fetchComments                         = require("../utils/getComments.js")
-const isAppSaved                            = require("../utils/isAppSaved.js")
-const {sanitizeInput, sanitizeObject}       = require("../utils/sanitizeInput.js")
+const verifyAppCreate                       = require("../utils/app/verifyAppCreate")
+const verifyAppUpdate                       = require("../utils/app/verifyAppUpdate")
+const verifyNick                            = require("../utils/profile/verifyNick")
+const {verifyBioSocket}                     = require("../utils/profile/verifyBio")
+const {verifyCommentSocket}                 = require("../utils/comment/verifyComment")
+const fetchApps                             = require("../utils/app/getApps.js")
+const fetchComments                         = require("../utils/comment/getComments.js")
+const isAppSaved                            = require("../utils/app/isAppSaved.js")
+const {sanitizeInput, sanitizeObject}       = require("../utils/other/sanitizeInput.js")
 
 
 const loadSockets = function(io){

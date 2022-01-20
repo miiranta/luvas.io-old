@@ -1,4 +1,4 @@
-const User = require("../db/models/users")
+const User = require("../../db/models/users")
 
 const verifyNick = async (nick)=>{
 

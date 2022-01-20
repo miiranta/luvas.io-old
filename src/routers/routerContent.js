@@ -5,9 +5,9 @@ const express                               = require("express")
 const User                                  = require("../db/models/users")
 const App                                   = require("../db/models/apps")
 const Comment                               = require("../db/models/comments")
-const {sanitizeInput, sanitizeObject}       = require("../utils/sanitizeInput.js")
-const {verifyComment}                       = require("../utils/verifyComment")
-const fetchComments                         = require("../utils/getComments")
+const {sanitizeInput, sanitizeObject}       = require("../utils/other/sanitizeInput.js")
+const {verifyComment}                       = require("../utils/comment/verifyComment")
+const fetchComments                         = require("../utils/comment/getComments")
 
 
 const router = new express.Router()

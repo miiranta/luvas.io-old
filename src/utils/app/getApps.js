@@ -1,7 +1,7 @@
-const App               = require("../db/models/apps")
-const User              = require("../db/models/users")
+const App               = require("../../db/models/apps")
+const User              = require("../../db/models/users")
 const jwt               = require("jsonwebtoken")
-const {sanitizeInput}   = require("./sanitizeInput.js")
+const {sanitizeInput}   = require("../other/sanitizeInput.js")
 
 var page = 0;
 var pagesize = 10

@@ -1,5 +1,5 @@
 const validator         = require("validator")
-const App               = require("../db/models/apps")
+const App               = require("../../db/models/apps")
 
 const verifyAppCreate = async (data)=>{
 data.description = JSON.parse(data.description)

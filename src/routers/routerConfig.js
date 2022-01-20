@@ -4,9 +4,9 @@ const express                               = require("express")
 const upload                                = require("../middleware/uploadImage")
 const sharp                                 = require("sharp")
 const User                                  = require("../db/models/users")
-const verifyNick                            = require("../utils/verifyNick")
-const {verifyBio}                           = require("../utils/verifyBio")
-const {sanitizeInput, sanitizeObject}       = require("../utils/sanitizeInput.js")
+const verifyNick                            = require("../utils/profile/verifyNick")
+const {verifyBio}                           = require("../utils/profile/verifyBio")
+const {sanitizeInput, sanitizeObject}       = require("../utils/other/sanitizeInput.js")
 //const QuillDeltaToHtmlConverter           = require('quill-delta-to-html').QuillDeltaToHtmlConverter;
 
 const router = new express.Router()
