@@ -4,6 +4,7 @@ const logged                                = require("../middleware/logged")
 const redirect                              = require("../middleware/redirect")
 const App                                   = require("../db/models/apps")
 const User                                  = require("../db/models/users")
+const Like                                  = require("../db/models/likes")
 const verifyAppCreate                       = require("../utils/verifyAppCreate")
 const verifyAppUpdate                       = require("../utils/verifyAppUpdate")
 const getFavicon                            = require("../utils/getFavicon")
@@ -187,6 +188,37 @@ router.get("/delete/:id", logged(0), async (req, res) => {
 
 })
 
+//App Save
+router.post("/save/:id", logged(0), async (req, res) => {
+    const appName = sanitizeObject(req.params.id)
+    const appDb = await App.findOne({name: appName})
+
+    if(!appDb){
+        return res.status(400).send()
+    }
+
+    const likeExists = await Like.findOne({postId: appDb._id, likeOwner: req.user._id})
+
+    if(likeExists){
+        return res.status(400).send()
+    }
+
+    await Like.create({postId: appDb._id, likeOwner: req.user._id})
+    res.send()
+})
+
+//App Unsave
+router.post("/unsave/:id", logged(0), async (req, res) => {
+    const appName = sanitizeObject(req.params.id)
+    const appDb = await App.findOne({name: appName})
+
+    if(!appDb){
+        return res.status(400).send()
+    }
+
+    await Like.deleteOne({postId: appDb._id, likeOwner: req.user._id})
+    res.send()
+})
 
 
 

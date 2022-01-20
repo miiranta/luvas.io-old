@@ -5,7 +5,9 @@ const {verifyBioSocket}                     = require("../utils/verifyBio")
 const {verifyCommentSocket}                 = require("../utils/verifyComment")
 const fetchApps                             = require("../utils/getApps.js")
 const fetchComments                         = require("../utils/getComments.js")
+const isAppSaved                            = require("../utils/isAppSaved.js")
 const {sanitizeInput, sanitizeObject}       = require("../utils/sanitizeInput.js")
+
 
 const loadSockets = function(io){
 
@@ -66,6 +68,12 @@ const loadSockets = function(io){
         socket.on("commentLoad", async (data, callback)=>{
         
             fetchComments(sanitizeObject(data)).then((dataReturn)=>{callback(dataReturn)})
+
+        })
+
+        socket.on("isAppSaved", async (data, callback)=>{
+        
+            isAppSaved(sanitizeObject(data), socket).then((dataReturn)=>{callback(dataReturn)})
 
         })
  

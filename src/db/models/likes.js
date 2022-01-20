@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const likeSchema = new mongoose.Schema({
-    postName: {
+    postId: {
         type: String,
         required: true
     },
@@ -14,6 +14,6 @@ const likeSchema = new mongoose.Schema({
 })
 
 
-const Like = mongoose.model('Like', userSchema)
+const Like = mongoose.model('Like', likeSchema)
 
 module.exports = Like

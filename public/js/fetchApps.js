@@ -1,5 +1,6 @@
 var block = 0
 var winLocal = window.location.pathname.split("/");
+var saveButtonEnable = false;
 
 var page = 0
 var search = "";
@@ -15,6 +16,7 @@ function setVarsByLocation(){
             sort = document.getElementById("sort").value
             local = document.getElementById("local").checked
             createdbyme = false;
+            saveButtonEnable = true;
             break;
 
         case "user":
@@ -23,6 +25,7 @@ function setVarsByLocation(){
             local = document.getElementById("local").checked
             createdbyme = false;
             profile = window.location.pathname.split("/").pop();
+            saveButtonEnable = true;
             break;
 
         case "account":
@@ -30,6 +33,7 @@ function setVarsByLocation(){
             sort = document.getElementById("sort").value
             local = document.getElementById("local").checked
             createdbyme = true;
+            saveButtonEnable = false;
             break;
         
         default:
@@ -37,6 +41,7 @@ function setVarsByLocation(){
             sort = 0;
             local = false;
             createdbyme = false;
+            saveButtonEnable = false;
             break;
     }
 }
@@ -46,7 +51,7 @@ function setVarsByLocation(){
 function loadPage(){
     setVarsByLocation();
     var searchData = {search, local, createdbyme, sort, page, profile}
-
+  
     if(block==0){
         block = 1
 
@@ -114,6 +119,12 @@ function appendApps(searchResults){
 
         //For each app make:
         $.each(searchResults, (i, result) => {
+
+            var saveButton = ''
+            if(saveButtonEnable){
+                saveButton = createSaveButton(result.name)
+            }
+
             var appendModel = ` <div>
                                     <div>
                                     <p>${(i+1) + 10*page}----------------</p>
@@ -135,7 +146,14 @@ function appendApps(searchResults){
                                     <p>${result.nick}</p>
                                     </div>
 
+                                    `
+                                    +
+                                    saveButton
+                                    +
+                                    `
+
                                 </div>`;
+
             $('#showzone').append(appendModel);
         })
     }

@@ -66,7 +66,7 @@ const fetchAppsByData = async (data, socket) => {
 
             //Profile var
             if(data.profile){
-                options.push({'nick': data.profile})
+                options.push({owner: user._id})
             }
 
             //Public var
@@ -105,7 +105,6 @@ const fetchAppsByData = async (data, socket) => {
             })
             return res;
         }catch(e){
-            console.log(e)
             return []
         }
 }
