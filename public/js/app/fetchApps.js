@@ -1,39 +1,37 @@
-var block = 0
-var winLocal = window.location.pathname.split("/");
-var saveButtonEnable = false;
+var appFetPage = 0
+var appFetSaveButtonEnable = false;
 
-var page = 0
-var search = "";
-var sort = 0;
-var local = false;
-var createdbyme = false;
-var profile = "";
+function appFetSetVarsByLocation(){
+    var search = "";
+    var sort = 0;
+    var local = false;
+    var createdbyme = false;
+    var profile = "";
 
-function setVarsByLocation(){
     switch(winLocal[1]) {
         case "home":
-            search = document.getElementById("search").value
-            sort = document.getElementById("sort").value
-            local = document.getElementById("local").checked
+            search = document.getElementById("appFetSearch").value
+            sort = document.getElementById("appFetSort").value
+            local = document.getElementById("appFetLocal").checked
             createdbyme = false;
-            saveButtonEnable = true;
+            appFetSaveButtonEnable = true;
             break;
 
         case "user":
-            search = document.getElementById("search").value
-            sort = document.getElementById("sort").value
-            local = document.getElementById("local").checked
+            search = document.getElementById("appFetSearch").value
+            sort = document.getElementById("appFetSort").value
+            local = document.getElementById("appFetLocal").checked
             createdbyme = false;
             profile = window.location.pathname.split("/").pop();
-            saveButtonEnable = true;
+            appFetSaveButtonEnable = true;
             break;
 
         case "account":
-            search = document.getElementById("search").value
-            sort = document.getElementById("sort").value
-            local = document.getElementById("local").checked
+            search = document.getElementById("appFetSearch").value
+            sort = document.getElementById("appFetSort").value
+            local = document.getElementById("appFetLocal").checked
             createdbyme = true;
-            saveButtonEnable = false;
+            appFetSaveButtonEnable = false;
             break;
         
         default:
@@ -41,70 +39,68 @@ function setVarsByLocation(){
             sort = 0;
             local = false;
             createdbyme = false;
-            saveButtonEnable = false;
+            appFetSaveButtonEnable = false;
             break;
     }
+
+    return {search, local, createdbyme, sort, page: appFetPage, profile}
 }
 
 
 //SOCKET
-function loadPage(){
-    setVarsByLocation();
-    var searchData = {search, local, createdbyme, sort, page, profile}
-  
+function appFetLoadPage(){
+    var searchData = appFetSetVarsByLocation();
+
     if(block==0){
         block = 1
-
-        socket.emit("search", searchData, (data)=>{
-            updateButtons(data);
-            appendApps(data);
+        conSocket("search", searchData, (data)=>{
+            appFetUpdateButtons(data);
+            appFetAppendApps(data);
             block = 0
         })
     }
 }
 
-$("#searchzone").on("change keyup", () => {
-    page = 0;
-    $("#page").text(page+1)
-    loadPage();
+$("#appFetSearchzone").on("change keyup", () => {
+    appFetPage = 0;
+    $("#appFetPage").text(appFetPage+1)
+    appFetLoadPage();
 }) 
     
-
 //PAGE MANAGEMENT
-function updateButtons(searchResults){
-    if((page-1)>=0){
-        $("#previous").prop("disabled", false);
+function appFetUpdateButtons(searchResults){
+    if((appFetPage-1)>=0){
+        $("#appFetPrevious").prop("disabled", false);
     }else{
-        $("#previous").prop("disabled", true);
+        $("#appFetPrevious").prop("disabled", true);
     }
 
     if(searchResults.length == 10){
-        $("#next").prop("disabled", false);
+        $("#appFetNext").prop("disabled", false);
     }else{
-        $("#next").prop("disabled", true);
+        $("#appFetNext").prop("disabled", true);
     }
 }
 
-$("#previous").on("click", function(){
+$("#appFetPrevious").on("click", function(){
     if(block == 0){
-        page = page - 1;
-        $("#page").text(page+1)
-        loadPage();
+        appFetPage = appFetPage - 1;
+        $("#appFetPage").text(appFetPage+1)
+        appFetLoadPage();
     }
 })
 
-$("#next").on("click", function(){
+$("#appFetNext").on("click", function(){
     if(block == 0){
-        page = page + 1;
-        $("#page").text(page+1)
-        loadPage();  
+        appFetPage = appFetPage + 1;
+        $("#appFetPage").text(appFetPage+1)
+        appFetLoadPage();  
     }
 })
-
 
 //Append Apps
-function appendApps(searchResults){
-    $('#showzone').empty();
+function appFetAppendApps(searchResults){
+    $('#appFetShowzone').empty();
     if(searchResults.length == 0){
 
         //No apps found
@@ -114,20 +110,20 @@ function appendApps(searchResults){
                                 </div>
                             </div>`;
 
-            $('#showzone').append(appendModel);
+            $('#appFetShowzone').append(appendModel);
     }else{
 
         //For each app make:
         $.each(searchResults, (i, result) => {
 
             var saveButton = ''
-            if(saveButtonEnable){
+            if(appFetSaveButtonEnable){
                 saveButton = createSaveButton(result.name)
             }
 
             var appendModel = ` <div>
                                     <div>
-                                    <p>${(i+1) + 10*page}----------------</p>
+                                    <p>${(i+1) + 10*appFetPage}----------------</p>
                                     </div>
 
                                     <div>
@@ -154,11 +150,10 @@ function appendApps(searchResults){
 
                                 </div>`;
 
-            $('#showzone').append(appendModel);
+            $('#appFetShowzone').append(appendModel);
         })
     }
 }
     
-
 //Initial
-loadPage();
+appFetLoadPage();

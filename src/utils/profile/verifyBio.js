@@ -13,7 +13,6 @@ const verifyBio = async (bio)=>{
 
 //Thats for socket verification, it uses some parameters
 const verifyBioSocket = async (bio)=>{
-    bio = JSON.parse(bio)
 
     //Too big / too small
     if(bio.size>maxLength){return "Biography is taking too much space!"}

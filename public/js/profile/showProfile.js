@@ -1,14 +1,5 @@
-//QUILL
-var Delta = Quill.import('delta');
+var bioDelta = JSON.parse($('#bioRaw').html());
+var bioHtml = deltaToHTML(bioDelta);
 
-var quill = new Quill('#bio', {
-    readOnly: true,
-    theme: 'snow',
-    placeholder: 'There is no bio.',
-    modules: {
-        toolbar: false
-    }
-});
-
-quill.setContents(JSON.parse($('#bioRaw').html()));
+$('#bio').html(bioHtml);
 $('#bioRaw').empty();

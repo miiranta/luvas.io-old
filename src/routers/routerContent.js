@@ -7,8 +7,7 @@ const App                                   = require("../db/models/apps")
 const Comment                               = require("../db/models/comments")
 const {sanitizeInput, sanitizeObject}       = require("../utils/other/sanitizeInput.js")
 const {verifyComment}                       = require("../utils/comment/verifyComment")
-const fetchComments                         = require("../utils/comment/getComments")
-
+const fetchComments                         = require("../utils/comment/fetchComments")
 
 const router = new express.Router()
 
@@ -81,7 +80,7 @@ router.post("/post/comment/:id", logged(0), async (req, res) => {
     }
 
     //Comment is okay?
-    const comment = sanitizeObject(JSON.stringify(req.body))
+    const comment = sanitizeObject(req.body)
     var verify
     await verifyComment(comment).then((data)=>{verify = data})
     if(verify){
@@ -89,12 +88,12 @@ router.post("/post/comment/:id", logged(0), async (req, res) => {
     }
 
     //Alright
-    await Comment.create({owner: req.user._id, post: post._id, content: comment})
+    await Comment.create({owner: req.user._id, post: post._id, content: JSON.stringify(comment)})
     
     //Socket update
     var io = req.app.get('io');
 
-    var commentData = JSON.stringify({page: 0, post: post.name})
+    var commentData = {page: 0, post: post.name}
     var lastComments = await fetchComments(commentData)
     io.emit("comment_" + post.name, lastComments[0])
 

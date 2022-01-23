@@ -3,8 +3,8 @@ const verifyAppUpdate                       = require("../utils/app/verifyAppUpd
 const verifyNick                            = require("../utils/profile/verifyNick")
 const {verifyBioSocket}                     = require("../utils/profile/verifyBio")
 const {verifyCommentSocket}                 = require("../utils/comment/verifyComment")
-const fetchApps                             = require("../utils/app/getApps.js")
-const fetchComments                         = require("../utils/comment/getComments.js")
+const fetchApps                             = require("../utils/app/fetchApps.js")
+const fetchComments                         = require("../utils/comment/fetchComments.js")
 const isAppSaved                            = require("../utils/app/isAppSaved.js")
 const {sanitizeInput, sanitizeObject}       = require("../utils/other/sanitizeInput.js")
 
@@ -29,51 +29,51 @@ const loadSockets = function(io){
 
     //GET---------------------------------  
 
-        socket.on("nick", async (nick, callback)=>{
-
-            verifyNick(sanitizeInput(nick)).then((dataReturn)=>{callback(dataReturn)})
+        socket.on("nick", async (data, callback)=>{
+            dataSanit = JSON.parse(sanitizeInput(data))
+            verifyNick(dataSanit).then((dataReturn)=>{callback(dataReturn)})
 
         })
 
         socket.on("bio", async (data, callback)=>{
-
-            verifyBioSocket(sanitizeInput(data), socket).then((dataReturn)=>{callback(dataReturn)})
+            dataSanit = JSON.parse(sanitizeInput(data))
+            verifyBioSocket(dataSanit, socket).then((dataReturn)=>{callback(dataReturn)})
 
         })
 
         socket.on("appCr", async (data, callback)=>{
-
-            verifyAppCreate(sanitizeObject(data)).then((dataReturn)=>{callback(dataReturn)})
+            dataSanit = JSON.parse(sanitizeObject(data))
+            verifyAppCreate(dataSanit).then((dataReturn)=>{callback(dataReturn)})
 
         })
 
         socket.on("appUp", async (data, callback)=>{
-
-            verifyAppUpdate(sanitizeObject(data)).then((dataReturn)=>{callback(dataReturn)})
+            dataSanit = JSON.parse(sanitizeObject(data))
+            verifyAppUpdate(dataSanit).then((dataReturn)=>{callback(dataReturn)})
 
         })
 
         socket.on("search", async (data, callback)=>{
-        
-            fetchApps(sanitizeObject(data), socket).then((dataReturn)=>{callback(dataReturn)})
+            dataSanit = JSON.parse(sanitizeObject(data))
+            fetchApps(dataSanit, socket).then((dataReturn)=>{callback(dataReturn)})
 
         })
 
         socket.on("commentVer", async (data, callback)=>{
-        
-            verifyCommentSocket(sanitizeObject(data)).then((dataReturn)=>{callback(dataReturn)})
+            dataSanit = JSON.parse(sanitizeObject(data))
+            verifyCommentSocket(dataSanit).then((dataReturn)=>{callback(dataReturn)})
 
         })
 
         socket.on("commentLoad", async (data, callback)=>{
-        
-            fetchComments(sanitizeObject(data)).then((dataReturn)=>{callback(dataReturn)})
+            dataSanit = JSON.parse(sanitizeObject(data))
+            fetchComments(dataSanit).then((dataReturn)=>{callback(dataReturn)})
 
         })
 
         socket.on("isAppSaved", async (data, callback)=>{
-        
-            isAppSaved(sanitizeObject(data), socket).then((dataReturn)=>{callback(dataReturn)})
+            dataSanit = JSON.parse(sanitizeObject(data))
+            isAppSaved(dataSanit, socket).then((dataReturn)=>{callback(dataReturn)})
 
         })
  

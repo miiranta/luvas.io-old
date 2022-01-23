@@ -11,11 +11,17 @@ function sanitizeInput(input1){
     return output;
 }
 
-function sanitizeObject(input1){
-    for (key of Object.keys(input1)) {
-        input1[key] = sanitizeInput(input1[key]);
+function sanitizeObject(data) {
+    for (let key in data) {
+        if (data.hasOwnProperty(key) && data[key]) {
+            if(typeof data[key] === "object" && Array.isArray(data[key])) {
+                data[key].forEach((item) => sanitizeInput(item));
+            }else if(typeof data[key] === "object"){
+                sanitizeInput(data[key]);
+            }
+        }
     }
-    return input1;
-}
+    return data;
+  }
 
 module.exports = {sanitizeInput, sanitizeObject}

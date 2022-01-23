@@ -1,24 +1,16 @@
-var winLocal = window.location.pathname.split("/");
-var page = 0
-var post = winLocal[2]
-var pageSize = 0
+var comPage = 0
+var comPageSize = 0
 
 //UPDATE
-socket.on("comment_" + post, (data)=>{
+socket.on("comment_" + winLocal[2], (data)=>{
     noComments(false);
     showComment(data, false);
-    pageSize++;
-    keepPageSize()
-    updateButtons(data)
+    comPageSize++;
+    comKeepPageSize()
+    comUpdateButtons(data)
 })
 
 //LOAD
-function deltaToHTML(inputDelta) {
-    var tempCont = document.createElement("div");
-    (new Quill(tempCont)).setContents(inputDelta);
-    return tempCont.getElementsByClassName("ql-editor")[0].innerHTML;
-}
-
 function showComment(comment, order){
     var appendModel = ` <div class="comment"> 
                             <p>${comment.nick}--------------</p>
@@ -27,9 +19,9 @@ function showComment(comment, order){
                         </div>`;
 
     if(order){
-        return $("#showComments").append(appendModel)
+        return $("#comShowComments").append(appendModel)
     }
-    return $("#showComments").prepend(appendModel)
+    return $("#comShowComments").prepend(appendModel)
 }
 
 function noComments(enable){
@@ -37,67 +29,66 @@ function noComments(enable){
          var appendModel = `<div class="comment" id="noComment"> 
                                 <p>No comments found :(</p>
                             </div>`;
-        $("#showComments").append(appendModel)
+        $("#comShowComments").append(appendModel)
     }else{
         $("#noComment").remove()
     }
 }
 
 function getComments(){
-    var commentData = JSON.stringify({page, post})
+    var commentData = {page: comPage, post: winLocal[2]}
 
-    socket.emit("commentLoad", commentData, (data)=>{
+    conSocket("commentLoad", commentData, (data)=>{
 
-        $("#showComments").empty()
+        $("#comShowComments").empty()
 
         if(data.length == 0){
-            pageSize = 0
+            comPageSize = 0
             noComments(true)
         }else{
-            pageSize = data.length
+            comPageSize = data.length
             noComments(false)
             $.each(data, (i, result) => {
                 showComment(result, true)
             }) 
         }
 
-        updateButtons()
+        comUpdateButtons()
     })
 }
 
 getComments()
 
-
 //PAGE MANAGEMENT
-function updateButtons(){
-    if((page-1)>=0){
-        $("#previous").prop("disabled", false);
+function comUpdateButtons(){
+    if((comPage-1)>=0){
+        $("#comPrevious").prop("disabled", false);
     }else{
-        $("#previous").prop("disabled", true);
+        $("#comPrevious").prop("disabled", true);
     }
 
-    if(pageSize >= 10){
-        $("#next").prop("disabled", false);
+    if(comPageSize >= 10){
+        $("#comNext").prop("disabled", false);
     }else{
-        $("#next").prop("disabled", true);
+        $("#comNext").prop("disabled", true);
     }
 }
 
-$("#previous").on("click", function(){
-        page = page - 1;
-        $("#page").text(page+1)
+$("#comPrevious").on("click", function(){
+        comPage = comPage - 1;
+        $("#comPage").text(comPage+1)
         getComments();
 })
 
-$("#next").on("click", function(){
-        page = page + 1;
-        $("#page").text(page+1)
+$("#comNext").on("click", function(){
+        comPage = comPage + 1;
+        $("#comPage").text(comPage+1)
         getComments();  
 })
 
-function keepPageSize(){
-    if(pageSize > 10){
-        $('#showComments').children().last().remove();
+function comKeepPageSize(){
+    if(comPageSize > 10){
+        $('#comShowComments').children().last().remove();
     }
 }
 

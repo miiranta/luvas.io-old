@@ -75,9 +75,9 @@ router.get("/app/:id", redirect, async (req, res) => {
 
 //App create
 router.post("/app", logged(1), async (req, res) => {
-
     const appData = sanitizeObject(req.body)
     
+    //Is app valid?
     await verifyAppCreate(appData).then((dataReturn)=>{
         if(dataReturn){return res.status(400).send()}
     })
@@ -91,14 +91,16 @@ router.post("/app", logged(1), async (req, res) => {
         if(appData.local||appData.auth||appData.adminlevel != 0){return res.status(401).send()}
     }
 
+    //Favicon/image
     if(appData.local == false){
         var favicon = await getFavicon(appData.url)
     }else{
         var favicon = "/img/default-app-icon.png"
     }
 
+    //Add to db
     try{
-        appData.description = appData.description.content
+        appData.description = JSON.stringify(appData.description.content)
         await App.create({...appData, owner:  req.user._id, picture: favicon})
         console.log(chalk.magenta.bold("[App] ")+chalk.green("Created: ")+chalk.blue(appData.name)) 
     }catch(e){
@@ -132,8 +134,8 @@ router.get("/edit/:id", logged(0), async (req, res) => {
 //App edit
 router.post("/edit/:id", logged(0), async (req, res) => {
     const appData = sanitizeObject(req.body)
-    const appName = sanitizeObject(req.params.id)
-    
+    const appName = sanitizeInput(req.params.id)
+
     await verifyAppUpdate(appData).then((dataReturn)=>{
         if(dataReturn){return res.status(400).send()}
     })
@@ -161,6 +163,10 @@ router.post("/edit/:id", logged(0), async (req, res) => {
     }
 
     //Update
+    if(appData.description){
+        appData.description = JSON.stringify(appData.description)
+    }
+    
     try{
         await App.updateOne({name: appName}, {...appData})
     }catch(e){

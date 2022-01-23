@@ -1,78 +1,117 @@
-var block = 0
-var appData = {}
+var appUpData = {}
+var appUpDescriptionString = {}
+
+//QUILL
+var Delta = Quill.import('delta');
+var toolbarOptions = [
+    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+    ['blockquote', 'code-block'],
+  
+    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+    [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+    [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+    [{ 'direction': 'rtl' }],                         // text direction
+  
+    [{ 'header': [1, 2, 3, 4, 5, false] }],
+  
+    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+    [{ 'font': [] }],
+    [{ 'align': [] }],
+
+    ['clean'],                                        // remove formatting button
+
+    ['link', 'image', 'video']
+                       
+  ];
+
+var quill = new Quill('#appUpDescription', {
+    theme: 'snow',
+    placeholder: 'Add a description...',
+    modules: {
+        toolbar: toolbarOptions
+    }
+});
+
+quill.setContents(JSON.parse($('#appUpDescriptionRaw').html()));
+$('#appUpDescriptionRaw').empty();
+
+var change = new Delta();
+quill.on('text-change', function(delta) {
+    change = change.compose(delta);
+    change = new Delta();
+    
+    appUpDescriptionString = quill.getContents();
+
+    setTimeout(()=>{appUpUpdateSocket()}, 100)
+})
 
 
 //Some tweaks
-function refreshBnt(){
-    if(document.getElementById("public").checked){
-        $("#auth").prop("disabled",false);
+function appUpUpdateButtons(){
+    if($("#appUpPublic").is(':checked')){
+        $("#appUpAuth").prop("disabled",false);
     }else{
-        $("#auth").prop("disabled",true);
-        $("#auth").prop("checked",true);
+        $("#appUpAuth").prop("disabled",true);
+        $("#appUpAuth").prop("checked",true);
     }
 }
 
-$("#submit").prop("disabled",true);
-$("#public").on("change", ()=>{refreshBnt()})
-refreshBnt()
+$("#appUpSubmit").prop("disabled",true);
+$("#appUpPublic").on("change", ()=>{ appUpUpdateButtons() })
+appUpUpdateButtons()
 
 
 //SOCKET
-$("#appcreateform").on("change keyup paste", function(){
+$("#appUppublic").on("change", ()=>{ appUpUpdateButtons() })
+$("#appUpForm").on("change keyup paste", function(){
+    $("#appUpSubmit").prop("disabled",true);
+    appUpUpdateSocket()
+})
 
-    $("#submit").prop("disabled",true);
+function appUpUpdateSocket(){
 
-    var title = document.getElementById("title").value
-    var description = document.getElementById("description").value
-    var url = document.getElementById("url").value
-    var public = document.getElementById("public").checked
-    
-    var local = document.getElementById("local")
-    var auth = document.getElementById("auth")
-    var adminlevel = document.getElementById("adminlevel")
+    //Updating variables
+    var title =         $("#appUpTitle").val()
+    var url =           $("#appUpUrl").val()
+    var public =        $("#appUpPublic").is(':checked')
+    var local =         $("#appUpLocal").is(':checked')
+    var auth =          $("#appUpAuth").is(':checked')
+    var adminlevel =    $("#appUpAdminlevel").val()
 
-    var local = (local == null) ? false : local.checked;
-    var auth = (auth == null) ? false : auth.checked;
-    var adminlevel = (adminlevel == null) ? 0 : adminlevel.value;
+    //Checking valid
+    local =         (local == undefined)         ? false : $("#appUpLocal").is(':checked');
+    auth =          (auth == undefined)          ? false : $("#appUpAuth").is(':checked');
+    adminlevel =    (adminlevel == undefined)    ? 0     : $("#appUpAdminlevel").val();
 
-    appData = {title, description, url, public, local, auth, adminlevel}
+    appUpData       = {title, description: appUpDescriptionString, url, public, local, auth, adminlevel}
+    appUpDataSocket = {title, description: {size: JSON.stringify(appUpDescriptionString).length}, url, public, local, auth, adminlevel}
 
     if(block==0){
         block = 1
 
-        socket.emit("appUp", appData, (data)=>{
+        conSocket("appUp", appUpDataSocket, (data)=>{
 
             if(data){
-                $("#submit").prop("disabled",true);
+                $("#appUpSubmit").prop("disabled",true);
                 block = 0
-                return $("#status").text(data);
+                return $("#appUpStatus").text(data);
             }
 
-            $("#status").text("Ready to update");
-            $("#submit").prop("disabled", false);
-            $("#submit").attr("onclick","editApp()");
+            $("#appUpStatus").text("Ready to update");
+            $("#appUpSubmit").prop("disabled", false);
+            $("#appUpSubmit").attr("onclick","editApp()");
             block = 0
 
         })   
     }
 
-})
+}
 
 //AJAX
-var winLocal = window.location.pathname.split("/");
 function editApp(){ 
-    $("#submit").prop("disabled", true);
+    $("#appUpSubmit").prop("disabled", true);
 
-    $.ajax({
-    url: '/edit/' + winLocal[2],
-    type: 'POST',
-    data: JSON.stringify(appData),
-    contentType: 'application/json; charset=utf-8',
-    dataType: 'json',
-    async: false,
-    success: function () {
-        $("#status").text("Success!");
-    }
-});
-
+    conRest('/edit/' + winLocal[2], 'POST', appUpData, ()=>{
+        $("#appUpStatus").text("Success!");
+    })
 }

@@ -1,7 +1,7 @@
         var $uploadCrop;
-        $("#picpreview").hide();
-        var data = new FormData();
-        var file;
+        $("#picPreview").hide();
+        var picData = new FormData();
+        var picFile;
 
         function getExtension(filename) {
         var parts = filename.split('.');
@@ -22,7 +22,7 @@
 
     //Croppie and Read Data -------------------------
 
-            $uploadCrop = $('#picshow').croppie({
+            $uploadCrop = $('#picShow').croppie({
             viewport: {
                 width: 250,
                 height: 250,
@@ -37,7 +37,7 @@
                     type: 'blob',
                     format: 'png'
                 }).then(function (res) {
-                    file = res;
+                    picFile = res;
                 });
             },
             enableExif: true,
@@ -47,11 +47,10 @@
         function readFile(input) {
             if (input.files && input.files[0]) {
 
-                console.log(input.files[0])
                 if(!isImage(input.files[0].name)){
-                    $("#picerror").text("File must be an image");
-                    $("#picpreview").hide();
-                    $("#picselect").val(null);
+                    $("#picError").text("File must be an image");
+                    $("#picPreview").hide();
+                    $("#picSelect").val(null);
                     return
                 }
             
@@ -59,56 +58,57 @@
                 reader.onload = function (e) { $uploadCrop.croppie('bind', {url: e.target.result});}
                 reader.readAsDataURL(input.files[0]);
 
-                $("#picpreview").show();
-                $("#Submit").prop("disabled",false);
-                $("#picerror").text("")
+                $("#picPreview").show();
+                $("#picSubmit").prop("disabled",false);
+                $("#picError").text("")
             }
         }
 
-        $('#picselect').on('change', function () {
+        $('#picSelect').on('change', function () {
         readFile(this);
         });
 
     //Buttons ----------------------------------------
 
-        $('#Rotate-Left').on('click', function() {
+        $('#picRotateLeft').on('click', function() {
             $uploadCrop.croppie('rotate', 90);
         });
 
-        $('#Rotate-Right').on('click', function() {
+        $('#picRotateRight').on('click', function() {
             $uploadCrop.croppie('rotate', -90);
         });
 
-        $("#Cancel").click(function () {
-            $("#picpreview").hide();
-            $("#picselect").val(null);
+        $("#picCancel").click(function () {
+            $("#picPreview").hide();
+            $("#picSelect").val(null);
         })
         
     //Send Data ---------------------------------------
 
-        $('#picupload').submit(function (event) {
+        $('#picUpload').submit(function (event) {
 
         event.preventDefault();
-        data.append('file', file, "upload.png");
-        $("#Submit").prop("disabled",true);
-        $("#picpreview").hide();
+        picData.append('file', picFile, "upload.png");
+        $("#picSubmit").prop("disabled",true);
+        $("#picPreview").hide();
         
+            //Keep it like that, it's form data, not json!
             $.ajax({
             type: "PATCH",
             url: "/account/picture",
-            data,
+            data: picData,
             enctype: 'multipart/form-data',
             processData: false,
             contentType: false,
             success: function () {
-                $("#picselect").val(null);
-                $("#Submit").prop("disabled",false);
+                $("#picSelect").val(null);
+                $("#picSubmit").prop("disabled",false);
                 location.reload();
             },
             error: function (event) {
                 event.responseText = JSON.parse(event.responseText);
                     if(event.responseText.message !== undefined){
-                    $("#picerror").text(event.responseText.message);
+                    $("#picError").text(event.responseText.message);
                     }
             }
 

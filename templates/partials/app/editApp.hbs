@@ -2,57 +2,58 @@
 
     <!--App data-->
     <div>
-        <form id="appcreateform">
+        <form id="appUpForm">
 
                 <div>
-                    <label id="status"></label>
+                    <label id="appUpStatus"></label>
                 </div>
 
                 <div>
-                <input id="title" type="text" value="{{post.title}}">
+                    <input id="appUpTitle" type="text" value="{{post.title}}">
                 </div>
 
                 <div>
-                ​<textarea id="description" rows="10" cols="70">{{post.description}}</textarea>
+                    ​<div id="appUpDescription" ></div>
+                    <div id="appUpDescriptionRaw" style='display:none'>{{post.description}}</div>
                 </div>
 
                 <div>
-                <p>Name</p>
-                <p>{{post.name}}</p>
-                </div>
-
-                {{#ifCond user.admin ">=" 2}}
-                <div>
-                <p>Local? (Admin Only)</p>
-                <input id="local" type="checkbox" {{#ifCond post.local "==" true}}checked{{/ifCond}}>
-                </div>
-                {{/ifCond}}
-
-                <div>
-                <input id="url" type="text" placeholder="App URL"  value="{{post.url}}">
-                </div>
-
-                <div>
-                <p>Public?</p>
-                <input id="public" type="checkbox" {{#ifCond post.public "==" true}}checked{{/ifCond}}>
+                    <p>Name</p>
+                    <p>{{post.name}}</p>
                 </div>
 
                 {{#ifCond user.admin ">=" 2}}
                 <div>
-                <p>Auth required? (Admin Only)</p>
-                <input id="auth" type="checkbox" {{#ifCond post.auth "==" true}}checked{{/ifCond}}>
+                    <p>Local? (Admin Only)</p>
+                    <input id="appUpLocal" type="checkbox" {{#ifCond post.local "==" true}}checked{{/ifCond}}>
+                </div>
+                {{/ifCond}}
+
+                <div>
+                    <input id="appUpUrl" type="text" placeholder="App URL"  value="{{post.url}}">
+                </div>
+
+                <div>
+                    <p>Public?</p>
+                    <input id="appUpPublic" type="checkbox" {{#ifCond post.public "==" true}}checked{{/ifCond}}>
+                </div>
+
+                {{#ifCond user.admin ">=" 2}}
+                <div>
+                    <p>Auth required? (Admin Only)</p>
+                    <input id="appUpAuth" type="checkbox" {{#ifCond post.auth "==" true}}checked{{/ifCond}}>
                 </div>
                 {{/ifCond}}
 
                 {{#ifCond user.admin ">=" 2}}
                 <div>
-                <p>Admin Level required? (Admin Only)</p>
-                <input id="adminlevel" type="number" min="0" max="2" value="{{post.adminlevel}}">
+                    <p>Admin Level required? (Admin Only)</p>
+                    <input id="appUpAdminlevel" type="number" min="0" max="2" value="{{post.adminlevel}}">
                 </div>
                 {{/ifCond}}
 
                 <div>
-                <button id="submit" type="button">Edit</button>
+                    <button id="appUpSubmit" type="button">Edit</button>
                 </div>
                 
         </form>

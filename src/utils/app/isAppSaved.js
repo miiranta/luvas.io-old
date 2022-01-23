@@ -6,8 +6,6 @@ const App                   = require("../../db/models/apps");
 async function isAppSaved(appName, socket){
     var user = null;
 
-    appName = await JSON.parse(appName)
-
     try{
         var userJWT = await sanitizeInput(socket.handshake.session.passport.user)
         var user = await jwt.verify(userJWT, process.env.JWT_SECRET)

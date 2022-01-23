@@ -1,7 +1,6 @@
-var block = 0
-var commentContent = ""
-var commentSize = 0
-$("#postComment").prop("disabled", true);
+var comContent = ""
+var comSize = 0
+$("#comPostComment").prop("disabled", true);
 
 //QUILL
 var Delta = Quill.import('delta');
@@ -26,7 +25,7 @@ var toolbarOptions = [
                        
   ];
 
-var quill = new Quill('#editor', {
+var quill = new Quill('#comEditor', {
     theme: 'snow',
     placeholder: 'Make a comment...',
     modules: {
@@ -39,27 +38,27 @@ quill.on('text-change', function(delta) {
     change = change.compose(delta);
     change = new Delta();
     
-    commentContent = JSON.stringify(quill.getContents());
-    commentSize = commentContent.length;
+    comContent = quill.getContents();
+    comSize = comContent.length;
 
     //SOCKET verify comment
-    var comment = {size: commentSize};
-    $("#postComment").prop("disabled", true);
+    var comment = {size: comSize};
+    $("#comPostComment").prop("disabled", true);
 
     if(block==0){
         block = 1
 
-        socket.emit("commentVer", JSON.stringify(comment), (data)=>{
+        conSocket("commentVer", comment, (data)=>{
             
             if(data){
                 block = 0
-                $("#postComment").prop("disabled", true);
-                return $("#statusComment").text(data);
+                $("#comPostComment").prop("disabled", true);
+                return $("#comStatusComment").text(data);
             }
 
-            $("#postComment").prop("disabled", false);
-            $("#postComment").attr("onclick","postComment()");
-            $("#statusComment").text("Ready to post.");
+            $("#comPostComment").prop("disabled", false);
+            $("#comPostComment").attr("onclick","postComment()");
+            $("#comStatusComment").text("Ready to post.");
             block = 0
 
         }) 
@@ -67,19 +66,18 @@ quill.on('text-change', function(delta) {
 });
 
 //AJAX
-var winLocal = window.location.pathname.split("/");
 function postComment(){ 
-    $("#postComment").prop("disabled", true);
+    comPage = 0;
+    $("#comPage").text(comPage+1);
+    getComments();
+    updateButtons();
 
-    $.ajax({
-        data: commentContent,
-        contentType: 'application/json',
-        method: 'POST',
-        url: '/post/comment/' + winLocal[2],
-        success: function () {
-            $("#statusComment").text("Success!");
-        }
+    $("#comPostComment").prop("disabled", true);
+
+    conRest('/post/comment/' + winLocal[2], 'POST', comContent, function(){
+        $("#comStatusComment").text("Success!");
     })
+    
 }
 
 

@@ -1,37 +1,36 @@
 {{#if user._id}} 
 
-<div id="postComments" style="width: 700px;">
+<div id="comPostComments" style="width: 700px;">
     <p>Post comment:</p>
-    <div id="editor" style="height: 500px;"></div>
+    <div id="comEditor" style="height: 500px;"></div>
 </div>
 
 <div>
-    <p id="statusComment"></p>
-    <button id="postComment">Post</button>
+    <p id="comStatusComment"></p>
+    <button id="comPostComment">Post</button>
 </div>
 
-<!--Script-->
-<script src="\js/postComment.js"></script> 
 
 {{else}}
 
-<div id="showComments">
+<div id="comShowComments">
     <p>Login to post comments</p>
 </div>
 
 {{/if}}
 
 
-<div id="showComments">
+<div id="comShowComments">
 </div>
 
 <!--Page selector-->
     <div>
-        <button type="button" class="navig" id="previous"><-</button>
-        <p>Current page is </p> <p id="page">1</p>
-        <button type="button" class="navig" id="next">-></button>
+        <button type="button" class="navig" id="comPrevious"><-</button>
+        <p>Current page is </p> <p id="comPage">1</p>
+        <button type="button" class="navig" id="comNext">-></button>
 
     </div>
 
 <!--Script-->
 <script src="\js/comment/fetchComments.js"></script> 
+<script src="\js/comment/postComment.js"></script> 

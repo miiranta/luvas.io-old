@@ -43,7 +43,6 @@ router.delete("/session", logged(0), async (req, res) => {
   const token = sanitizeInput(req.body.sessionToDelete)
 
   try{
-    
     req.user.tokens = req.user.tokens.filter((tokenFound)=>{
         return token !== tokenFound.token
     })

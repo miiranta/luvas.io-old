@@ -2,56 +2,56 @@
 
     <!--App data-->
     <div>
-        <form id="appcreateform">
+        <form id="appCrForm">
 
                 <div>
-                    <label id="status"></label>
+                    <label id="appCrStatus"></label>
                 </div>
 
                 <div>
-                <input id="title" type="text" placeholder="Title">
+                    <input id="appCrTitle" type="text" placeholder="Title">
                 </div>
 
                 <div>
-                ​<div id="description"></div>
+                ​   <div id="appCrDescription"></div>
                 </div>
 
                 <div>
-                <input id="name" type="text" placeholder="App name">
-                </div>
-
-                {{#ifCond user.admin ">=" 2}}
-                <div>
-                <p>Local? (Admin Only)</p>
-                <input id="local" type="checkbox" placeholder="Public?">
-                </div>
-                {{/ifCond}}
-
-                <div>
-                <input id="url" type="text" placeholder="App URL">
-                </div>
-
-                <div>
-                <p>Public?</p>
-                <input id="public" type="checkbox" placeholder="Public?">
+                    <input id="appCrName" type="text" placeholder="App name">
                 </div>
 
                 {{#ifCond user.admin ">=" 2}}
                 <div>
-                <p>Auth required? (Admin Only)</p>
-                <input id="auth" type="checkbox" placeholder="Public?">
+                    <p>Local? (Admin Only)</p>
+                    <input id="appCrLocal" type="checkbox" placeholder="Public?">
+                </div>
+                {{/ifCond}}
+
+                <div>
+                    <input id="appCrUrl" type="text" placeholder="App URL">
+                </div>
+
+                <div>
+                    <p>Public?</p>
+                    <input id="appCrPublic" type="checkbox" placeholder="Public?">
+                </div>
+
+                {{#ifCond user.admin ">=" 2}}
+                <div>
+                    <p>Auth required? (Admin Only)</p>
+                    <input id="appCrAuth" type="checkbox" placeholder="Public?">
                 </div>
                 {{/ifCond}}
 
                 {{#ifCond user.admin ">=" 2}}
                 <div>
-                <p>Admin Level required? (Admin Only)</p>
-                <input id="adminlevel" type="number" min="0" max="2" value="0">
+                    <p>Admin Level required? (Admin Only)</p>
+                    <input id="appCrAdminlevel" type="number" min="0" max="2" value="0">
                 </div>
                 {{/ifCond}}
 
                 <div>
-                <button id="submit" type="button">Create</button>
+                    <button id="appCrSubmit" type="button">Create</button>
                 </div>
                 
         </form>

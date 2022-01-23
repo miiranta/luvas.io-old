@@ -6,8 +6,6 @@ var page = 0;
 var pagesize = 10
 
 async function fetchComments(data){
-    data = JSON.parse(data)
-
     const postName = data.post
     const page = data.page
     const sort = {"createdAt": -1}

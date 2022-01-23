@@ -1,10 +1,4 @@
-function deltaToHTML(inputDelta) {
-    var tempCont = document.createElement("div");
-    (new Quill(tempCont)).setContents(inputDelta);
-    return tempCont.getElementsByClassName("ql-editor")[0].innerHTML;
-}
+var appInfDelta = JSON.parse($('#appInfoDescRaw').text())
 
-var delta = JSON.parse($('#descRaw').text())
-
-$("#desc").append(deltaToHTML(delta))
-$("#descRaw").empty()
+$("#appInfoDesc").append(deltaToHTML(appInfDelta))
+$("#appInfoDescRaw").empty()

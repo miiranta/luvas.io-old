@@ -81,8 +81,7 @@ router.patch("/account/picture", logged(0), upload.single("file"), async (req,re
 
 //Bio update
 router.patch("/account/bio", logged(0), async (req, res) => {
-    
-    var bio = sanitizeObject(JSON.stringify(req.body))
+    var bio = sanitizeObject(req.body)
     var verify
 
     await verifyBio(bio).then((data)=>{verify = data})
@@ -91,7 +90,7 @@ router.patch("/account/bio", logged(0), async (req, res) => {
         return res.status(400).send()
     }
 
-    await User.updateOne({_id: req.user._id}, {bio})
+    await User.updateOne({_id: req.user._id}, {bio: JSON.stringify(bio)})
 
     res.send()
 })

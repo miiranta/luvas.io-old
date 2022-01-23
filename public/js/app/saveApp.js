@@ -2,21 +2,14 @@ function saveApp(appToSave){
     $('#saveApp_' + appToSave).text("unsave")
     $('#saveApp_' + appToSave).attr("onClick", "unsaveApp('"+ appToSave +"')")
 
-    $.ajax({
-        method: 'POST',
-        url: '/save/' + appToSave
-    })
+    conRest('/save/' + appToSave, 'POST', {}, ()=>{})
 }
 
 function unsaveApp(appToUnsave){
     $('#saveApp_' + appToUnsave).text("save")
     $('#saveApp_' + appToUnsave).attr("onClick", "saveApp('"+ appToUnsave +"')")
 
-    $.ajax({
-        method: 'POST',
-        url: '/unsave/' + appToUnsave
-    })
-
+    conRest('/unsave/' + appToSave, 'POST', {}, ()=>{})
 }
 
 function createSaveButton(appName){
@@ -25,9 +18,8 @@ function createSaveButton(appName){
 }
 
 function isAppSaved(appName){
-
-    sendData = JSON.stringify({appName})
-    socket.emit("isAppSaved", sendData, (data)=>{
+    var sendData = {appName}
+    conSocket('isAppSaved', sendData, (data)=>{
         
         if(data.showButton){
             if(data.saved){

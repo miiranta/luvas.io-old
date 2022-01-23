@@ -13,7 +13,6 @@ const verifyComment = async (comment)=>{
 
 //Thats for socket verification, it uses some parameters
 const verifyCommentSocket = async (comment)=>{
-    comment = JSON.parse(comment)
 
     //Too big / too small
     if(comment.size>maxLength){return "Comments must have less than 2000 characters!"}

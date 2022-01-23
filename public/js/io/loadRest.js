@@ -4,9 +4,11 @@ function conRest(url, httpReqType, dataToSend, callback){
     
     $.ajax({
         data: dataToSendFiltered,
-        contentType: 'application/json',
         method: httpReqType,
         url,
-        success: function() {callback()}
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        async: false,
+        success: callback()
     })
 }

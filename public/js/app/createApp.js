@@ -1,8 +1,10 @@
-    var block = 0
+    //Global vars
+    var appCrData = {}
+    var appCrDescriptionSize = 0;
+    var appCrDescriptionString = "";
     
-    //QUILL
-    var Delta = Quill.import('delta');
-    var toolbarOptions = [
+   //QUILL
+    var quillToolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
         ['blockquote', 'code-block'],
       
@@ -22,115 +24,96 @@
         ['link', 'image', 'video']                   
     ];
     
-    var quill = new Quill('#description', {
+    var quill = new Quill('#appCrDescription', {
         theme: 'snow',
         placeholder: 'Create a description...',
         modules: {
-            toolbar: toolbarOptions
+            toolbar: quillToolbarOptions
         }
     });
 
+    var Delta = Quill.import('delta');
     var change = new Delta();
     quill.on('text-change', function(delta) {
         change = change.compose(delta);
         change = new Delta();
-        
-        descriptionString = JSON.stringify(quill.getContents());
-        descriptionSize = descriptionString.length;
 
-        setTimeout(()=>{updateSocket()}, 100)
+        appCrDescriptionString = quill.getContents();
+        appCrDescriptionSize = appCrDescriptionString.length;
+
+        setTimeout(()=>{appCrUpdateSocket()}, 100)
     })
 
     //Some tweaks
-    $("#auth").prop("disabled", true);
-    $("#auth").prop("checked", true);
-    $("#public").on("change", function(){
-        if(document.getElementById("public").checked){
-            $("#auth").prop("disabled",false);
+    $("#appCrAuth").prop("disabled", true);
+    $("#appCrAuth").prop("checked", true);
+    $("#appCrPublic").on("change", function(){
+        if($("#appCrPublic").is(':checked')){
+            $("#appCrAuth").prop("disabled",false);
         }else{
-            $("#auth").prop("disabled",true);
-            $("#auth").prop("checked",true);
+            $("#appCrAuth").prop("disabled",true);
+            $("#appCrAuth").prop("checked",true);
         }
     })
     
     //SOCKET
-    var title = document.getElementById("title").value
-    var descName = document.getElementById("name").value
-    var url = document.getElementById("url").value
-    var public = document.getElementById("public").checked
-        
-    var local = document.getElementById("local")
-    var auth = document.getElementById("auth")
-    var adminlevel = document.getElementById("adminlevel")
-
-    var appData = {}
-
-    var descriptionSize = 0;
-    var descriptionString = "";
-
-    $("#appcreateform").on("change keyup paste", function(){
-        $("#submit").prop("disabled", true);
-        updateSocket()
+    $("#appCrForm").on("change keyup paste", function(){
+        $("#appCrSubmit").prop("disabled", true);
+        appCrUpdateSocket()
     })
 
-    function updateSocket(){
-        $("#submit").prop("disabled", true);
+    function appCrUpdateSocket(){
+        $("#appCrSubmit").prop("disabled", true);
 
-        title = document.getElementById("title").value
-        descName = document.getElementById("name").value
-        url = document.getElementById("url").value
-        public = document.getElementById("public").checked
-        
-        local = document.getElementById("local")
-        auth = document.getElementById("auth")
-        adminlevel = document.getElementById("adminlevel")
+        //Updating variables
+        var title =         $("#appCrTitle").val()
+        var descName =      $("#appCrName").val()
+        var url =           $("#appCrUrl").val()
+        var public =        $("#appCrPublic").is(':checked')
+        var local =         $("#appCrLocal").is(':checked')
+        var auth =          $("#appCrAuth").is(':checked')
+        var adminlevel =    $("#appCrAdminlevel").val()
 
-        local = (local == null) ? false : local.checked;
-        auth = (auth == null) ? false : auth.checked;
-        adminlevel = (adminlevel == null) ? 0 : adminlevel.value;
+        //Checking valid
+        local =         (local == undefined)         ? false : $("#appCrLocal").is(':checked');
+        auth =          (auth == undefined)          ? false : $("#appCrAuth").is(':checked');
+        adminlevel =    (adminlevel == undefined)    ? 0     : $("#appCrAdminlevel").val();
 
-        descriptionSizeJson = JSON.stringify({size: descriptionSize});
-        appDataSocket = {title, description: descriptionSizeJson, name: descName, url, public, local, auth, adminlevel}
+        //Setting for sockets
+        descriptionSizeObject = {size: appCrDescriptionSize}
+        appDataSocket =         {title, description: descriptionSizeObject, name: descName, url, public, local, auth, adminlevel}
 
-        descriptionReady = JSON.stringify({content: descriptionString})
-        appData = {title, description: descriptionReady, name: descName, url, public, local, auth, adminlevel}
+        //Setting for REST
+        descriptionReady =  {content: appCrDescriptionString}
+        appCrData =           {title, description: descriptionReady, name: descName, url, public, local, auth, adminlevel}
 
         if(block==0){
             block = 1
 
-            socket.emit("appCr", appDataSocket, (data)=>{
+            conSocket("appCr", appDataSocket, (data)=>{
 
                 if(data){
-                    $("#submit").prop("disabled",true);
+                    $("#appCrSubmit").prop("disabled",true);
                     block = 0
-                    return $("#status").text(data);
+                    return $("#appCrStatus").text(data);
                 }
 
-                $("#status").text("Ready to create");
-                $("#submit").prop("disabled", false);
-                $("#submit").attr("onclick","createApp()");
+                $("#appCrStatus").text("Ready to create");
+                $("#appCrSubmit").prop("disabled", false);
+                $("#appCrSubmit").attr("onclick","createApp()");
                 block = 0
             })   
         }
 
     }
   
-
     //AJAX
     function createApp(){ 
-        $("#submit").prop("disabled",true);
+        $("#appCrSubmit").prop("disabled",true);
 
-        $.ajax({
-        url: '/app',
-        type: 'POST',
-        data: JSON.stringify(appData),
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        async: false,
-        success: function () {
-            $("#status").text("Success!");
-        }
-    });
+        conRest('/app', 'POST', appCrData, ()=>{
+            $("#appCrStatus").text("Success!");
+        })
 
     }
 
