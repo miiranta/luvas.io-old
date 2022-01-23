@@ -4,7 +4,7 @@ const logged                                = require("../middleware/logged")
 const notLogged                             = require("../middleware/notLogged")
 const chalk                                 = require("chalk")
 const User                                  = require("../db/models/users")
-const {sanitizeInput, sanitizeObject}       = require("../utils/other/sanitizeInput.js")
+const {sanitizeInput}                       = require("../utils/other/sanitizeInput.js")
 require("../passport")
 
 const router = new express.Router()
@@ -40,7 +40,7 @@ router.get("/logout", logged(0), async (req, res) => {
 //Remove One Session----------------------------
 router.delete("/session", logged(0), async (req, res) => {
 
-  const token = sanitizeInput(req.body.sessionToDelete)
+  const token = req.body.sessionToDelete
 
   try{
     req.user.tokens = req.user.tokens.filter((tokenFound)=>{

@@ -80,7 +80,7 @@ router.post("/post/comment/:id", logged(0), async (req, res) => {
     }
 
     //Comment is okay?
-    const comment = sanitizeObject(req.body)
+    const comment = req.body
     var verify
     await verifyComment(comment).then((data)=>{verify = data})
     if(verify){

@@ -30,51 +30,43 @@ const loadSockets = function(io){
     //GET---------------------------------  
 
         socket.on("nick", async (data, callback)=>{
-            dataSanit = JSON.parse(sanitizeInput(data))
+            dataSanit = sanitizeInput(JSON.parse(data))
             verifyNick(dataSanit).then((dataReturn)=>{callback(dataReturn)})
-
         })
 
         socket.on("bio", async (data, callback)=>{
-            dataSanit = JSON.parse(sanitizeInput(data))
+            dataSanit = sanitizeInput(JSON.parse(data))
             verifyBioSocket(dataSanit, socket).then((dataReturn)=>{callback(dataReturn)})
-
         })
 
         socket.on("appCr", async (data, callback)=>{
-            dataSanit = JSON.parse(sanitizeObject(data))
+            dataSanit = sanitizeObject(JSON.parse(data))
             verifyAppCreate(dataSanit).then((dataReturn)=>{callback(dataReturn)})
-
         })
 
         socket.on("appUp", async (data, callback)=>{
-            dataSanit = JSON.parse(sanitizeObject(data))
+            dataSanit = sanitizeObject(JSON.parse(data))
             verifyAppUpdate(dataSanit).then((dataReturn)=>{callback(dataReturn)})
-
         })
 
         socket.on("search", async (data, callback)=>{
-            dataSanit = JSON.parse(sanitizeObject(data))
+            dataSanit = sanitizeObject(JSON.parse(data))
             fetchApps(dataSanit, socket).then((dataReturn)=>{callback(dataReturn)})
-
         })
 
         socket.on("commentVer", async (data, callback)=>{
-            dataSanit = JSON.parse(sanitizeObject(data))
+            dataSanit = sanitizeObject(JSON.parse(data))
             verifyCommentSocket(dataSanit).then((dataReturn)=>{callback(dataReturn)})
-
         })
 
         socket.on("commentLoad", async (data, callback)=>{
-            dataSanit = JSON.parse(sanitizeObject(data))
+            dataSanit = sanitizeObject(JSON.parse(data))
             fetchComments(dataSanit).then((dataReturn)=>{callback(dataReturn)})
-
         })
 
         socket.on("isAppSaved", async (data, callback)=>{
-            dataSanit = JSON.parse(sanitizeObject(data))
+            dataSanit = sanitizeObject(JSON.parse(data))
             isAppSaved(dataSanit, socket).then((dataReturn)=>{callback(dataReturn)})
-
         })
  
         socket.on("disconnect", () =>{

@@ -14,9 +14,7 @@ const router = new express.Router()
 
 //App creation Page (Admin only for now)
 router.get("/app", logged(1), (req, res) => {
-
     res.render("app", {user: sanitizeObject(req.user)})
-  
 });
 
 //App redirect 
@@ -75,7 +73,7 @@ router.get("/app/:id", redirect, async (req, res) => {
 
 //App create
 router.post("/app", logged(1), async (req, res) => {
-    const appData = sanitizeObject(req.body)
+    const appData = req.body
     
     //Is app valid?
     await verifyAppCreate(appData).then((dataReturn)=>{
@@ -133,7 +131,7 @@ router.get("/edit/:id", logged(0), async (req, res) => {
 
 //App edit
 router.post("/edit/:id", logged(0), async (req, res) => {
-    const appData = sanitizeObject(req.body)
+    const appData = req.body
     const appName = sanitizeInput(req.params.id)
 
     await verifyAppUpdate(appData).then((dataReturn)=>{
@@ -178,7 +176,7 @@ router.post("/edit/:id", logged(0), async (req, res) => {
 
 //App delete
 router.get("/delete/:id", logged(0), async (req, res) => {
-    const appName = sanitizeObject(req.params.id)
+    const appName = sanitizeInput(req.params.id)
 
     //Is the owner correct?
     try{
@@ -196,7 +194,7 @@ router.get("/delete/:id", logged(0), async (req, res) => {
 
 //App Save
 router.post("/save/:id", logged(0), async (req, res) => {
-    const appName = sanitizeObject(req.params.id)
+    const appName = sanitizeInput(req.params.id)
     const appDb = await App.findOne({name: appName})
 
     if(!appDb){
@@ -215,7 +213,7 @@ router.post("/save/:id", logged(0), async (req, res) => {
 
 //App Unsave
 router.post("/unsave/:id", logged(0), async (req, res) => {
-    const appName = sanitizeObject(req.params.id)
+    const appName = sanitizeInput(req.params.id)
     const appDb = await App.findOne({name: appName})
 
     if(!appDb){

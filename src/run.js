@@ -1,20 +1,21 @@
-const http              = require("http")
-const express           = require('express')
-const socketio          = require("socket.io")
-const chalk             = require("chalk")
-const hbs               = require('hbs')
-const path              = require("path")
-const passport          = require('passport')
-const cookieSession     = require("cookie-session")
-const ios               = require('socket.io-express-session');
-const routerAuth        = require("./routers/routerAuth")
-const routerContent     = require("./routers/routerContent")
-const routerConfig      = require("./routers/routerConfig")
-const routerAppManager  = require("./routers/routerAppManager")
-const {loadSockets}     = require("./routers/sockets")
-const routerLocalApps   = require("../apps/routerLocalApps")
-const runLocalapps      = require("../apps/runLocalapps")
-const loadHbsHelpers    = require("./utils/other/loadHbsHelpers")
+const http                  = require("http")
+const express               = require('express')
+const socketio              = require("socket.io")
+const chalk                 = require("chalk")
+const hbs                   = require('hbs')
+const path                  = require("path")
+const passport              = require('passport')
+const cookieSession         = require("cookie-session")
+const ios                   = require('socket.io-express-session');
+const routerAuth            = require("./routers/routerAuth")
+const routerContent         = require("./routers/routerContent")
+const routerConfig          = require("./routers/routerConfig")
+const routerAppManager      = require("./routers/routerAppManager")
+const {loadSockets}         = require("./routers/sockets")
+const routerLocalApps       = require("../apps/routerLocalApps")
+const runLocalapps          = require("../apps/runLocalapps")
+const loadHbsHelpers        = require("./utils/other/loadHbsHelpers")
+const { sanitizeObject }    = require("./utils/other/sanitizeInput")
 require('./db/mongoose.js')
 
 const exp = express();
@@ -46,6 +47,11 @@ loadHbsHelpers();
 exp.use(express.static(publicDirectory))
 
 exp.use(express.json({limit: '20mb'}))
+
+exp.use((req, res, next) =>{
+    req.body = sanitizeObject(req.body)
+    next()
+})
 
 exp.use(session)
 

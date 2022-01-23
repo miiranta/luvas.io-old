@@ -13,11 +13,13 @@ function sanitizeInput(input1){
 
 function sanitizeObject(data) {
     for (let key in data) {
-        if (data.hasOwnProperty(key) && data[key]) {
+        if(data.hasOwnProperty(key) && data[key]) {
             if(typeof data[key] === "object" && Array.isArray(data[key])) {
-                data[key].forEach((item) => sanitizeInput(item));
+                data[key].forEach((item) => sanitizeObject(item));
             }else if(typeof data[key] === "object"){
                 sanitizeInput(data[key]);
+            }else{
+                data[key] = sanitizeInput(data[key])
             }
         }
     }

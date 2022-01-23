@@ -6,7 +6,6 @@ const sharp                                 = require("sharp")
 const User                                  = require("../db/models/users")
 const verifyNick                            = require("../utils/profile/verifyNick")
 const {verifyBio}                           = require("../utils/profile/verifyBio")
-const {sanitizeInput, sanitizeObject}       = require("../utils/other/sanitizeInput.js")
 //const QuillDeltaToHtmlConverter           = require('quill-delta-to-html').QuillDeltaToHtmlConverter;
 
 const router = new express.Router()
@@ -37,7 +36,7 @@ router.get("/account", logged(0), (req, res) => {
 //Nick Update
 router.patch("/account/nick", logged(0), async (req, res) => {
 
-    const nick = sanitizeInput(req.body.nick)
+    const nick = req.body.nick
     var verify
 
     await verifyNick(nick).then((data)=>{verify = data})
@@ -81,7 +80,7 @@ router.patch("/account/picture", logged(0), upload.single("file"), async (req,re
 
 //Bio update
 router.patch("/account/bio", logged(0), async (req, res) => {
-    var bio = sanitizeObject(req.body)
+    var bio = req.body
     var verify
 
     await verifyBio(bio).then((data)=>{verify = data})
