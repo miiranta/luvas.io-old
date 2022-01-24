@@ -9,7 +9,7 @@ function unsaveApp(appToUnsave){
     $('#saveApp_' + appToUnsave).text("save")
     $('#saveApp_' + appToUnsave).attr("onClick", "saveApp('"+ appToUnsave +"')")
 
-    conRest('/unsave/' + appToSave, 'POST', {}, ()=>{})
+    conRest('/unsave/' + appToUnsave, 'POST', {}, ()=>{})
 }
 
 function createSaveButton(appName){

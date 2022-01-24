@@ -1,7 +1,6 @@
 const http                  = require("http")
 const express               = require('express')
 const socketio              = require("socket.io")
-const chalk                 = require("chalk")
 const hbs                   = require('hbs')
 const path                  = require("path")
 const passport              = require('passport')
@@ -16,6 +15,7 @@ const routerLocalApps       = require("../apps/routerLocalApps")
 const runLocalapps          = require("../apps/runLocalapps")
 const loadHbsHelpers        = require("./utils/other/loadHbsHelpers")
 const { sanitizeObject }    = require("./utils/other/sanitizeInput")
+const printToConsole = require("./utils/other/printToConsole")
 require('./db/mongoose.js')
 
 const exp = express();
@@ -65,7 +65,7 @@ exp.use(routerAppManager)
 exp.use(routerLocalApps)
 
 server.listen(port, () => {
-    console.log(chalk.magenta.bold("[Server] ") + chalk.green("Server is up! Using port: ") + chalk.blue(port))
+    printToConsole("server", "Server is up! Using port: ", port, "")
     runLocalapps();
 });
 

@@ -1,5 +1,3 @@
-const url               = require('url');
-const chalk             = require("chalk")
 const jwt               = require("jsonwebtoken")
 const os                = require("os")
 const passport          = require('passport')
@@ -7,6 +5,7 @@ const GoogleStrategy    = require('passport-google-oauth20').Strategy;
 const FacebookStrategy  = require('passport-facebook').Strategy;
 const User              = require("./db/models/users")
 const getProfilePic     = require("./utils/profile/getProfilePicture")
+const printToConsole    = require("./utils/other/printToConsole")
 
 passport.serializeUser( async function(user, done) {
 
@@ -20,7 +19,7 @@ passport.serializeUser( async function(user, done) {
         done(null, token)
 
     }catch{
-      console.log(chalk.magenta.bold("[Session] ") + chalk.red("Could not create cookie!")) 
+      printToConsole('warning', 'Could not read cookie!')
       done(null, false, { message: 'Bad Session' })
     }
     
@@ -40,7 +39,7 @@ passport.deserializeUser( async function(token, done) {
         done(null, {...user.toObject(), token})
 
     }catch{
-      console.log(chalk.magenta.bold("[Session] ") + chalk.red("Could not verify token!")) 
+      printToConsole('warning', 'Could not verify token!')
 
       done(null, false, { message: 'Bad Session' })
     }
@@ -69,12 +68,12 @@ passport.use(new GoogleStrategy({
     
         if(!userDb){
           const user = await User.create({googleId, email, name, admin: 0, profilePic: dataPic, nick: Date.now().toString(16)})
-          console.log(chalk.magenta.bold("[Session] ") + chalk.green("Created new user: ") + chalk.blue(email + " (Google)")) 
+          printToConsole('session', 'Created new user: ', email + " (Google)", '')
           return cb(null, user)
         }
 
         await User.updateOne({email},{googleId, email, name})
-        console.log(chalk.magenta.bold("[Session] ") + chalk.green("Login: ") + chalk.blue(email + " (Google)")) 
+        printToConsole('session', 'Login: ', email + " (Google)", '')
         return cb(null, userDb)
  
     }catch(e){cb(null, false, { message: 'Bad Session' })}
@@ -106,12 +105,12 @@ const dataPic = await getProfilePic(picLink)
 
         if(!userDb){
           const user = await User.create({facebookId, email, name, admin: 0, profilePic: dataPic, nick: Date.now().toString(16)})
-          console.log(chalk.magenta.bold("[Session] ") + chalk.green("Created new user: ") + chalk.blue(email + " (Facebook)")) 
+          printToConsole('session', 'Created new user: ', email + " (Facebook)", '')
           return cb(null, user)
         }
 
         await User.updateOne({email},{facebookId, email, name})
-        console.log(chalk.magenta.bold("[Session] ") + chalk.green("Login: ") + chalk.blue(email + " (Facebook)")) 
+        printToConsole('session', 'Login: ', email + " (Facebook)", '')
         return cb(null, userDb)
 
 }catch(e){

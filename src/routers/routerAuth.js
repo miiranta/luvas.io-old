@@ -1,74 +1,39 @@
-const express                               = require("express")
-const passport                              = require('passport')
-const logged                                = require("../middleware/logged")
-const notLogged                             = require("../middleware/notLogged")
-const chalk                                 = require("chalk")
-const User                                  = require("../db/models/users")
-const {sanitizeInput}                       = require("../utils/other/sanitizeInput.js")
+const express                                 = require("express")
+const passport                                = require('passport')
+const logged                                  = require("../middleware/logged")
+const notLogged                               = require("../middleware/notLogged")
+const {sanitizeInput}                         = require("../utils/other/sanitizeInput.js")
+const logout                                  = require("../utils/auth/logout.js")
+const { deleteOneSession, deleteAllSessions } = require("../utils/auth/deleteSession")
 require("../passport")
 
 const router = new express.Router()
 
-//Login Page--------------------------
+//Login Page
 router.get("/login", notLogged, (req, res) => {
-
   res.render("login")
-  
 });
 
-
-//Logout Page (Logged only)-------------
+//Logout
 router.get("/logout", logged(0), async (req, res) => {
-
-    var token = req.user.token
-  
-    try{
-      req.user.tokens = req.user.tokens.filter((tokenFound)=>{
-          return token !== tokenFound.token
-      })
-      await User.updateOne({_id: req.user._id}, req.user)
-    }catch(e){return res.redirect('/login')}
-
-    console.log(chalk.magenta.bold("[Session] ") + chalk.yellow("Logged out user: ") + chalk.blue(req.user.email)) 
-    req.session = null
-    req.logout()
-
-    res.redirect('/')
+  const codeRes = await logout(req) 
+  if(codeRes.redirect){
+      res.redirect(codeRes.redirect)
+  }
+  res.status(codeRes.status).send()
 })
 
-
-//Remove One Session----------------------------
+//Remove One Session
 router.delete("/session", logged(0), async (req, res) => {
-
-  const token = req.body.sessionToDelete
-
-  try{
-    req.user.tokens = req.user.tokens.filter((tokenFound)=>{
-        return token !== tokenFound.token
-    })
-    await User.updateOne({_id: req.user._id}, req.user)
-
-  }catch(e){return res.status(400).send()}
-
-  console.log(chalk.magenta.bold("[Session] ") + chalk.yellow("Destroyed session for: ") + chalk.blue(req.user.email)) 
-  res.status(200).send()
-
+  const codeRes = await deleteOneSession(req) 
+  res.status(codeRes.status).send()
 })
 
 
-//Remove All Sessions----------------------------
+//Remove All Sessions
 router.delete("/session/all", logged(0), async (req, res) => {
-
-  try{
-
-    req.user.tokens = [];
-    await User.updateOne({_id: req.user._id}, req.user)
-
-  }catch(e){return res.status(400).send()}
- 
-  console.log(chalk.magenta.bold("[Session] ") + chalk.yellow("Destroyed all sessions for: ") + chalk.blue(req.user.email)) 
-  res.status(200).send()
-
+  const codeRes = await deleteAllSessions(req) 
+  res.status(codeRes.status).send()
 })
 
   
@@ -83,7 +48,6 @@ router.get('/auth/google/redirect',
     res.redirect(sanitizeInput(req.session.redirect));
     req.session.redirect = "/home"
 });
-
 
 //-----------------Facebook-------------------
 

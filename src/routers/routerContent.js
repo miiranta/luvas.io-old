@@ -1,45 +1,35 @@
 const logged                                = require("../middleware/logged")
 const redirect                              = require("../middleware/redirect")
-const chalk                                 = require("chalk")
 const express                               = require("express")
 const User                                  = require("../db/models/users")
 const App                                   = require("../db/models/apps")
-const Comment                               = require("../db/models/comments")
 const {sanitizeInput, sanitizeObject}       = require("../utils/other/sanitizeInput.js")
-const {verifyComment}                       = require("../utils/comment/verifyComment")
-const fetchComments                         = require("../utils/comment/fetchComments")
+const createComment = require("../utils/comment/createComment")
 
 const router = new express.Router()
 
 //Introduction Page
 router.get("/", (req, res) => {
-
     res.render("main")
-  
 });
 
-//Home Page (Logged only)
+//Home Page
 router.get("/home", logged(0), (req, res) => {
-
     res.render("home", {user: sanitizeObject(req.user)})
-  
 });
 
 //Profile Page
 router.get("/user/:id", redirect, async (req, res) => {
-
     const profile = await User.findOne({"nick": sanitizeInput(req.params.id)})
     if(profile){
         res.render("user", {profile})
     }else{
         res.redirect("/home")
     }
-
 });
 
 //Post Page
 router.get("/post/:id", redirect, async (req, res) => {
-
     const post = await App.findOne({"name": sanitizeInput(req.params.id)})
     
     //App registered?
@@ -57,7 +47,6 @@ router.get("/post/:id", redirect, async (req, res) => {
 
         //Find owner data
         const profile = await User.findOne({"_id": post.owner})
-
         res.render("post", {post, profile, user: req.user})
 
     }else{
@@ -72,32 +61,8 @@ router.get("/post", logged(0), async (req, res) => {
 
 //Create Comment
 router.post("/post/comment/:id", logged(0), async (req, res) => {
-
-    //Post exists?
-    const post = await App.findOne({"name": sanitizeInput(req.params.id)})
-    if(!post){
-        return res.status(400).send()
-    }
-
-    //Comment is okay?
-    const comment = req.body
-    var verify
-    await verifyComment(comment).then((data)=>{verify = data})
-    if(verify){
-        return res.status(400).send()
-    }
-
-    //Alright
-    await Comment.create({owner: req.user._id, post: post._id, content: JSON.stringify(comment)})
-    
-    //Socket update
-    var io = req.app.get('io');
-
-    var commentData = {page: 0, post: post.name}
-    var lastComments = await fetchComments(commentData)
-    io.emit("comment_" + post.name, lastComments[0])
-
-    res.send()
+    const codeRes = await createComment(req) 
+    res.status(codeRes.status).send()
 });
 
 

@@ -70,7 +70,7 @@ function postComment(){
     comPage = 0;
     $("#comPage").text(comPage+1);
     getComments();
-    updateButtons();
+    comUpdateButtons();
 
     $("#comPostComment").prop("disabled", true);
 

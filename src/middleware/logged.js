@@ -1,7 +1,5 @@
-const chalk     = require("chalk")
 const User      = require("../db/models/users")
-const url       = require("url")
-const redirect  = require("./redirect")
+const printToConsole = require("../utils/other/printToConsole")
 
 const logged = function(x){
 
@@ -22,14 +20,14 @@ const logged = function(x){
                 if(redirect == "/logout"){redirect = "/home"}
                 req.session.redirect = redirect
 
-                console.log(chalk.magenta.bold("[Session] ")+chalk.yellow("Redirecting non-auth user")) 
+                printToConsole('warning', 'Redirecting non-auth user')
                 req.user = {}
                 return res.redirect("/login")
             }
 
             //Admin level is enough?
             if(req.user.admin < x){
-                console.log(chalk.magenta.bold("[Session] ")+chalk.yellow("Redirecting non-admin user")) 
+                printToConsole('warning', 'Redirecting non-admin user')
                 req.user = {}
                 return res.redirect("/home")
             }
