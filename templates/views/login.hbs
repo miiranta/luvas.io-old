@@ -3,15 +3,110 @@
 <html>
 
     <head>
-    <title>Login</title>
-    {{>head}}
+        <title>Login</title>
+        {{>head}}
     </head>
 
     <body>
 
-    <a href="/auth/google">Login with google<a>
-    <a href="/auth/facebook">Login with facebook<a></a>
+        <!--Warning-->
+        <div class="warning" style="display:none">
+            <div class="subwarning">
+                <div class="warningTitle">
+                    <h1 class="light warningTitleContent">Are you sure?</h1>
+                </div>
+                <div class="warningContent light" data-simplebar>
+                    <div class=" warningScroll" style="text-align: left;">
+                    </div>
+                </div>
+                <div class="warningButtons" >
+                    <button class="okayWarning bnt3" type="button" style="border-radius: 100px height:45px; width: 150px;">✓ with style</button>
+                    <button class="closeWarning bnt2" type="button" style="border-radius: 100px height:45px; width: 45px;">X</button>
+                </div>
+            </div>
+        </div>
 
+        <!--Main-->
+        <div class="main-scroll desktop ">
+        <div class="submain">
+
+            <!--Welcome title-->
+            <div class="col start " >
+                <h1 class="light" style="margin-left: 100px; font-size: 35pt;">Login</h1>
+                <h2 class="light" style="margin-left: 20px;">to luvas.io</h2>
+            </div>
+
+            <!--Login section-->
+            <div class="sector" >
+
+                <!--Info-->
+                <div class="subsector6">
+
+                    <!--Need to login msg-->
+                    <div class="row box2" >
+                        <div style="margin-top: 30px;"></div>
+                        <div class="col start">
+                            <h2 class="light" >login to continue.</h2>
+                        </div>
+                        <div class="col start">
+                            <p class="light">Wait.. what?</p>
+                        </div>
+                        <div class="col start" style="margin-top: 10px;">
+                            <p class="light">Some apps might require authentication to work properly,</p>
+                        </div>
+                        <div class="col start">
+                            <p class="light">it is also required for other resources.</p>
+                        </div>
+                        <div class="col start" style="margin-top: 10px;">
+                            <p class="light">Don't worry, your password does not leave google or facebook.</p>
+                        </div>
+                    </div>
+
+                    <!--Go home msg-->
+                    <div class="row box2" >
+                        <div style="margin-top: 40px;"></div>
+                        <div class="col start">
+                            <h2 class="light" >you can also return to the main page.</h2>
+                        </div>
+                        <div class="col start">
+                            <a href="/">
+                            <button class="bnt2" type="button" style="margin-top: 10px;">Home</button>  
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!--Login box-->
+                <div class=" subsector5 border2-shadow1">
+                        <div class="box3 row bg-shadow2 border2-vivid3">
+                            <div class="col">
+                                <h2 class="light" >continue with...</h2>
+                            </div>
+                            <div class="box1 col">
+                                <a href="/auth/google">
+                                <button class="bnt1" type="button" style="margin-top: 30px; width: 400px;">Google</button>  
+                                </a>
+                            </div>
+                            <div class="box1 col">
+                                <a href="/auth/facebook">
+                                <button class="bnt1" type="button" style="margin-top: 20px; width: 400px;">Facebook</button>  
+                                </a>
+                            </div>
+                            
+                        </div>
+                    </div>
+            </div>
+
+
+
+        </div>
+        </div>
+
+    <!--Footer-->
+    {{>footer}}
+     
     </body>
+
+    
 
 </html>
