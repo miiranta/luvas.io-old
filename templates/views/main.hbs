@@ -3,18 +3,207 @@
 <html>
 
     <head>
-    <title>Welcome</title>
-    {{>head}}
+        <title>Welcome</title>
+        {{>head}}
     </head>
 
     <body>
 
-    <a href="/login">Login</a>
 
-    <!--Show Some Apps-->
-    <div>
-    {{>fetchAppsMain}}   
-    </div>
+        <!--Warning-->
+        <div class="warning" style="display:none">
+            <div class="subwarning">
+                <div class="warningTitle">
+                    <h1 class="light warningTitleContent">Are you sure?</h1>
+                </div>
+                <div class="warningContent light" data-simplebar>
+                    <div class=" warningScroll" style="text-align: left;">
+                    </div>
+                </div>
+                <div class="warningButtons" >
+                    <button class="okayWarning bnt3" type="button" style="border-radius: 100px height:45px; width: 150px;">✓ with style</button>
+                    <button class="closeWarning bnt2" type="button" style="border-radius: 100px height:45px; width: 45px;">X</button>
+                </div>
+            </div>
+        </div>
+
+
+        <!--Main-->
+        <div class="main-scroll desktop bg-shadow1">
+        <div class="submain">
+
+
+           <!--Welcome title-->
+            <div class="col start " >
+                <h1 class="light" style="margin-left: 100px; font-size: 35pt;">Welcome</h1>
+                <h2 class="light" style="margin-left: 20px;">to luvas.io</h2>
+            </div>
+
+            <div style="margin-top: 20px;"></div>
+
+
+            <!--Site Description-->
+            <div class="banner2 row" style="padding-left: 150px;">
+                <div class="col start">
+                    <h2 class="light" >what's that?</h2>
+                </div>
+                <div class="col start">
+                    <p class="light">Well, firstly... </p>
+                </div>
+                <div class="col start">
+                    <p class="light">Hii, my name is Lucas!</p>
+                </div>
+                <div class="col start">
+                    <p class="light">And this is a personal site i use to deploy some applications.</p>
+                </div>
+                <div class="col start" style="margin-top: 10px; font-weight: bold;">
+                    <p class="light">Have fun exploring 🎃</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 10px;"></div>
+
+
+            <!--Random App-->
+            <div class="sector" >
+
+                <div class="subsector6 row" >
+                    <div class="col start">
+                        <h2 class="light" >lucky today?</h2>
+                    </div>
+                    <div class="col start">
+                        <p class="light">You can try a random app.</p>
+                    </div>
+                    <div class="col start">
+                        <a href="/random">
+                        <button class="bnt4" type="button" style="margin-top: 10px; width: 210px;">Try random app</button>  
+                        </a>
+                    </div>
+                </div>
+
+                <div class="subsector1" ></div>
+                <div class="subsector6 row" ></div>
+
+            </div>
+
+
+            <!--Github/Linkedin-->
+            <div class="sector" >
+
+                <div class="subsector6 row" >
+                    <div class="col start">
+                        <h2 class="light" >can i contribute?</h2>
+                    </div>
+                    <div class="col start">
+                        <p class="light">Of course! Everything is open source.</p>
+                    </div>
+                    <div class="col start">
+                        <a target="_blank" rel="noopener noreferrer" href="https://github.com/miiranta/luvas.io">
+                        <button class="bnt3" type="button" style="margin-top: 10px;">Github</button>  
+                        </a>
+                    </div>
+                </div>
+
+                <div class="subsector1" ></div>
+
+                <div class="subsector6 row" >
+                    <div class="col start">
+                        <h2 class="light" >how can i contact you?</h2>
+                    </div>
+                    <div class="col start">
+                        <p class="light">You can send me a message on LinkedIn ;)</p>
+                    </div>
+                    <div class="col start">
+                        <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/miiranta/">
+                        <button class="bnt3" type="button" style="margin-top: 10px;">LinkedIn</button>  
+                        </a>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+            <div style="margin-top: 70px;"></div>
+
+
+            <!--Fetch Apps/Login-->
+            <div class="sector bg-shadow2 border2-vivid3" >
+
+
+                <!--Fetch Apps-->
+                {{>fetchAppsMain}}  
+
+                <div class="subsector1" ></div>
+
+
+                <!--Login/Description-->
+                <div class="subsector6 row" >
+
+                    <div class="box1 row">
+                        <div>
+                            <h2 class="light" >You can check some of the apps here.</h2>
+                        </div>
+                        <div>
+                            <p class="light">Most recent first.</p>  
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px;"></div>
+
+                    <div class="box2 row bg-vivid3 border2-vivid3">
+                        <div>
+                            <h2 class="light" >You can also</h2>
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <a href="/login">
+                            <button class="bnt1" type="button">login</button>
+                            </a>
+                        </div>
+                        <div style="margin-top: 2px;">
+                            <p class="light">with google or facebook for full search tools.</p> 
+                        </div>
+                    </div>
+
+                </div>
+        
+            </div>
+
+            <div style="margin-top: 40px;"></div>
+
+
+            <!--FAQ-->
+            <div class="banner2 row " style="padding-left: 150px;">
+                <div class="col start">
+                    <h2 class="light" >still lost?</h2>
+                </div>
+                <div class="col start">
+                    <p class="light">You can see the FAQ</p>
+                </div>
+                <div class="col start">
+                    <button class="bnt3" type="button" onClick="msgOpenFaq()" style="margin-top: 10px;">FAQ</button>  
+                </div>
+                
+            </div>
+
+            <div style="margin-top: 70px;"></div>
+
+            
+            <!--Footer-->
+            <footer class="col bg-shadow2 col border2-shadow1">
+                <div class="row" style="width:200px;margin-left:5px;margin-top:4px; margin-bottom:4px;">
+                    <button class="bnt1" onClick="msgOpenSoftwareLicenses()" type="button" style="width:200px; ">software licenses</button>  
+                </div>
+                <div class="row" style="width:200px;margin-left:5px;margin-top:4px; margin-bottom:4px;">
+                    <button class="bnt1" onClick="msgOpenPrivacyPolicy()" type="button" style="width:200px; ">privacy policy</button>
+                </div>
+                <div class="row" style="width:200px;margin-left:5px;margin-top:4px; margin-bottom:4px;">
+                    <button class="bnt1" onClick="msgOpenTermsOfService()" type="button" style="width:200px; ">terms of service</a>
+                </div>
+                
+            </footer>
+
+        </div>
+        </div>
 
     </body>
 

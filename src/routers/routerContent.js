@@ -1,10 +1,13 @@
 const logged                                = require("../middleware/logged")
 const redirect                              = require("../middleware/redirect")
 const express                               = require("express")
+const path                                  = require('path');
 const User                                  = require("../db/models/users")
 const App                                   = require("../db/models/apps")
 const {sanitizeInput, sanitizeObject}       = require("../utils/other/sanitizeInput.js")
-const createComment = require("../utils/comment/createComment")
+const createComment                         = require("../utils/comment/createComment")
+
+const msgDirectory = path.join(__dirname, "../../templates/messages") 
 
 const router = new express.Router()
 
@@ -63,6 +66,20 @@ router.get("/post", logged(0), async (req, res) => {
 router.post("/post/comment/:id", logged(0), async (req, res) => {
     const codeRes = await createComment(req) 
     res.status(codeRes.status).send()
+});
+
+//Msgs
+router.get("/msg/faq", async (req, res) => {
+    res.sendFile(msgDirectory + "/faq.html")
+});
+router.get("/msg/privacypolicy", async (req, res) => {
+    res.sendFile(msgDirectory + "/privacyPolicy.html")
+});
+router.get("/msg/softwarelicenses", async (req, res) => {
+    res.sendFile(msgDirectory + "/softwareLicenses.html")
+});
+router.get("/msg/termsofservice", async (req, res) => {
+    res.sendFile(msgDirectory + "/termsOfService.html")
 });
 
 

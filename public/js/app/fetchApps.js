@@ -104,9 +104,9 @@ function appFetAppendApps(searchResults){
     if(searchResults.length == 0){
 
         //No apps found
-        var appendModel = ` <div>
+        var appendModel = ` <div class="box2 border2-shadow2 bg-shadow2">
                                 <div>
-                                <p>No apps found ;(</p>
+                                <p class="light">No apps found ;(</p>
                                 </div>
                             </div>`;
 
@@ -121,7 +121,7 @@ function appFetAppendApps(searchResults){
                 saveButton = createSaveButton(result.name)
             }
 
-            var appendModel = ` <div>
+            var appendModel = ` <div class="box2 border2-shadow2 bg-light row">
                                     <div>
                                     <p>${(i+1) + 10*appFetPage}----------------</p>
                                     </div>
