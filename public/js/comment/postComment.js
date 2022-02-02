@@ -10,8 +10,7 @@ var toolbarOptions = [
 
     [{ 'list': 'ordered'}, { 'list': 'bullet' }],
     [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-    [{ 'direction': 'rtl' }],                         // text direction
-
+    
     [{ 'header': [1, 2, false] }],
   
     [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme

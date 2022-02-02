@@ -22,18 +22,17 @@ function showComment(comment, order){
                                 </div>
 
                                 <div class="end" style="margin: 10px; margin-bottom: 5px;">
-                                    <p class="makeDate light">${comment.createdAt}</p>
+                                    <p class="makeDate shadow2">${comment.createdAt}</p>
                                 </div>
                             </div>
                             
-                            <div data-simplebar class="bg-light border1-light start" style="max-height: 200px;">
-                            <div class="quillEditor commentContent" style="margin:2px;">
-                                <div class="quillEditor">
+                            <!--Show quill content-->
+                            <div data-simplebar class="bg-light border1-light" style="max-height: 200px;">
+                                <div class="quill" style="width:600px;">
                                     ${deltaToHTML(JSON.parse(comment.content))}
-                                </div>  
+                                </div>
                             </div>
-                            </div>
-
+                            
                             <div style="height: 40px;"></div>
 
                         </div>`;

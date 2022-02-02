@@ -16,8 +16,10 @@
                 <h2 class="light">post a comment...</h2>
             </div>
             
-            <div id="comPostComments" class="row bg-light" style="height:400px; margin-top:10px;">
-                <div id="comEditor" class="quillEditor"></div>
+            <!--Show quill editor-->
+            <div id="comPostComments" class="row bg-light" style="width:600px;  margin-top:10px;">
+                <div id="comEditor" class="quill" style="height:400px; ">
+                </div>
             </div>
 
             <div> 
@@ -50,18 +52,19 @@
         {{/if}}
 
         <!--Page selector-->
-        <div class="box1 col bg-shadow2 border2-light">
-            <div class="row" style="width:45px">
-                <button id="comPrevious" class="navig bnt4" type="button" style="border-radius: 100px height:45px; width: 45px;">&lt;</button>
-            </div>
-            <div class="row" style="width:100px">    
-                <h2 id="comPage" class="light" style="margin: 6px; margin-left: 15px; margin-right: 15px;">1</h2>
-            </div>
-            <div class="row" style="width:45px">    
-                <button id="comNext" class="navig bnt4" type="button" style="border-radius: 100px height:45px; width: 45px;">&gt;</button>
+        <div class="row end" style="height: 100%; padding-bottom: 40px; padding-top: 20px;">
+            <div class="box1 col bg-shadow2 border2-light">
+                <div class="row" style="width:45px">
+                    <button id="comPrevious" class="navig bnt4" type="button" style="border-radius: 100px height:45px; width: 45px;">&lt;</button>
+                </div>
+                <div class="row" style="width:100px">    
+                    <h2 id="comPage" class="light" style="margin: 6px; margin-left: 15px; margin-right: 15px;">1</h2>
+                </div>
+                <div class="row" style="width:45px">    
+                    <button id="comNext" class="navig bnt4" type="button" style="border-radius: 100px height:45px; width: 45px;">&gt;</button>
+                </div>
             </div>
         </div>
-
     </div>
 
 </div>
