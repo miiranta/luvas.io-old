@@ -1,35 +1,71 @@
-{{#if user._id}} 
+<div class="sector">
+    
+    <!--View posts-->
+    <div id="comShowComments" class="subsector6">
+    </div>
 
-<div id="comPostComments" style="width: 700px;">
-    <p>Post comment:</p>
-    <div id="comEditor" style="height: 500px;"></div>
-</div>
+    <div class="subsector1"></div>
 
-<div>
-    <p id="comStatusComment"></p>
-    <button id="comPostComment">Post</button>
-</div>
+    <!--Make a post-->
+    <div class="subsector6">
+        {{#if user._id}} 
 
+        <!--Logged-->
+        <div class="box4 row start" >
+            <div class="start">
+                <h2 class="light">post a comment...</h2>
+            </div>
+            
+            <div id="comPostComments" class="row bg-light" style="height:400px; margin-top:10px;">
+                <div id="comEditor" class="quillEditor"></div>
+            </div>
 
-{{else}}
+            <div> 
+                <p class="light" id="comStatusComment" style="margin-top:10px;"></p>
+            </div>
 
-<div id="comShowComments">
-    <p>Login to post comments</p>
-</div>
+            <div>
+                <button class="bnt4" id="comPostComment">Post</button>
+            </div>
+        </div>
+            
+        {{else}}
 
-{{/if}}
+        <!--Not logged-->
+        <div class="box2 row bg-vivid3 border2-vivid3">
+            <div>
+                <h2 class="light" >(╯°□°)╯︵ ┻━┻</h2>
+            </div>
+            <div>
+                <p class="light" >You need to be logged in to post a comment.</p>
+            </div>
+            <div style="margin-top: 10px;">
+                <a href="/login">
+                <button class="bnt1" type="button">login</button>
+                </a>
+            </div>
+        </div>
+        <div style="margin-top: 20px;"></div>
+            
+        {{/if}}
 
-
-<div id="comShowComments">
-</div>
-
-<!--Page selector-->
-    <div>
-        <button type="button" class="navig" id="comPrevious"><-</button>
-        <p>Current page is </p> <p id="comPage">1</p>
-        <button type="button" class="navig" id="comNext">-></button>
+        <!--Page selector-->
+        <div class="box1 col bg-shadow2 border2-light">
+            <div class="row" style="width:45px">
+                <button id="comPrevious" class="navig bnt4" type="button" style="border-radius: 100px height:45px; width: 45px;">&lt;</button>
+            </div>
+            <div class="row" style="width:100px">    
+                <h2 id="comPage" class="light" style="margin: 6px; margin-left: 15px; margin-right: 15px;">1</h2>
+            </div>
+            <div class="row" style="width:45px">    
+                <button id="comNext" class="navig bnt4" type="button" style="border-radius: 100px height:45px; width: 45px;">&gt;</button>
+            </div>
+        </div>
 
     </div>
+
+</div>
+
 
 <!--Script-->
 <script src="\js/comment/fetchComments.js"></script> 

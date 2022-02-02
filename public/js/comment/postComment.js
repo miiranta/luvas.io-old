@@ -5,18 +5,16 @@ $("#comPostComment").prop("disabled", true);
 //QUILL
 var Delta = Quill.import('delta');
 var toolbarOptions = [
-    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-    ['blockquote', 'code-block'],
-  
+    ['bold', 'italic' ],
+    ['underline', 'strike'],        // toggled buttons
+
     [{ 'list': 'ordered'}, { 'list': 'bullet' }],
     [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-    [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
     [{ 'direction': 'rtl' }],                         // text direction
-  
-    [{ 'header': [1, 2, 3, 4, 5, false] }],
+
+    [{ 'header': [1, 2, false] }],
   
     [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-    [{ 'font': [] }],
     [{ 'align': [] }],
 
     ['clean'],                                        // remove formatting button
@@ -39,8 +37,8 @@ quill.on('text-change', function(delta) {
     change = new Delta();
     
     comContent = quill.getContents();
-    comSize = comContent.length;
-
+    comSize = JSON.stringify(comContent).length;
+    
     //SOCKET verify comment
     var comment = {size: comSize};
     $("#comPostComment").prop("disabled", true);

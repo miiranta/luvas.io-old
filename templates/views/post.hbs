@@ -9,17 +9,27 @@
 
     <body>
 
-    <a href="/home">Home</a>
+        <!--Navbar-->
+        {{>navbar}}
 
-    <!--Show Some Apps-->
-    <div>
-    {{>fetchAppInfo}}   
-    </div>
+        <!--Main-->
+        <div class="main-scroll desktop bg-shadow1">
+        <div class="submain">
 
-    <!--Comments-->
-    <div>
-    {{>comments}}   
-    </div>
+            <!--Show Some Apps-->
+            {{>fetchAppInfo}}   
+
+            <!--Comments-->
+            {{>comments}}   
+
+        </div>
+        </div>
+
+        <!--Footer-->
+        {{>footer}}
+
+        <!--Warning-->
+        {{>warning}}
 
     </body>
 

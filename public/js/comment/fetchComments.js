@@ -12,22 +12,50 @@ socket.on("comment_" + winLocal[2], (data)=>{
 
 //LOAD
 function showComment(comment, order){
-    var appendModel = ` <div class="comment"> 
-                            <p>${comment.nick}--------------</p>
-                            <p>${comment.createdAt}</p>
-                            <p>${deltaToHTML(JSON.parse(comment.content))}</p>
+    var appendModel = ` <div class="comment row start"> 
+
+                            <div class="col">
+                                <div class="start" style="margin: 10px; margin-bottom: 5px;">
+                                    <a href="/user/${comment.nick}">
+                                    <p class="light">${comment.nick}</p>
+                                    </a>
+                                </div>
+
+                                <div class="end" style="margin: 10px; margin-bottom: 5px;">
+                                    <p class="makeDate light">${comment.createdAt}</p>
+                                </div>
+                            </div>
+                            
+                            <div data-simplebar class="bg-light border1-light start" style="max-height: 200px;">
+                            <div class="quillEditor commentContent" style="margin:2px;">
+                                <div class="quillEditor">
+                                    ${deltaToHTML(JSON.parse(comment.content))}
+                                </div>  
+                            </div>
+                            </div>
+
+                            <div style="height: 40px;"></div>
+
                         </div>`;
 
     if(order){
-        return $("#comShowComments").append(appendModel)
+        $("#comShowComments").append(appendModel);
+        formatDates();
+        return 
     }
-    return $("#comShowComments").prepend(appendModel)
+    $("#comShowComments").prepend(appendModel);
+    formatDates();
+    return 
 }
 
 function noComments(enable){
     if(enable){
-         var appendModel = `<div class="comment" id="noComment"> 
-                                <p>No comments found :(</p>
+         var appendModel = `
+                           
+                            <div class="box1 bg-shadow2 border2-shadow2" id="noComment" style="margin-top: 48px;"> 
+                                <div>
+                                <p class="light" style="margin-top: 20px;">No comments found ;(</p>
+                                </div>
                             </div>`;
         $("#comShowComments").append(appendModel)
     }else{

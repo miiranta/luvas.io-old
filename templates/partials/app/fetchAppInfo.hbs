@@ -1,54 +1,102 @@
 <!--FETCH APP INFO-->
 
-    <!--App info-->
-    <div>
-
-        <div>
-            <p>{{post.name}}</p>
+        <!--Name/Pic-->
+        <div class="banner2 row">
+            <div>
+                <h1 class="light">{{post.name}}</h1>
+            </div>
+            <div style="margin-top: 10px;">
+                <img style="width:100px; height: 100px; border-radius: 200px;" src="{{post.picture}}"/>
+            </div>
+            <div style="margin-top: 10px;">
+                <p class="light">Created by&nbsp;</p>
+                <a href="/user/{{profile.nick}}">
+                <p class="light" style="font-weight: bold;">{{profile.nick}}</p>
+                </a>
+            </div>
         </div>
 
-        <div>
-            <p>{{post.title}}</p>
+        <!--Open-->
+        <div class="banner1" style="margin-top: 0;">
+            <div style="margin-top: 10px;">
+                <a href="/app/{{post.name}}">
+                <button class="bnt3" type="button" style="margin-top: 10px; width: 210px;">Open app!</button>  
+                </a>
+            </div>
         </div>
 
-        <div>
-            <img src="{{post.picture}}"/>
+        <div style="margin-top: 30px;"></div>
+
+        <!--App Description-->
+        <div class="row start" style="margin-top: 10px;">
+            <div class="col">
+                <h2 class="light" >{{post.title}}</h2>
+            </div>
+            <div class="col">
+                <p class="light">Description</p>
+            </div>
+            <div class="col ">
+                <div id="appInfoDesc" class="bg-light border2-shadow1" style="width:1200px;"></div>
+                <div id="appInfoDescRaw" style='display:none'>{{post.description}}</div>
+            </div>
         </div>
 
-        <div>
-            <p>Description</p>
-            <div id="appInfoDesc"></div>
-            <div id="appInfoDescRaw" style='display:none'>{{post.description}}</div>
+        <div style="margin-top: 40px;"></div>
+
+        {{#ifCond user._id "==" post.owner}}
+        <!--Owner only-->
+        <div class="banner2 row bg-shadow2 border1-light" style="padding-left: 150px; margin-top: 0">
+            <div class="col start">
+                <h2 class="light" >infinite power!</h2>
+            </div>
+            <div class="col start">
+                <p class="light">Since you are the owner of this app, you have some extra options. </p>
+            </div>
+
+            <!--Edit-->
+            <div class="col start">
+                <a href="/edit/{{post.name}}">
+                <button class="bnt4" type="button" style="margin-top: 10px;">Edit</button>  
+                </a>
+
+            </div>
         </div>
+        {{/ifCond}}
         
-        <div>
-            <p>Created by</p>
-            <p>{{profile.nick}}</p>
+        <div style="margin-top: 40px;"></div>
+        
+        <!--Stats-->
+        <div class="row bg-shadow2 border1-light" style="padding-left: 150px; margin-top: 0; height: 270px;">
+            <div class="col start" style="margin-bottom:6px;">
+                <h2 class="light" >some app stats.</h2>
+            </div>
+             <div class="col start" style="margin-left:10px;">
+                <p class="light">Created at&nbsp;</p>
+                <p class="light makeDate" style="font-weight: bolder;">{{post.createdAt}}</p>
+            </div>
+            <div class="col start" style="margin-left:10px;">
+                <p class="light" style="font-weight: bolder;">{{post.viewCount}}</p>
+                <p class="light">&nbsp;views.</p>
+            </div>
+            <div class="col start" style="margin-left:10px;">
+                <p class="light">Saved&nbsp;</p>
+                <p class="light" style="font-weight: bolder;">{{post.likeCount}}</p>
+                <p class="light">&nbsp;times.</p>
+            </div>
+            <div class="col start" style="margin-left:10px;">
+                <p class="light">Authentication required?&nbsp;</p>
+                <p class="light" style="font-weight: bolder;">{{post.auth}}</p>
+            </div>
+            <div class="col start" style="margin-left:10px;">
+                <p class="light">Is app public?&nbsp;</p>
+                <p class="light" style="font-weight: bolder;">{{post.public}}</p>
+            </div>
+            <div class="col start" style="margin-left:10px;">
+                <p class="light">Is app local?&nbsp;</p>
+                <p class="light" style="font-weight: bolder;">{{post.local}}</p>
+            </div>
         </div>
 
-        <div>
-            <p>Authentication required?</p>
-            <p>{{post.auth}}</p>
-        </div>
 
-        <div>
-            <p>Public?</p>
-            <p>{{post.public}}</p>
-        </div>
-
-        <div>
-            <p>Local?</p>
-            <p>{{post.local}}</p>
-        </div>
-
-    </div>
-
-    {{#ifCond user._id "==" post.owner}} 
-    <!--Edit Link-->
-    <div>
-        <a href="/edit/{{post.name}}">Edit your app</a>
-    </div>
-    {{/ifCond}}
-
-    <!--Edit Link-->
+    <!--Script-->
     <script src="\js/app/fetchAppInfo.js"></script>

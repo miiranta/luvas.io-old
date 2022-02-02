@@ -33,7 +33,6 @@ function msgOpenSoftwareLicenses(){
     });
 }
 
-//On Start
 function formatDates(){
     $(".makeDate").each(function(){
         var unixDate = $(this).html();
@@ -41,3 +40,7 @@ function formatDates(){
         $(this).html(newDate)
     });
 }
+
+$(document).ready(function(){
+    formatDates();
+})
