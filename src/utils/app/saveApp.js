@@ -1,6 +1,7 @@
-const App               = require("../../db/models/apps");
-const Like              = require("../../db/models/likes");
-const { sanitizeInput } = require("../other/sanitizeInput");
+const App                   = require("../../db/models/apps");
+const Like                  = require("../../db/models/likes");
+const { sanitizeInput }     = require("../other/sanitizeInput");
+const updateRelevanceScore  = require("./updateRelevanceScore");
 
 async function saveApp(req){
     const appName = sanitizeInput(req.params.id)
@@ -16,6 +17,8 @@ async function saveApp(req){
         return {status: 400};
     }
 
+    await App.updateOne({_id: appDb._id}, {$inc : {'likeCount' : 1}})
+    updateRelevanceScore(appDb);
     await Like.create({postId: appDb._id, likeOwner: req.user._id})
     return {status: 200};
 }
@@ -28,6 +31,8 @@ async function unsaveApp(req){
         return {status: 400};
     }
 
+    await App.updateOne({_id: appDb._id}, {$inc : {'likeCount' : -1}})
+    updateRelevanceScore(appDb); 
     await Like.deleteOne({postId: appDb._id, likeOwner: req.user._id})
     return {status: 200};
 }

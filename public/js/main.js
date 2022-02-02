@@ -33,3 +33,11 @@ function msgOpenSoftwareLicenses(){
     });
 }
 
+//On Start
+function formatDates(){
+    $(".makeDate").each(function(){
+        var unixDate = $(this).html();
+        var newDate = moment(unixDate).format("DD/MM/YYYY");
+        $(this).html(newDate)
+    });
+}

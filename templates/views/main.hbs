@@ -9,28 +9,16 @@
 
     <body>
 
-        <!--Warning-->
-        <div class="warning" style="display:none">
-            <div class="subwarning">
-                <div class="warningTitle">
-                    <h1 class="light warningTitleContent">Are you sure?</h1>
-                </div>
-                <div class="warningContent light" data-simplebar>
-                    <div class=" warningScroll" style="text-align: left;">
-                    </div>
-                </div>
-                <div class="warningButtons" >
-                    <button class="okayWarning bnt3" type="button" style="border-radius: 100px height:45px; width: 150px;">✓ with style</button>
-                    <button class="closeWarning bnt2" type="button" style="border-radius: 100px height:45px; width: 45px;">X</button>
-                </div>
-            </div>
-        </div>
+        <!--Navbar-->
+        {{>navbar}}
 
         <!--Main-->
         <div class="main-scroll desktop bg-shadow1">
         <div class="submain">
 
-           <!--Welcome title-->
+            <div style="margin-top: 50px;"></div>
+
+            <!--Welcome title-->
             <div class="col start " >
                 <h1 class="light" style="margin-left: 100px; font-size: 35pt;">Welcome</h1>
                 <h2 class="light" style="margin-left: 20px;">to luvas.io</h2>
@@ -135,7 +123,7 @@
                             <h2 class="light" >You can check some of the apps here.</h2>
                         </div>
                         <div>
-                            <p class="light">Most recent first.</p>  
+                            <p class="light">Most relevant first.</p>  
                         </div>
                     </div>
 
@@ -184,6 +172,9 @@
 
         <!--Footer-->
         {{>footer}}
+
+        <!--Warning-->
+        {{>warning}}
 
     </body>
 

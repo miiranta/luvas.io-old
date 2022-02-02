@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
+const mongoose              = require('mongoose');
 
-const userSchema = new mongoose.Schema({
+const appSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true
@@ -47,7 +47,11 @@ const userSchema = new mongoose.Schema({
     viewCount:  {
         type: Number,
         default: 0
-    }, 
+    },
+    relevanceScore:  {
+        type: Number,
+        default: 0
+    },  
     picture: {
         type: String,
         required: true
@@ -57,7 +61,6 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 })
 
-
-const App = mongoose.model('App', userSchema)
+const App = mongoose.model('App', appSchema);
 
 module.exports = App

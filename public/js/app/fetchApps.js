@@ -1,3 +1,4 @@
+const appFetPageSize = 5
 var appFetPage = 0
 var appFetSaveButtonEnable = false;
 
@@ -56,6 +57,7 @@ function appFetLoadPage(){
         conSocket("search", searchData, (data)=>{
             appFetUpdateButtons(data);
             appFetAppendApps(data);
+            formatDates();
             block = 0
         })
     }
@@ -75,7 +77,7 @@ function appFetUpdateButtons(searchResults){
         $("#appFetPrevious").prop("disabled", true);
     }
 
-    if(searchResults.length == 10){
+    if(searchResults.length == appFetPageSize){
         $("#appFetNext").prop("disabled", false);
     }else{
         $("#appFetNext").prop("disabled", true);
@@ -106,7 +108,7 @@ function appFetAppendApps(searchResults){
         //No apps found
         var appendModel = ` <div class="box2 border2-shadow2 bg-shadow2">
                                 <div>
-                                <p class="light">No apps found ;(</p>
+                                <p class="light" style="margin-top: 20px;">No apps found ;(</p>
                                 </div>
                             </div>`;
 
@@ -122,31 +124,52 @@ function appFetAppendApps(searchResults){
             }
 
             var appendModel = ` <div class="box2 border2-shadow2 bg-light row">
-                                    <div>
-                                    <p>${(i+1) + 10*appFetPage}----------------</p>
+                
+                                    <div class="col">
+
+                                        <div class="row" style="width:150px">
+                                            <img style="margin-left:30px; width:50px height:50px;" src="${result.picture}">
+                                        </div>
+
+                                        <div class="row">
+                                            <div style="margin-left:4px;" class="start">
+                        
+                                                <div class="start" style="margin-left:80px;">
+                                                    <h2>${result.title}</h2>
+                                                </div>
+                                                <div style="width:100px;">
+                                                    <h2>${(i+1) + appFetPageSize*appFetPage}</h2>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="start" style="margin-left:100px;">
+                                                <p>by&nbsp</p>
+                                                <a href="${'/user/' + result.nick}">
+                                                <p style="font-weight:bold;">${result.nick}</p>
+                                                </a>
+                                            </div>
+
+                                            <div class="start" style="margin-left:100px;">
+                                                <p class="makeDate">${result.createdAt}</p>
+                                            </div>
+                                        </div>
+
                                     </div>
 
                                     <div>
-                                    <p>${result.title}</p>
+                                        <div class="start" style="margin-left:18px;">
+                                            <a href="${'/post/' + result.name}">
+                                            <button class="bnt4 bg-light shadow1" type="button" style="margin-top: 10px;">show more</button>   
+                                            </a>
+                                        </div>
+                                        
+                                        `
+                                        +
+                                        saveButton
+                                        +
+                                        `
                                     </div>
-
-                                    <div>
-                                    <a href="/post/${result.name}">Show more</a>
-                                    </div>
-
-                                    <div>
-                                    <p>${result.createdAt}</p>
-                                    </div>
-
-                                    <div>
-                                    <p>${result.nick}</p>
-                                    </div>
-
-                                    `
-                                    +
-                                    saveButton
-                                    +
-                                    `
 
                                 </div>`;
 
@@ -157,3 +180,4 @@ function appFetAppendApps(searchResults){
     
 //Initial
 appFetLoadPage();
+

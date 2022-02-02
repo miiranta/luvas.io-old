@@ -86,7 +86,7 @@ function closeWarning(){
 
     
 //Nav Bar
-var lockOpen = 0;
+var lockOpen = 1;
 var openNav = 0;
 
 window.onscroll = function() {
@@ -160,6 +160,10 @@ function navHide(){
 
     openNav = 0;
 }
+
+$(document).ready(function (){
+    $("#navBarLocation").html(document.title);
+})
 
 
 

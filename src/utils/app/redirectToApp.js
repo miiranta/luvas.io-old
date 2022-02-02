@@ -1,5 +1,6 @@
-const App               = require("../../db/models/apps");
-const { sanitizeInput } = require("../other/sanitizeInput");
+const App                   = require("../../db/models/apps");
+const { sanitizeInput }     = require("../other/sanitizeInput");
+const updateRelevanceScore  = require("./updateRelevanceScore");
 
 async function redirectToApp(req){
     const appData = await App.findOne({name: sanitizeInput(req.params.id)})
@@ -32,14 +33,20 @@ async function redirectToApp(req){
 
             //Local app?
             if(appData.local){
+                await App.updateOne({_id: appData._id}, {$inc : {'viewCount' : 1}})
+                updateRelevanceScore(appData)
                 return {status: 200, redirect: appData.url};
             }
 
             //External app?
             if (appData.url.indexOf("http://") == 0 || appData.url.indexOf("https://") == 0) {
+                await App.updateOne({_id: appData._id}, {$inc : {'viewCount' : 1}})
+                updateRelevanceScore(appData)
                 return {status: 200, redirect: appData.url};
             }
             else{
+                await App.updateOne({_id: appData._id}, {$inc : {'viewCount' : 1}})
+                updateRelevanceScore(appData)
                 return {status: 200, redirect: "https://" + appData.url};
             }
 

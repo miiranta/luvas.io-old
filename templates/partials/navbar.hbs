@@ -1,0 +1,84 @@
+{{#if user._id}} 
+    <div class="nav bg-shadow2">
+
+        <div class="navEmpty"></div>
+
+        <div class="navContent">
+            <div class="col start" style="width: 100%">
+                <p class="light" style="margin: 6px; margin-top:10px; margin-left: 20px;">You are now at</p>
+                <h2 id="navBarLocation" class="light" style="margin: 6px; margin-top:10px; margin-left: 4px;"></h2>
+            </div>
+
+            <div class="col end" style="width: 200px">
+                <div class="row">
+                    <a href="/home">
+                    <button class="bnt4 bg-shadow2" type="button" style="margin: 3px; height: 35px;">home</button>  
+                    </a>
+                </div>
+                <div class="row">
+                    <a href="/account">
+                    <button class="bnt4 bg-shadow2" type="button" style="margin: 3px; height: 35px;">account</button>  
+                    </a>
+                </div>
+                <div class="row">
+                    <a href="/logout">
+                    <button class="bnt2 bg-shadow2" type="button" style="margin: 3px; height: 35px;">logout</button>  
+                    </a>
+                </div>
+                <div class="row">
+                    <a href="/account">
+                    <img src="{{user.profilePic}}" class="border2-shadow1" style="margin-top: 4px; margin-left: 2px; margin-right: 6px; height: 40px; width:40px; border-radius: 100px;">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="navButtons">
+                <button class="navOpen bg-shadow2"><p class="navOpenText">🢓</p></button>
+                <button class="navLock bg-shadow2">⚫</button>
+                <p class="navLockWarning" style>locked</p>
+            </div>
+            <div class="navCompText">
+                <p class="" style="font-size: 14pt; padding-top: 3px;"></p>
+            </div>
+            <div class="navCompText end">
+                <p class="" style="font-size: 11pt; padding-top: 3px;">Logged as: &nbsp;</p>
+                <p class="vivid3" style="font-size: 11pt; padding-top: 3px;">{{user.nick}}</p>
+            </div>
+        </div>
+    </div>
+{{else}}
+<div class="nav bg-shadow2">
+
+        <div class="navEmpty"></div>
+
+        <div class="navContent">
+            <div class="col start" style="width: 100%">
+                <p class="light" style="margin: 6px; margin-top:10px; margin-left: 20px;">You are now at</p>
+                <h2 id="navBarLocation" class="light" style="margin: 6px; margin-top:10px; margin-left: 4px;"></h2>
+            </div>
+
+            <div class="col end" style="width: 140px">
+                <div class="row">
+                    <a href="/login">
+                    <button class="bnt3 bg-shadow2" type="button" style="margin: 3px; height: 35px;">login</button>  
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="navButtons">
+                <button class="navOpen bg-shadow2"><p class="navOpenText">🢓</p></button>
+                <button class="navLock bg-shadow2">⚫</button>
+                <p class="navLockWarning" style>locked</p>
+            </div>
+            <div class="navCompText">
+                <p class="" style="font-size: 14pt; padding-top: 3px;"></p>
+            </div>
+            <div class="navCompText end">
+            </div>
+        </div>
+    </div>
+{{/if}}

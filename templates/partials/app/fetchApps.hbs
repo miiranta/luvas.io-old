@@ -1,36 +1,53 @@
 <!--FETCH APP-->
 
-    <!--Search -->
-    <div id="appFetSearchzone">
-
-        <div>
-            <input id="appFetSearch" type="text"  placeholder="Search"/>
-        </div>
-        
-        <div>
-            <p>Local?</p>
-            <input id="appFetLocal" type="checkbox">
-        </div>
-
-        <div>
-            <p>Sort by</p>
-            <select id="appFetSort">
-                <option value="0">Newer</option>
-                <option value="1">Older</option>
-            </select>
-        </div>
-
-    </div>
-
     <!--Show list -->
     <div id="appFetShowzone" class="subsector6"></div>
 
-    <!--Page selector-->
-    <div>
-        <button type="button" class="navig" id="appFetPrevious"><-</button>
-        <p>Current page is </p> <p id="appFetPage">1</p>
-        <button type="button" class="navig" id="appFetNext">-></button>
+    <div class="subsector1"></div>
+
+    <!--Search -->
+    <div id="appFetSearchzone" class="subsector4 start ">
+
+        <div class="box2 row bg-shadow2 border2-light">
+            <div class="">
+                <input id="appFetSearch" class="input1" type="text"  placeholder="Search"/>
+            </div>
+            
+            <div class="" style="margin-top: 5px;">
+                <select id="appFetSort" class="select1">
+                    <option value="0">Relevance</option>
+                    <option value="1">Newer</option>
+                    <option value="2">Older</option>
+                    <option value="3">Most saved</option>
+                    <option value="4">Least saved</option>
+                    <option value="5">Most viewed</option>
+                    <option value="6">Least viewed</option>
+                </select>
+            </div>
+
+            <div class="start col" style="padding-left: 40px; margin-top: 7px;">
+                <p class="light">Show only local apps?</p>
+                <input id="appFetLocal" class="checkbox1" type="checkbox">
+            </div>
+
+        </div>
+
+        <!--Page selector-->
+        <div class="box1 col bg-shadow2 border2-light">
+            <div class="row" style="width:45px">
+                <button id="appFetPrevious" class="navig bnt4" type="button" style="border-radius: 100px height:45px; width: 45px;">&lt;</button>
+            </div>
+            <div class="row" style="width:100px">    
+                <h2 id="appFetPage" class="light" style="margin: 6px; margin-left: 15px; margin-right: 15px;">1</h2>
+            </div>
+            <div class="row" style="width:45px">    
+                <button id="appFetNext" class="navig bnt4" type="button" style="border-radius: 100px height:45px; width: 45px;">&gt;</button>
+            </div>
+        </div>
+
     </div>
+
+    
 
 
     <!--Script-->

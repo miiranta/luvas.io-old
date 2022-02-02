@@ -8,6 +8,7 @@ const editApp                               = require("../utils/app/editApp")
 const deleteApp                             = require("../utils/app/deleteApp")
 const { unsaveApp, saveApp }                = require("../utils/app/saveApp")
 const redirectToApp                         = require("../utils/app/redirectToApp")
+const randomApp                             = require("../utils/app/randomApp")
 
 const router = new express.Router()
 
@@ -73,6 +74,15 @@ router.post("/save/:id", logged(0), async (req, res) => {
 //App Unsave
 router.post("/unsave/:id", logged(0), async (req, res) => {
     const codeRes = await unsaveApp(req) 
+    res.status(codeRes.status).send()
+})
+
+//App random
+router.get("/random", async (req, res) => {
+    const codeRes = await randomApp()
+    if(codeRes.redirect){
+        res.redirect(codeRes.redirect)
+    }
     res.status(codeRes.status).send()
 })
 

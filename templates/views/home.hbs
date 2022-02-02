@@ -9,10 +9,74 @@
 
     <body>
 
-        <a href="/logout">Logout</a>
-        <a href="/account">Your Account</a>
+        <!--Navbar-->
+        {{>navbar}}
 
-        {{>fetchApps}}
+        <!--Main-->
+        <div class="main-scroll desktop ">
+        <div class="submain">
+            
+            <div style="margin-top: 30px;"></div>
+
+            <!--Description-->
+            <div class="banner1 row" style="padding-left: 150px;">
+                <div class="col start">
+                    <h2 class="light" >the sky is not the limit.</h2>
+                </div>
+                <div class="col start">
+                    <p class="light">(sometimes)</p>
+                </div>
+                <div class="col start">
+                    <p class="light">You can make a custom search here. </p>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px;"></div>
+
+            <!--Random App-->
+            <div class="banner1 row" style="padding-left: 150px;">
+                <div class="col start">
+                    <p class="light">...or let the robot do that job for you.</p>
+                </div>
+                <div class="col start">
+                    <a href="/random">
+                    <button class="bnt4" type="button" style="margin-top: 10px; width: 210px;">Try random app</button>  
+                    </a>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px;"></div>
+
+            <!--Apps-->
+            <div class="sector">
+                {{>fetchApps}}
+            </div>    
+
+            <!--Account-->
+            <div class="banner2 row bg-shadow2 border1-light" style="padding-left: 150px;">
+                <div class="col start">
+                    <h2 class="light" >looking ugly?</h2>
+                </div>
+                <div class="col start">
+                    <p class="light">You can change your account settings.</p>
+                </div>
+                <div class="col start">
+                    <a href="/account">
+                    <button class="bnt4" type="button" style="margin-top: 10px;">Account</button>  
+                    </a>
+                </div>
+            </div>
+        
+
+        </div>
+        </div>
+
+
+        <!--Footer-->
+        {{>footer}}
+
+        <!--Warning-->
+        {{>warning}}
         
 
     </body>

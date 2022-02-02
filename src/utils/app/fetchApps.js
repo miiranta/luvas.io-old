@@ -4,7 +4,7 @@ const jwt               = require("jsonwebtoken")
 const {sanitizeInput}   = require("../other/sanitizeInput.js")
 
 var page = 0;
-var pagesize = 10
+var pagesize = 5
 var words
 
 const searchAppsOnDb = async (condition, page, sort)=> {
@@ -85,7 +85,7 @@ const fetchAppsByData = async (data, socket) => {
         }
 
         //Sort var
-        const sortOptions = [{"createdAt": -1}, {"createdAt": 1}]
+        const sortOptions = [{"relevanceScore": -1}, {"createdAt": -1}, {"createdAt": 1}, {"likeCount": -1}, {"likeCount": 1}, {"viewCount": -1}, {"viewCount": 1}]
         var sort = sortOptions[data.sort]
         
         //Page var
