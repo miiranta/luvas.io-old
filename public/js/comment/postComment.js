@@ -24,7 +24,7 @@ var toolbarOptions = [
 
 var quill = new Quill('#comEditor', {
     theme: 'snow',
-    placeholder: 'Make a comment...',
+    placeholder: '',
     modules: {
         toolbar: toolbarOptions
     }

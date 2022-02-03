@@ -1,17 +1,123 @@
     <!--Show profile-->
-    <div>
-        <p>{{profile.nick}}</p>
 
-        <img src="{{profile.profilePic}}" />
-
-        <div style="margin-bottom: 5px;">
-            <div id="bio"></div>
-            <div id="bioRaw" style="display:none">
-                {{profile.bio}}
+        <!--Name/Pic-->
+        <div class="banner2 col">
+            
+            <div class="end" style="margin-top: 10px;">
+                <img style="width:200px; height: 200px; border-radius: 200px;" src="{{profile.profilePic}}"/>
             </div>
-        </div> 
+            <div class="start">
+                <div class="row" style="width:fit-content">
+                    <div class="start" >
+                        <h2 class="light">Welcome to</h2>
+                    </div>    
+                    <div>
+                        <h1 class="light" style="font-size: 50pt; margin-left: 10px; text-align:unset">{{profile.nick}}'s</h1>    
+                    </div>
+                    <div class="end">
+                        <h2 class="light" style="margin-right: 30px;">profile.</h2>  
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    </div>
+        <div class="" style="margin-top:70px;"></div>
+
+    {{#ifCond user.nick "==" profile.nick}}
+        <!--Owner only-->
+        <div class="banner2 row bg-shadow2 border1-light" style="padding-left: 150px; margin-top: 0">
+            <div class="col start">
+                <h2 class="light" >wanna change anything?</h2>
+            </div>
+            <div class="col start">
+                <p class="light">Since you are the owner of this profile, you can. </p>
+            </div>
+
+            <!--Edit-->
+            <div class="col start">
+                <a href="/account">
+                <button class="bnt4" type="button" style="margin-top: 10px;">Account</button>  
+                </a>
+            </div>
+        </div>
+
+        <div class="" style="margin-top:70px;"></div>
+    {{/ifCond}}
+
+        <!--Show your public apps-->
+        <div class="banner1 row " style="padding-left: 200px;">
+            <div class="col start">
+                <h2 class="light" >take a look at some of {{profile.nick}}'s apps.</h2>
+            </div>
+            <div class="col start">
+                <p class="light">(Only showing apps made by this account!)</p>
+            </div>
+        </div>
+        <div class="bg-shadow2 border1-light">{{>fetchApps}}</div>
+
+        <div class="" style="margin-top:70px;"></div>
+
+        <!--Bio-->
+        <div class="banner1 row " style="padding-left: 200px;">
+            <div class="col start">
+                <h2 class="light" >about this profile.</h2>
+            </div>
+            <div class="col start">
+                <p class="light">Also known as biography.</p>
+            </div>
+        </div>
+        <div class="row start bg-shadow2 border1-light" style="margin-top: 10px; padding-top: 50px; padding-bottom: 50px;">
+            <div class="col ">
+                <!--Show quill content-->
+                <div data-simplebar class="bg-light border1-shadow2" style="width: 1400px; max-height: 600px">
+                    <div id="bio" class="quill ql-editor" style="width: 1400px; white-space: unset;">
+                       
+                    </div>
+                </div>
+                <div id="bioRaw" style='display:none'>{{profile.bio}}</div>
+            </div>
+        </div>
+
+        <div class="" style="margin-top:100px;"></div>
+
+        <!--Stats-->
+        <div style="margin-top: 0;">
+            <div class="subsector6">
+                <div class="row bg-shadow2 border1-shadow2" style="padding-left: 100px; height: 230px;">
+                    <div class="col start" style="margin-bottom:6px;">
+                <h2 class="light" >{{profile.nick}}'s stats.</h2>
+                </div>
+                <div class="col start" style="margin-left:10px;">
+                    <p class="light">The profile was created at&nbsp;</p>
+                    <p class="light makeDate" style="font-weight: bolder;">{{profile.createdAt}}</p>
+                </div>
+                <div class="col start" style="margin-left:10px;">
+                    <p class="light">The apps have&nbsp;</p>
+                    <p class="light" style="font-weight: bolder;">{{profile.viewCount}}</p>
+                    <p class="light">&nbsp;views in total.</p>
+                </div>
+                <div class="col start" style="margin-left:10px;">
+                    <p class="light">The apps were saved&nbsp;</p>
+                    <p class="light" style="font-weight: bolder;">{{profile.likeCount}}</p>
+                    <p class="light">&nbsp;times in total.</p>
+                </div>
+                </div>    
+            </div>
+            <div class="subsector1"></div>
+            <div class="subsector6">
+                <div class="box1 col start">
+                    <div class="banner1 row">
+                        <div class="col start">
+                            <h2 class="light" >it's a secret.</h2>
+                        </div>
+                        <div class="col start">
+                            <p class="light">Just kidding.</p>
+                        </div>
+                    </div> 
+                </div>    
+            </div>
+            <div class="subsector1"></div>
+        </div>
 
     <!--Script-->
     <script src="\js/profile/showProfile.js"></script> 

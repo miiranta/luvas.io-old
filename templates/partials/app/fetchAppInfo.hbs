@@ -25,25 +25,9 @@
             </div>
         </div>
 
-        <div style="margin-top: 30px;"></div>
+        <div style="margin-top: 70px;"></div>
 
-        <!--App Description-->
-        <div class="row start" style="margin-top: 10px;">
-            <div class="col">
-                <h2 class="light" >{{post.title}}</h2>
-            </div>
-            <div class="col">
-                <p class="light">Description</p>
-            </div>
-            <div class="col ">
-                <div id="appInfoDesc" class="bg-light border2-shadow1" style="width:1200px;"></div>
-                <div id="appInfoDescRaw" style='display:none'>{{post.description}}</div>
-            </div>
-        </div>
-
-        <div style="margin-top: 40px;"></div>
-
-        {{#ifCond user._id "==" post.owner}}
+    {{#ifCond user._id "==" post.owner}}
         <!--Owner only-->
         <div class="banner2 row bg-shadow2 border1-light" style="padding-left: 150px; margin-top: 0">
             <div class="col start">
@@ -61,42 +45,100 @@
 
             </div>
         </div>
-        {{/ifCond}}
+
+        <div style="margin-top: 70px;"></div>
+    {{/ifCond}}
+
+        <!--App Description-->
+        <div class="banner1 row " style="padding-left: 200px;">
+            <div class="col start">
+                <h2 class="light" >about this app.</h2>
+            </div>
+            <div class="col start">
+                <p class="light">👀</p>
+            </div>
+        </div>
         
-        <div style="margin-top: 40px;"></div>
-        
-        <!--Stats-->
-        <div class="row bg-shadow2 border1-light" style="padding-left: 150px; margin-top: 0; height: 270px;">
-            <div class="col start" style="margin-bottom:6px;">
-                <h2 class="light" >some app stats.</h2>
+        <div class="row start bg-shadow2 border1-light" style="margin-top: 10px; padding-bottom: 50px;">
+            <div class="col" style="margin-bottom: 15px; margin-top:20px;">
+                <h2 class="light" >{{post.title}}</h2>
             </div>
-             <div class="col start" style="margin-left:10px;">
-                <p class="light">Created at&nbsp;</p>
-                <p class="light makeDate" style="font-weight: bolder;">{{post.createdAt}}</p>
-            </div>
-            <div class="col start" style="margin-left:10px;">
-                <p class="light" style="font-weight: bolder;">{{post.viewCount}}</p>
-                <p class="light">&nbsp;views.</p>
-            </div>
-            <div class="col start" style="margin-left:10px;">
-                <p class="light">Saved&nbsp;</p>
-                <p class="light" style="font-weight: bolder;">{{post.likeCount}}</p>
-                <p class="light">&nbsp;times.</p>
-            </div>
-            <div class="col start" style="margin-left:10px;">
-                <p class="light">Authentication required?&nbsp;</p>
-                <p class="light" style="font-weight: bolder;">{{post.auth}}</p>
-            </div>
-            <div class="col start" style="margin-left:10px;">
-                <p class="light">Is app public?&nbsp;</p>
-                <p class="light" style="font-weight: bolder;">{{post.public}}</p>
-            </div>
-            <div class="col start" style="margin-left:10px;">
-                <p class="light">Is app local?&nbsp;</p>
-                <p class="light" style="font-weight: bolder;">{{post.local}}</p>
+            <div class="col ">
+                <!--Show quill content-->
+                <div data-simplebar class="bg-light border1-shadow2" style="width: 1400px; max-height: 600px">
+                    <div id="appInfoDesc" class="quill ql-editor" style="width: 1400px; white-space: unset;">
+                       
+                    </div>
+                </div>
+                <div id="appInfoDescRaw" style='display:none'>{{post.description}}</div>
             </div>
         </div>
 
+        <div style="margin-top: 70px;"></div>
 
-    <!--Script-->
-    <script src="\js/app/fetchAppInfo.js"></script>
+        <!--Comments-->
+        <div class="banner1 row " style="padding-left: 200px;">
+            <div class="col start">
+                <h2 class="light" >talktive?</h2>
+            </div>
+            <div class="col start">
+                <p class="light">Have fun.&nbsp; Just be nice.</p>
+            </div>
+        </div>
+        <div class="bg-shadow2 border1-light">{{>comments}}</div>
+
+        <div style="margin-top: 100px;"></div>
+
+        <!--Stats-->
+        <div style="margin-top: 0;">
+            <div class="subsector6">
+                <div class="row bg-shadow2 border1-shadow2" style="padding-left: 100px; height: 270px;">
+                    <div class="col start" style="margin-bottom:6px;">
+                        <h2 class="light" >some stats about this app.</h2>
+                    </div>
+                    <div class="col start" style="margin-left:10px;">
+                        <p class="light">Created at&nbsp;</p>
+                        <p class="light makeDate" style="font-weight: bolder;">{{post.createdAt}}</p>
+                    </div>
+                    <div class="col start" style="margin-left:10px;">
+                        <p class="light" style="font-weight: bolder;">{{post.viewCount}}</p>
+                        <p class="light">&nbsp;views.</p>
+                    </div>
+                    <div class="col start" style="margin-left:10px;">
+                        <p class="light">Saved&nbsp;</p>
+                        <p class="light" style="font-weight: bolder;">{{post.likeCount}}</p>
+                        <p class="light">&nbsp;times.</p>
+                    </div>
+                    <div class="col start" style="margin-left:10px;">
+                        <p class="light">Authentication required?&nbsp;</p>
+                        <p class="light" style="font-weight: bolder;">{{post.auth}}</p>
+                    </div>
+                    <div class="col start" style="margin-left:10px;">
+                        <p class="light">Is app public?&nbsp;</p>
+                        <p class="light" style="font-weight: bolder;">{{post.public}}</p>
+                    </div>
+                    <div class="col start" style="margin-left:10px;">
+                        <p class="light">Is app local?&nbsp;</p>
+                        <p class="light" style="font-weight: bolder;">{{post.local}}</p>
+                    </div> 
+                </div>    
+            </div>
+            <div class="subsector1"></div>
+            <div class="subsector6">
+                <div class="box1 col start">
+                    <div class="banner1 row">
+                        <div class="col start">
+                            <h2 class="light" >numbers, numbers, numbers...</h2>
+                        </div>
+                        <div class="col start">
+                            <p class="light">and more numbers.</p>
+                        </div>
+                    </div> 
+                </div>    
+            </div>
+            <div class="subsector1"></div>
+        </div>
+                    
+
+        <!--Script-->
+        <script src="\js/app/fetchAppInfo.js"></script>

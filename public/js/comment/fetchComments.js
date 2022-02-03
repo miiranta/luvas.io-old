@@ -28,7 +28,7 @@ function showComment(comment, order){
                             
                             <!--Show quill content-->
                             <div data-simplebar class="bg-light border1-light" style="max-height: 200px;">
-                                <div class="quill" style="width:600px;">
+                                <div class="quill ql-editor" style="width:600px; white-space: unset;">
                                     ${deltaToHTML(JSON.parse(comment.content))}
                                 </div>
                             </div>
@@ -51,7 +51,7 @@ function noComments(enable){
     if(enable){
          var appendModel = `
                            
-                            <div class="box1 bg-shadow2 border2-shadow2" id="noComment" style="margin-top: 48px;"> 
+                            <div class="box2 bg-shadow2 border2-shadow1" id="noComment" style="margin-top: 48px;"> 
                                 <div>
                                 <p class="light" style="margin-top: 20px;">No comments found ;(</p>
                                 </div>

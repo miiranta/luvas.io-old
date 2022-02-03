@@ -9,19 +9,24 @@
 
     <body>
 
-    <!--Navigation-->
-    <div>
-    <a href="/home">Home</a>
+         <!--Navbar-->
+        {{>navbar}}
 
-    <!--Show profile info-->
-    <div>
-    {{>showProfile}}
-    </div>
+        <!--Main-->
+        <div class="main-scroll desktop bg-shadow1">
+        <div class="submain">
 
-    <!--Show your public apps-->
-    <div>
-    {{>fetchApps}}
-    </div>
+            <!--Show profile info-->
+            {{>showProfile}}
+            
+        </div>
+        </div>
+
+        <!--Footer-->
+        {{>footer}}
+
+        <!--Warning-->
+        {{>warning}}
 
 
     </body>

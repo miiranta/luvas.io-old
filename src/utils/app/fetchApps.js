@@ -64,9 +64,11 @@ const fetchAppsByData = async (data, socket) => {
 
         }else{
 
+
             //Profile var
             if(data.profile){
-                options.push({owner: user._id})
+                const profileId = await User.findOne({nick: data.profile})
+                options.push({owner: profileId._id})
             }
 
             //Public var
@@ -92,10 +94,8 @@ const fetchAppsByData = async (data, socket) => {
         var page = Math.abs(data.page);
 
         //Building response
-        var searchResult = prepareSearch(title, page, sort, options)
-
         try{
-            var res = await searchResult.then((primaryRes) => {
+                var res = prepareSearch(title, page, sort, options).then((primaryRes) => {
                 var secondaryRes = primaryRes.map(changeAppsForm)
                 var thirdRes = secondaryRes.map(addNick)
                 var res = Promise.all(thirdRes).then((res) => {
@@ -105,6 +105,7 @@ const fetchAppsByData = async (data, socket) => {
             })
             return res;
         }catch(e){
+            console.log(e)
             return []
         }
 }

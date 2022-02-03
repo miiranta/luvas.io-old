@@ -5,7 +5,8 @@ const path                                  = require('path');
 const User                                  = require("../db/models/users")
 const App                                   = require("../db/models/apps")
 const {sanitizeInput, sanitizeObject}       = require("../utils/other/sanitizeInput.js")
-const createComment                         = require("../utils/comment/createComment")
+const createComment                         = require("../utils/comment/createComment");
+const updateProfileStats                    = require("../utils/profile/updateProfileStats");
 
 const msgDirectory = path.join(__dirname, "../../templates/messages") 
 
@@ -23,11 +24,13 @@ router.get("/home", logged(0), (req, res) => {
 
 //Profile Page
 router.get("/user/:id", redirect, async (req, res) => {
-    const profile = await User.findOne({"nick": sanitizeInput(req.params.id)})
+    const profile = await User.findOne({"nick": sanitizeInput(req.params.id)});
+    updateProfileStats(profile);
+    
     if(profile){
-        res.render("user", {profile})
+        res.render("user", {profile, user: req.user});
     }else{
-        res.redirect("/home")
+        res.redirect("/home");
     }
 });
 

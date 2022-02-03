@@ -106,7 +106,7 @@ function appFetAppendApps(searchResults){
     if(searchResults.length == 0){
 
         //No apps found
-        var appendModel = ` <div class="box2 border2-shadow2 bg-shadow2">
+        var appendModel = ` <div class="box2 border2-shadow1 bg-shadow2">
                                 <div>
                                 <p class="light" style="margin-top: 20px;">No apps found ;(</p>
                                 </div>
@@ -135,7 +135,7 @@ function appFetAppendApps(searchResults){
                                             <div style="margin-left:4px;" class="start">
                         
                                                 <div class="start" style="margin-left:80px;">
-                                                    <h2>${result.title}</h2>
+                                                    <h2>${result.name}</h2>
                                                 </div>
                                                 <div style="width:100px;">
                                                     <h2>${(i+1) + appFetPageSize*appFetPage}</h2>
@@ -143,7 +143,11 @@ function appFetAppendApps(searchResults){
 
                                             </div>
 
-                                            <div class="start" style="margin-left:100px;">
+                                            <div class="start" style="margin-left:84px; margin-top: 2px;">
+                                                <p class="shadow2">${result.title}</p>
+                                            </div>
+
+                                            <div class="start" style="margin-left:100px; margin-top: 5px;">
                                                 <p>by&nbsp</p>
                                                 <a href="${'/user/' + result.nick}">
                                                 <p style="font-weight:bold;">${result.nick}</p>
